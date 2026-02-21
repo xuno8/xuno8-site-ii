@@ -28,8 +28,12 @@ useGsapContext(() => {
       trigger: `#${section.id}`,
       start: 'top center',
       end: 'bottom center',
-      onEnter: () => { activeSection.value = section.id; },
-      onEnterBack: () => { activeSection.value = section.id; },
+      onEnter: () => {
+        activeSection.value = section.id;
+      },
+      onEnterBack: () => {
+        activeSection.value = section.id;
+      },
     });
   });
 });
@@ -47,14 +51,15 @@ useGsapContext(() => {
       :title="section.label"
       class="group relative w-3 h-3 rounded-full transition-all duration-200 cursor-pointer border-0 p-0"
       :style="{
-        backgroundColor: activeSection === section.id ? 'var(--color-accent)' : 'var(--color-border)',
+        backgroundColor:
+          activeSection === section.id ? 'var(--color-accent)' : 'var(--color-border)',
         transform: activeSection === section.id ? 'scale(1.4)' : 'scale(1)',
       }"
       @click="scrollToSection(section.id)"
     >
       <span
         class="absolute right-6 top-1/2 -translate-y-1/2 text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none px-2 py-1 rounded"
-        style="background-color: var(--color-bg-card); color: var(--color-text);"
+        style="background-color: var(--color-bg-card); color: var(--color-text)"
       >
         {{ section.label }}
       </span>

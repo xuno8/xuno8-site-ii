@@ -9,10 +9,7 @@ interface Props {
   description?: string;
 }
 
-const {
-  title = `${site.name} — ${site.title}`,
-  description = site.seoDescription,
-} = Astro.props;
+const { title = `${site.name} — ${site.title}`, description = site.seoDescription } = Astro.props;
 ---
 
 <!doctype html>
@@ -24,9 +21,7 @@ const {
 
     <title>{title}</title>
     <meta name="description" content={description} />
-    {site.seoKeywords && (
-      <meta name="keywords" content={site.seoKeywords.join(', ')} />
-    )}
+    {site.seoKeywords && <meta name="keywords" content={site.seoKeywords.join(', ')} />}
 
     <!-- Open Graph -->
     <meta property="og:title" content={title} />
@@ -43,7 +38,7 @@ const {
 
     <!-- Pre-hydration theme script — must be is:inline to run synchronously before render -->
     <script is:inline>
-      (function() {
+      (function () {
         var mode = 'developer';
         try {
           mode = localStorage.getItem('portfolio-mode') || 'developer';

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref } from 'vue';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGsapContext } from '@/composables/useGsapContext';
@@ -26,9 +26,7 @@ const props = defineProps<{
 
 const galleryRef = ref<HTMLElement | null>(null);
 const { prefersReducedMotion } = useReducedMotion();
-const { isOpen, currentIndex, open, close, next, prev } = useLightbox(
-  () => props.images.length,
-);
+const { isOpen, currentIndex, open, close, next, prev } = useLightbox(() => props.images.length);
 const failedImages = ref<Set<number>>(new Set());
 
 function onImageError(index: number) {
@@ -80,9 +78,13 @@ useGsapContext(() => {
           <template v-else>
             <div
               class="w-full rounded-lg flex items-center justify-center"
-              style="background-color: var(--color-bg-card); border: 1px dashed var(--color-border); aspect-ratio: 4/3;"
+              style="
+                background-color: var(--color-bg-card);
+                border: 1px dashed var(--color-border);
+                aspect-ratio: 4/3;
+              "
             >
-              <span class="text-sm" style="color: var(--color-text-muted);">
+              <span class="text-sm" style="color: var(--color-text-muted)">
                 Image unavailable
               </span>
             </div>
@@ -135,6 +137,8 @@ useGsapContext(() => {
 
 .masonry-item:hover .gallery-img {
   transform: scale(1.02);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px var(--color-accent);
+  box-shadow:
+    0 12px 32px rgba(0, 0, 0, 0.5),
+    0 0 0 1px var(--color-accent);
 }
 </style>

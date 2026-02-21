@@ -22,7 +22,7 @@ const photosData = loadPhotos();
 // Batch-process gallery images via import.meta.glob
 const galleryModules = import.meta.glob<{ default: ImageMetadata }>(
   '../assets/images/gallery/*.{jpg,jpeg,png,webp}',
-  { eager: true }
+  { eager: true },
 );
 
 const galleryImages = await Promise.all(
@@ -30,22 +30,20 @@ const galleryImages = await Promise.all(
     const modulePath = `../assets/images/gallery/${photo.src.replace('gallery/', '')}`;
     const mod = galleryModules[modulePath];
     if (!mod) {
-      throw new Error(
-        `Missing gallery image: ${photo.src} (expected at ${modulePath})`
-      );
+      throw new Error(`Missing gallery image: ${photo.src} (expected at ${modulePath})`);
     }
     const optimized = await getImage({ src: mod.default, width: 800 });
     return {
       src: optimized.src,
-      width: optimized.attributes.width as number ?? 800,
-      height: optimized.attributes.height as number ?? 600,
+      width: (optimized.attributes.width as number) ?? 800,
+      height: (optimized.attributes.height as number) ?? 600,
       alt: photo.alt,
       caption: photo.caption,
       date: photo.date,
       location: photo.location,
       camera: photo.camera,
     };
-  })
+  }),
 );
 ---
 
@@ -60,33 +58,19 @@ const galleryImages = await Promise.all(
     <!-- Developer Mode sections -->
     <div id="developer-content">
       <div id="hero">
-        <Hero
-          client:load
-          name={site.name}
-          title={site.title}
-          intro={site.intro}
-        />
+        <Hero client:load name={site.name} title={site.title} intro={site.intro} />
       </div>
 
       <div id="experience">
-        <ExperienceTimeline
-          client:visible
-          experiences={experiences}
-        />
+        <ExperienceTimeline client:visible experiences={experiences} />
       </div>
 
       <div id="skills">
-        <SkillsGrid
-          client:visible
-          categories={skills}
-        />
+        <SkillsGrid client:visible categories={skills} />
       </div>
 
       <div id="projects">
-        <ProjectCards
-          client:visible
-          projects={projects}
-        />
+        <ProjectCards client:visible projects={projects} />
       </div>
 
       <SectionNav client:visible />
@@ -94,10 +78,7 @@ const galleryImages = await Promise.all(
 
     <!-- Photographer Mode sections -->
     <div id="photographer-content" style="display: none;">
-      <MasonryGallery
-        client:load
-        images={galleryImages}
-      />
+      <MasonryGallery client:load images={galleryImages} />
     </div>
   </main>
 

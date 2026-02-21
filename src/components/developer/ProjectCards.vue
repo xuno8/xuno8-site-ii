@@ -34,38 +34,27 @@ useGsapContext(() => {
 <template>
   <section ref="sectionRef" class="py-16">
     <div class="max-w-4xl mx-auto px-4">
-      <h2
-        class="text-3xl font-bold mb-10"
-        style="color: var(--color-text-heading);"
-      >
-        Projects
-      </h2>
+      <h2 class="text-3xl font-bold mb-10" style="color: var(--color-text-heading)">Projects</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <article
           v-for="project in projects"
           :key="project.title"
           class="p-6 rounded-lg flex flex-col project-card"
-          style="background-color: var(--color-bg-card); border: 1px solid var(--color-border);"
+          style="background-color: var(--color-bg-card); border: 1px solid var(--color-border)"
         >
           <div class="flex items-start justify-between mb-3">
-            <h3
-              class="text-lg font-semibold"
-              style="color: var(--color-text-heading);"
-            >
+            <h3 class="text-lg font-semibold" style="color: var(--color-text-heading)">
               {{ project.title }}
             </h3>
             <span
               v-if="project.featured"
               class="text-xs px-2 py-0.5 rounded-full shrink-0 ml-2"
-              style="background-color: var(--color-accent-subtle); color: var(--color-accent);"
+              style="background-color: var(--color-accent-subtle); color: var(--color-accent)"
             >
               Featured
             </span>
           </div>
-          <p
-            class="text-sm leading-relaxed mb-4 flex-1"
-            style="color: var(--color-text-muted);"
-          >
+          <p class="text-sm leading-relaxed mb-4 flex-1" style="color: var(--color-text-muted)">
             {{ project.description }}
           </p>
           <div class="flex flex-wrap gap-2 mb-4">
@@ -73,7 +62,7 @@ useGsapContext(() => {
               v-for="tech in project.technologies"
               :key="tech"
               class="text-xs px-2 py-0.5 rounded"
-              style="background-color: var(--color-accent-subtle); color: var(--color-accent);"
+              style="background-color: var(--color-accent-subtle); color: var(--color-accent)"
             >
               {{ tech }}
             </span>
@@ -85,7 +74,7 @@ useGsapContext(() => {
               target="_blank"
               rel="noopener noreferrer"
               class="text-sm font-medium"
-              style="color: var(--color-accent);"
+              style="color: var(--color-accent)"
             >
               Live Demo &rarr;
             </a>
@@ -95,7 +84,7 @@ useGsapContext(() => {
               target="_blank"
               rel="noopener noreferrer"
               class="text-sm font-medium"
-              style="color: var(--color-text-muted);"
+              style="color: var(--color-text-muted)"
             >
               Source Code
             </a>

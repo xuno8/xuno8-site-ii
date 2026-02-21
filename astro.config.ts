@@ -7,10 +7,7 @@ import yaml from '@rollup/plugin-yaml';
 export default defineConfig({
   output: 'static',
   adapter: vercel(),
-  integrations: [
-    vue(),
-    UnoCSS({ injectReset: true }),
-  ],
+  integrations: [vue(), UnoCSS({ injectReset: true })],
   vite: {
     plugins: [yaml()],
   },

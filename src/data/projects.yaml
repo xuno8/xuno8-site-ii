@@ -1,41 +1,41 @@
-- title: "TaskFlow"
-  description: "A real-time collaborative task management app with drag-and-drop kanban boards, WebSocket sync, and role-based access control."
+- title: 'TaskFlow'
+  description: 'A real-time collaborative task management app with drag-and-drop kanban boards, WebSocket sync, and role-based access control.'
   technologies:
     - Vue 3
     - Node.js
     - WebSocket
     - PostgreSQL
-  demoUrl: "https://taskflow.example.com"
-  repoUrl: "https://github.com/alexchen/taskflow"
+  demoUrl: 'https://taskflow.example.com'
+  repoUrl: 'https://github.com/alexchen/taskflow'
   featured: true
 
-- title: "WeatherLens"
-  description: "A weather visualization dashboard that combines meteorological data with photography, featuring interactive maps and 7-day forecasts."
+- title: 'WeatherLens'
+  description: 'A weather visualization dashboard that combines meteorological data with photography, featuring interactive maps and 7-day forecasts.'
   technologies:
     - React
     - D3.js
     - OpenWeather API
     - Mapbox
-  demoUrl: "https://weatherlens.example.com"
-  repoUrl: "https://github.com/alexchen/weatherlens"
+  demoUrl: 'https://weatherlens.example.com'
+  repoUrl: 'https://github.com/alexchen/weatherlens'
   featured: true
 
-- title: "DevBlog Engine"
-  description: "A minimalist static blog engine with Markdown support, syntax highlighting, RSS feed generation, and full-text search."
+- title: 'DevBlog Engine'
+  description: 'A minimalist static blog engine with Markdown support, syntax highlighting, RSS feed generation, and full-text search.'
   technologies:
     - Astro
     - TypeScript
     - Markdown
     - Algolia
-  repoUrl: "https://github.com/alexchen/devblog-engine"
+  repoUrl: 'https://github.com/alexchen/devblog-engine'
   featured: false
 
-- title: "PixelSort"
-  description: "A creative coding tool for pixel sorting photography effects, with real-time preview and batch processing capabilities."
+- title: 'PixelSort'
+  description: 'A creative coding tool for pixel sorting photography effects, with real-time preview and batch processing capabilities.'
   technologies:
     - Rust
     - WebAssembly
     - Canvas API
-  demoUrl: "https://pixelsort.example.com"
-  repoUrl: "https://github.com/alexchen/pixelsort"
+  demoUrl: 'https://pixelsort.example.com'
+  repoUrl: 'https://github.com/alexchen/pixelsort'
   featured: true

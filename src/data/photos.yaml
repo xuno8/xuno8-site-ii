@@ -1,34 +1,34 @@
-- src: "gallery/photo-01.jpg"
-  alt: "Golden hour light streaming through cherry blossom trees in a quiet park"
-  caption: "Cherry Blossom Season"
-  date: "2025-04-02"
-  location: "Tokyo, Japan"
-  camera: "Sony A7IV, 35mm f/1.4"
+- src: 'gallery/photo-01.jpg'
+  alt: 'Golden hour light streaming through cherry blossom trees in a quiet park'
+  caption: 'Cherry Blossom Season'
+  date: '2025-04-02'
+  location: 'Tokyo, Japan'
+  camera: 'Sony A7IV, 35mm f/1.4'
 
-- src: "gallery/photo-02.jpg"
-  alt: "A misty mountain range at dawn with layered silhouettes"
-  caption: "Layers of Dawn"
-  date: "2025-07-18"
-  location: "Alishan, Taiwan"
-  camera: "Sony A7IV, 70-200mm f/2.8"
+- src: 'gallery/photo-02.jpg'
+  alt: 'A misty mountain range at dawn with layered silhouettes'
+  caption: 'Layers of Dawn'
+  date: '2025-07-18'
+  location: 'Alishan, Taiwan'
+  camera: 'Sony A7IV, 70-200mm f/2.8'
 
-- src: "gallery/photo-03.jpg"
-  alt: "Neon-lit street in the rain with reflections on wet pavement"
-  caption: "Neon Rain"
-  date: "2025-09-10"
-  location: "Hong Kong"
-  camera: "Fuji X-T5, 23mm f/1.4"
+- src: 'gallery/photo-03.jpg'
+  alt: 'Neon-lit street in the rain with reflections on wet pavement'
+  caption: 'Neon Rain'
+  date: '2025-09-10'
+  location: 'Hong Kong'
+  camera: 'Fuji X-T5, 23mm f/1.4'
 
-- src: "gallery/photo-04.jpg"
-  alt: "Aerial view of turquoise ocean waves crashing on a sandy beach"
-  caption: "Coastline From Above"
-  date: "2025-05-22"
-  location: "Kenting, Taiwan"
-  camera: "DJI Mavic 3"
+- src: 'gallery/photo-04.jpg'
+  alt: 'Aerial view of turquoise ocean waves crashing on a sandy beach'
+  caption: 'Coastline From Above'
+  date: '2025-05-22'
+  location: 'Kenting, Taiwan'
+  camera: 'DJI Mavic 3'
 
-- src: "gallery/photo-05.jpg"
-  alt: "An elderly craftsman working on pottery in a sunlit workshop"
-  caption: "The Potter"
-  date: "2025-11-05"
-  location: "Yingge, Taiwan"
-  camera: "Sony A7IV, 85mm f/1.8"
+- src: 'gallery/photo-05.jpg'
+  alt: 'An elderly craftsman working on pottery in a sunlit workshop'
+  caption: 'The Potter'
+  date: '2025-11-05'
+  location: 'Yingge, Taiwan'
+  camera: 'Sony A7IV, 85mm f/1.8'

@@ -64,7 +64,7 @@ onUnmounted(() => {
 <template>
   <div
     class="lightbox-backdrop fixed inset-0 z-60 flex items-center justify-center"
-    style="background-color: rgba(0, 0, 0, 0.92);"
+    style="background-color: rgba(0, 0, 0, 0.92)"
     @click="onBackdropClick"
     @touchstart.passive="onTouchStart"
     @touchend.passive="onTouchEnd"
@@ -72,11 +72,18 @@ onUnmounted(() => {
     <!-- Close button -->
     <button
       class="fixed top-4 right-4 z-70 w-11 h-11 flex items-center justify-center rounded-full border-0 cursor-pointer"
-      style="background-color: rgba(255,255,255,0.1); color: white;"
+      style="background-color: rgba(255, 255, 255, 0.1); color: white"
       aria-label="Close lightbox"
       @click="emit('close')"
     >
-      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg
+        viewBox="0 0 24 24"
+        width="24"
+        height="24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
         <path d="M18 6 6 18M6 6l12 12" />
       </svg>
     </button>
@@ -84,11 +91,18 @@ onUnmounted(() => {
     <!-- Previous button -->
     <button
       class="fixed left-4 top-1/2 -translate-y-1/2 z-70 w-11 h-11 flex items-center justify-center rounded-full border-0 cursor-pointer"
-      style="background-color: rgba(255,255,255,0.1); color: white;"
+      style="background-color: rgba(255, 255, 255, 0.1); color: white"
       aria-label="Previous image"
       @click.stop="emit('prev')"
     >
-      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg
+        viewBox="0 0 24 24"
+        width="24"
+        height="24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
         <path d="M15 18l-6-6 6-6" />
       </svg>
     </button>
@@ -96,11 +110,18 @@ onUnmounted(() => {
     <!-- Next button -->
     <button
       class="fixed right-4 top-1/2 -translate-y-1/2 z-70 w-11 h-11 flex items-center justify-center rounded-full border-0 cursor-pointer"
-      style="background-color: rgba(255,255,255,0.1); color: white;"
+      style="background-color: rgba(255, 255, 255, 0.1); color: white"
       aria-label="Next image"
       @click.stop="emit('next')"
     >
-      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg
+        viewBox="0 0 24 24"
+        width="24"
+        height="24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
         <path d="M9 18l6-6-6-6" />
       </svg>
     </button>
@@ -113,21 +134,11 @@ onUnmounted(() => {
         class="max-w-full max-h-[75vh] object-contain mx-auto"
       />
       <!-- Caption / Metadata -->
-      <div
-        v-if="current.caption || current.location || current.camera"
-        class="text-center mt-4"
-      >
-        <p
-          v-if="current.caption"
-          class="text-base font-medium mb-1"
-          style="color: white;"
-        >
+      <div v-if="current.caption || current.location || current.camera" class="text-center mt-4">
+        <p v-if="current.caption" class="text-base font-medium mb-1" style="color: white">
           {{ current.caption }}
         </p>
-        <p
-          class="text-sm"
-          style="color: rgba(255,255,255,0.6);"
-        >
+        <p class="text-sm" style="color: rgba(255, 255, 255, 0.6)">
           <span v-if="current.date">{{ current.date }}</span>
           <span v-if="current.date && current.location"> &middot; </span>
           <span v-if="current.location">{{ current.location }}</span>

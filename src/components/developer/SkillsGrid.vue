@@ -34,21 +34,16 @@ useGsapContext(() => {
 <template>
   <section ref="sectionRef" class="py-16">
     <div class="max-w-4xl mx-auto px-4">
-      <h2
-        class="text-3xl font-bold mb-10"
-        style="color: var(--color-text-heading);"
-      >
-        Skills
-      </h2>
+      <h2 class="text-3xl font-bold mb-10" style="color: var(--color-text-heading)">Skills</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div
-          v-for="cat in categories"
-          :key="cat.category"
-          class="skill-card"
-        >
+        <div v-for="cat in categories" :key="cat.category" class="skill-card">
           <h3
             class="text-xs font-bold uppercase mb-4"
-            style="color: var(--color-accent); letter-spacing: var(--tracking-widest); font-family: var(--font-mono);"
+            style="
+              color: var(--color-accent);
+              letter-spacing: var(--tracking-widest);
+              font-family: var(--font-mono);
+            "
           >
             {{ cat.category }}
           </h3>
@@ -57,7 +52,7 @@ useGsapContext(() => {
               v-for="skill in cat.skills"
               :key="skill"
               class="text-base"
-              style="color: var(--color-text); line-height: var(--line-height-snug);"
+              style="color: var(--color-text); line-height: var(--line-height-snug)"
             >
               {{ skill }}
             </li>

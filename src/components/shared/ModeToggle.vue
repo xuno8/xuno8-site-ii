@@ -33,7 +33,8 @@ function toggle() {
         fontWeight: '600',
         transition: 'opacity 200ms ease',
       }"
-    >&lt;/&gt;</span>
+      >&lt;/&gt;</span
+    >
 
     <!-- Photographer icon -->
     <span
@@ -46,7 +47,9 @@ function toggle() {
       }"
     >
       <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-        <path d="M12 15.2A3.2 3.2 0 1 0 12 8.8a3.2 3.2 0 0 0 0 6.4ZM9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9Zm3 15a5 5 0 1 1 0-10 5 5 0 0 1 0 10Z"/>
+        <path
+          d="M12 15.2A3.2 3.2 0 1 0 12 8.8a3.2 3.2 0 0 0 0 6.4ZM9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9Zm3 15a5 5 0 1 1 0-10 5 5 0 0 1 0 10Z"
+        />
       </svg>
     </span>
 
@@ -60,15 +63,15 @@ function toggle() {
         transition: 'transform 300ms cubic-bezier(0.22, 1, 0.36, 1)',
       }"
     />
-    <span class="sr-only">
-      {{ mode === 'developer' ? 'Developer' : 'Photographer' }} mode
-    </span>
+    <span class="sr-only"> {{ mode === 'developer' ? 'Developer' : 'Photographer' }} mode </span>
   </button>
 </template>
 
 <style scoped>
 .mode-toggle {
-  transition: transform 150ms ease, box-shadow 150ms ease;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
 }
 .mode-toggle:hover {
   transform: scale(1.05);

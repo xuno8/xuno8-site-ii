@@ -5,5 +5,5 @@ useModeTransition();
 </script>
 
 <template>
-  <div style="display: none;" aria-hidden="true" />
+  <div style="display: none" aria-hidden="true" />
 </template>

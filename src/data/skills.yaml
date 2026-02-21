@@ -1,4 +1,4 @@
-- category: "Languages"
+- category: 'Languages'
   skills:
     - TypeScript
     - JavaScript
@@ -6,7 +6,7 @@
     - Rust
     - SQL
 
-- category: "Frontend"
+- category: 'Frontend'
   skills:
     - Vue 3
     - React
@@ -14,7 +14,7 @@
     - UnoCSS / Tailwind
     - GSAP
 
-- category: "Backend"
+- category: 'Backend'
   skills:
     - Node.js
     - Express
@@ -22,7 +22,7 @@
     - Redis
     - GraphQL
 
-- category: "DevOps & Tools"
+- category: 'DevOps & Tools'
   skills:
     - Docker
     - AWS

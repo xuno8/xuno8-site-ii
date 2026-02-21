@@ -11,10 +11,7 @@ export function useModeTransition() {
   let pendingMode: 'developer' | 'photographer' | null = null;
   let ctx: gsap.Context | null = null;
 
-  function applyTransition(
-    newMode: 'developer' | 'photographer',
-    reducedMotion: boolean,
-  ) {
+  function applyTransition(newMode: 'developer' | 'photographer', reducedMotion: boolean) {
     const devContent = document.getElementById('developer-content');
     const photoContent = document.getElementById('photographer-content');
     if (!devContent || !photoContent) return;
@@ -45,10 +42,10 @@ export function useModeTransition() {
     });
 
     tl.to(outgoing, {
-        opacity: 0,
-        duration: 0.3,
-        ease: 'power2.in',
-      })
+      opacity: 0,
+      duration: 0.3,
+      ease: 'power2.in',
+    })
       .call(() => {
         outgoing.style.display = 'none';
         incoming.style.display = '';
