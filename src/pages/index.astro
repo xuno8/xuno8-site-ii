@@ -30,16 +30,9 @@ const galleryImages = await Promise.all(
     const modulePath = `../assets/images/gallery/${photo.src.replace('gallery/', '')}`;
     const mod = galleryModules[modulePath];
     if (!mod) {
-      return {
-        src: '',
-        width: 400,
-        height: 300,
-        alt: photo.alt,
-        caption: photo.caption,
-        date: photo.date,
-        location: photo.location,
-        camera: photo.camera,
-      };
+      throw new Error(
+        `Missing gallery image: ${photo.src} (expected at ${modulePath})`
+      );
     }
     const optimized = await getImage({ src: mod.default, width: 800 });
     return {
@@ -102,7 +95,7 @@ const galleryImages = await Promise.all(
     <!-- Photographer Mode sections -->
     <div id="photographer-content" style="display: none;">
       <MasonryGallery
-        client:visible
+        client:load
         images={galleryImages}
       />
     </div>

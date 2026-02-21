@@ -1,4 +1,4 @@
-import { ref, watch, onUnmounted } from 'vue';
+import { ref, watch, onMounted, onUnmounted } from 'vue';
 import gsap from 'gsap';
 import { useStore } from '@nanostores/vue';
 import { currentMode } from '@/stores/mode';
@@ -7,7 +7,7 @@ export function useModeTransition() {
   const mode = useStore(currentMode);
   const isTransitioning = ref(false);
   let pendingMode: 'developer' | 'photographer' | null = null;
-  let timeline: gsap.core.Timeline | null = null;
+  let ctx: gsap.Context | null = null;
 
   function applyTransition(
     newMode: 'developer' | 'photographer',
@@ -29,23 +29,20 @@ export function useModeTransition() {
 
     isTransitioning.value = true;
 
-    timeline = gsap.timeline({
+    const tl = gsap.timeline({
       onComplete: () => {
         isTransitioning.value = false;
-        timeline = null;
 
-        if (pendingMode && pendingMode !== newMode) {
-          const next = pendingMode;
-          pendingMode = null;
+        const next = pendingMode;
+        pendingMode = null;
+
+        if (next && next !== newMode) {
           applyTransition(next, false);
-        } else {
-          pendingMode = null;
         }
       },
     });
 
-    timeline
-      .to(outgoing, {
+    tl.to(outgoing, {
         opacity: 0,
         duration: 0.3,
         ease: 'power2.in',
@@ -63,6 +60,10 @@ export function useModeTransition() {
       });
   }
 
+  onMounted(() => {
+    ctx = gsap.context(() => {});
+  });
+
   watch(mode, (newMode) => {
     if (isTransitioning.value) {
       pendingMode = newMode;
@@ -72,7 +73,7 @@ export function useModeTransition() {
   });
 
   onUnmounted(() => {
-    timeline?.kill();
+    ctx?.revert();
   });
 
   return { isTransitioning };
