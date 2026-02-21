@@ -17,11 +17,11 @@
 
 **Purpose**: Initialize Astro project, install all dependencies, create directory structure and configuration files.
 
-- [ ] T001 Initialize Astro project with TypeScript strict mode and install all dependencies per quickstart.md (Astro 5.x, @astrojs/vue, @astrojs/vercel, UnoCSS, Nanostores, GSAP, @rollup/plugin-yaml)
-- [ ] T002 Create source directory structure per plan.md: src/{assets/images/gallery, components/{developer,photographer,shared}, composables, data, layouts, pages, stores, styles, types, utils}
-- [ ] T003 [P] Configure astro.config.ts with Vue, UnoCSS (injectReset), and Vercel adapter integrations in astro.config.ts
-- [ ] T004 [P] Configure UnoCSS with preset-uno and preset-attributify in uno.config.ts
-- [ ] T005 [P] Configure tsconfig.json extending astro/tsconfigs/strict with path aliases (@/*, @data/*, @components/*) in tsconfig.json
+- [x] T001 Initialize Astro project with TypeScript strict mode and install all dependencies per quickstart.md (Astro 5.x, @astrojs/vue, @astrojs/vercel, UnoCSS, Nanostores, GSAP, @rollup/plugin-yaml)
+- [x] T002 Create source directory structure per plan.md: src/{assets/images/gallery, components/{developer,photographer,shared}, composables, data, layouts, pages, stores, styles, types, utils}
+- [x] T003 [P] Configure astro.config.ts with Vue, UnoCSS (injectReset), and Vercel adapter integrations in astro.config.ts
+- [x] T004 [P] Configure UnoCSS with preset-uno and preset-attributify in uno.config.ts
+- [x] T005 [P] Configure tsconfig.json extending astro/tsconfigs/strict with path aliases (@/*, @data/*, @components/*) in tsconfig.json
 
 ---
 
@@ -31,17 +31,17 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete.
 
-- [ ] T006 Define TypeScript interfaces (SiteConfig, SocialLink, WorkExperience, Project, SkillCategory, Photograph, Mode) from contracts/data-schemas.ts in src/types/index.ts
-- [ ] T007 [P] Create YAML data loading helper functions (loadSiteConfig, loadExperience, loadProjects, loadSkills, loadPhotos) in src/utils/data.ts
-- [ ] T008 [P] Create starter YAML data files with sample content: site.yaml, experience.yaml, projects.yaml, skills.yaml, photos.yaml in src/data/
-- [ ] T009 [P] Create global.css with CSS reset, typography tokens, and dual-tone CSS custom properties (--color-bg, --color-text, etc.) under [data-theme="developer"] and [data-theme="photographer"] selectors in src/styles/global.css
-- [ ] T010 [P] Create Nanostores mode atom (atom<Mode> defaulting to 'developer') in src/stores/mode.ts
-- [ ] T011 [P] Create useGsapContext composable wrapping gsap.context() lifecycle (create in onMounted, revert in onUnmounted) in src/composables/useGsapContext.ts
-- [ ] T012 [P] Create useReducedMotion composable detecting prefers-reduced-motion media query in src/composables/useReducedMotion.ts
-- [ ] T013 Create base Layout.astro with HTML shell, <head>, SEO meta/OG tags from site.yaml, font preloads, global.css import, default data-theme="developer" attribute in src/layouts/Layout.astro
-- [ ] T014 [P] Create Navbar.astro static shell with fixed top positioning and slot for mode toggle in src/components/shared/Navbar.astro
-- [ ] T015 [P] Create Footer.astro rendering email link and social media icons from site.yaml in src/components/shared/Footer.astro
-- [ ] T016 Create index.astro page shell using Layout, Navbar, and Footer, with placeholder sections for developer and photographer content in src/pages/index.astro
+- [x] T006 Define TypeScript interfaces (SiteConfig, SocialLink, WorkExperience, Project, SkillCategory, Photograph, Mode) from contracts/data-schemas.ts in src/types/index.ts
+- [x] T007 [P] Create YAML data loading helper functions (loadSiteConfig, loadExperience, loadProjects, loadSkills, loadPhotos) in src/utils/data.ts
+- [x] T008 [P] Create starter YAML data files with sample content: site.yaml, experience.yaml, projects.yaml, skills.yaml, photos.yaml in src/data/
+- [x] T009 [P] Create global.css with CSS reset, typography tokens, and dual-tone CSS custom properties (--color-bg, --color-text, etc.) under [data-theme="developer"] and [data-theme="photographer"] selectors in src/styles/global.css
+- [x] T010 [P] Create Nanostores mode atom (atom<Mode> defaulting to 'developer') in src/stores/mode.ts
+- [x] T011 [P] Create useGsapContext composable wrapping gsap.context() lifecycle (create in onMounted, revert in onUnmounted) in src/composables/useGsapContext.ts
+- [x] T012 [P] Create useReducedMotion composable detecting prefers-reduced-motion media query in src/composables/useReducedMotion.ts
+- [x] T013 Create base Layout.astro with HTML shell, <head>, SEO meta/OG tags from site.yaml, font preloads, global.css import, default data-theme="developer" attribute in src/layouts/Layout.astro
+- [x] T014 [P] Create Navbar.astro static shell with fixed top positioning and slot for mode toggle in src/components/shared/Navbar.astro
+- [x] T015 [P] Create Footer.astro rendering email link and social media icons from site.yaml in src/components/shared/Footer.astro
+- [x] T016 Create index.astro page shell using Layout, Navbar, and Footer, with placeholder sections for developer and photographer content in src/pages/index.astro
 
 **Checkpoint**: Foundation ready — verify `pnpm dev` starts without errors and base page renders with Navbar and Footer.
 
@@ -55,13 +55,13 @@
 
 ### Implementation for User Story 1
 
-- [ ] T017 [P] [US1] Create Hero.vue component displaying name, professional title, short intro, and optional avatar image (receives pre-optimized image data as prop from parent .astro file) in src/components/developer/Hero.vue
-- [ ] T018 [P] [US1] Create ExperienceTimeline.vue component rendering work experience entries (company, role, dates, description, technologies) in chronological layout in src/components/developer/ExperienceTimeline.vue
-- [ ] T019 [P] [US1] Create SkillsGrid.vue component displaying skills grouped by category in a grid layout in src/components/developer/SkillsGrid.vue
-- [ ] T020 [P] [US1] Create ProjectCards.vue component rendering project entries with title, description, technologies, and external links (demo/repo) in src/components/developer/ProjectCards.vue
-- [ ] T021 [US1] Create SectionNav.vue floating side dot indicator showing current section with click-to-scroll navigation, using GSAP ScrollTrigger for active section tracking in src/components/developer/SectionNav.vue
-- [ ] T022 [US1] Integrate all Developer Mode Vue islands into index.astro with client:visible directives (client:load for Hero as above-fold LCP element); process avatar image via getImage() and pass optimized data as prop to Hero.vue in src/pages/index.astro
-- [ ] T023 [US1] Add GSAP ScrollTrigger section reveal animations (fade-in + slide-up on scroll) to developer section components using useGsapContext composable
+- [x] T017 [P] [US1] Create Hero.vue component displaying name, professional title, short intro, and optional avatar image (receives pre-optimized image data as prop from parent .astro file) in src/components/developer/Hero.vue
+- [x] T018 [P] [US1] Create ExperienceTimeline.vue component rendering work experience entries (company, role, dates, description, technologies) in chronological layout in src/components/developer/ExperienceTimeline.vue
+- [x] T019 [P] [US1] Create SkillsGrid.vue component displaying skills grouped by category in a grid layout in src/components/developer/SkillsGrid.vue
+- [x] T020 [P] [US1] Create ProjectCards.vue component rendering project entries with title, description, technologies, and external links (demo/repo) in src/components/developer/ProjectCards.vue
+- [x] T021 [US1] Create SectionNav.vue floating side dot indicator showing current section with click-to-scroll navigation, using GSAP ScrollTrigger for active section tracking in src/components/developer/SectionNav.vue
+- [x] T022 [US1] Integrate all Developer Mode Vue islands into index.astro with client:visible directives (client:load for Hero as above-fold LCP element); process avatar image via getImage() and pass optimized data as prop to Hero.vue in src/pages/index.astro
+- [x] T023 [US1] Add GSAP ScrollTrigger section reveal animations (fade-in + slide-up on scroll) to developer section components using useGsapContext composable
 
 **Checkpoint**: Developer Mode fully functional — Hero, Experience, Skills, Projects, and SectionNav all render with scroll animations. This is the MVP.
 
@@ -75,13 +75,13 @@
 
 ### Implementation for User Story 2
 
-- [ ] T024 [US2] Create ModeToggle.vue toggle switch component reading/writing currentMode store, styled as a prominent switch in src/components/shared/ModeToggle.vue
-- [ ] T025 [US2] Create useModeTransition composable with sequenced GSAP timeline (fade out current content → at opacity 0 swap data-theme and toggle section visibility → fade in new content, ~600ms total) in src/composables/useModeTransition.ts
-- [ ] T026 [US2] Integrate ModeToggle into Navbar.astro with client:load directive for immediate interactivity in src/components/shared/Navbar.astro
-- [ ] T027 [US2] Implement mode-driven section visibility in index.astro — conditionally show developer sections vs photographer gallery based on currentMode store in src/pages/index.astro
-- [ ] T028 [US2] Wire useModeTransition into index.astro — subscribe to mode store changes, trigger sequenced GSAP timeline (fade → swap data-theme → fade) on mode change
-- [ ] T029 [US2] Implement debounce guard in useModeTransition — queue toggle requests while animation is in progress, prevent overlapping animations (FR-009)
-- [ ] T030 [US2] Apply reduced-motion fallback via useReducedMotion — set GSAP duration to 0 for instant state change when prefers-reduced-motion is active (FR-010)
+- [x] T024 [US2] Create ModeToggle.vue toggle switch component reading/writing currentMode store, styled as a prominent switch in src/components/shared/ModeToggle.vue
+- [x] T025 [US2] Create useModeTransition composable with sequenced GSAP timeline (fade out current content → at opacity 0 swap data-theme and toggle section visibility → fade in new content, ~600ms total) in src/composables/useModeTransition.ts
+- [x] T026 [US2] Integrate ModeToggle into Navbar.astro with client:load directive for immediate interactivity in src/components/shared/Navbar.astro
+- [x] T027 [US2] Implement mode-driven section visibility in index.astro — conditionally show developer sections vs photographer gallery based on currentMode store in src/pages/index.astro
+- [x] T028 [US2] Wire useModeTransition into index.astro — subscribe to mode store changes, trigger sequenced GSAP timeline (fade → swap data-theme → fade) on mode change
+- [x] T029 [US2] Implement debounce guard in useModeTransition — queue toggle requests while animation is in progress, prevent overlapping animations (FR-009)
+- [x] T030 [US2] Apply reduced-motion fallback via useReducedMotion — set GSAP duration to 0 for instant state change when prefers-reduced-motion is active (FR-010)
 
 **Checkpoint**: Mode toggle works with smooth animated transition. Rapid clicking handled gracefully. Reduced-motion users get instant switch.
 
@@ -95,15 +95,15 @@
 
 ### Implementation for User Story 3
 
-- [ ] T031 [P] [US3] Add 3–5 placeholder gallery images (diverse aspect ratios) for development in src/assets/images/gallery/
-- [ ] T032 [P] [US3] Create useLightbox composable managing lightbox state (isOpen, currentIndex, open, close, next, prev) with scroll position save/restore in src/composables/useLightbox.ts
-- [ ] T033 [US3] Create MasonryGallery.vue with CSS-columns layout (columns: 3 280px), receiving pre-optimized image data array as prop from parent .astro file, rendering with loading="lazy" in src/components/photographer/MasonryGallery.vue
-- [ ] T034 [US3] Create Lightbox.vue full-screen overlay with large image view, caption/metadata display (date, location, camera), and on-screen prev/next arrow buttons in src/components/photographer/Lightbox.vue
-- [ ] T035 [US3] Add keyboard navigation (ArrowLeft, ArrowRight for prev/next; Escape for close) and touch swipe gesture detection to Lightbox.vue
-- [ ] T036 [US3] Add GSAP ScrollTrigger.batch() staggered reveal animation to masonry gallery items using useGsapContext in MasonryGallery.vue
-- [ ] T037 [US3] Implement image error placeholder — show graceful fallback element when gallery images fail to load without breaking masonry layout (FR-014)
-- [ ] T038 [US3] Integrate Photographer Mode gallery into index.astro — batch-process gallery images via import.meta.glob() + getImage(), pass optimized image data array as prop to MasonryGallery.vue, mount with client:visible directive in src/pages/index.astro
-- [ ] T039 [US3] Implement scroll position preservation on lightbox close — save scrollY on open, restore on close (FR-013)
+- [x] T031 [P] [US3] Add 3–5 placeholder gallery images (diverse aspect ratios) for development in src/assets/images/gallery/
+- [x] T032 [P] [US3] Create useLightbox composable managing lightbox state (isOpen, currentIndex, open, close, next, prev) with scroll position save/restore in src/composables/useLightbox.ts
+- [x] T033 [US3] Create MasonryGallery.vue with CSS-columns layout (columns: 3 280px), receiving pre-optimized image data array as prop from parent .astro file, rendering with loading="lazy" in src/components/photographer/MasonryGallery.vue
+- [x] T034 [US3] Create Lightbox.vue full-screen overlay with large image view, caption/metadata display (date, location, camera), and on-screen prev/next arrow buttons in src/components/photographer/Lightbox.vue
+- [x] T035 [US3] Add keyboard navigation (ArrowLeft, ArrowRight for prev/next; Escape for close) and touch swipe gesture detection to Lightbox.vue
+- [x] T036 [US3] Add GSAP ScrollTrigger.batch() staggered reveal animation to masonry gallery items using useGsapContext in MasonryGallery.vue
+- [x] T037 [US3] Implement image error placeholder — show graceful fallback element when gallery images fail to load without breaking masonry layout (FR-014)
+- [x] T038 [US3] Integrate Photographer Mode gallery into index.astro — batch-process gallery images via import.meta.glob() + getImage(), pass optimized image data array as prop to MasonryGallery.vue, mount with client:visible directive in src/pages/index.astro
+- [x] T039 [US3] Implement scroll position preservation on lightbox close — save scrollY on open, restore on close (FR-013)
 
 **Checkpoint**: Photography gallery fully functional — masonry layout, lightbox with navigation, scroll reveals, error handling, scroll position preserved.
 
@@ -117,10 +117,10 @@
 
 ### Implementation for User Story 4
 
-- [ ] T040 [P] [US4] Add responsive breakpoints to Developer Mode components — single-column layout on mobile, multi-column on tablet/desktop for ExperienceTimeline, SkillsGrid, and ProjectCards
-- [ ] T041 [P] [US4] Add responsive column count to MasonryGallery — 1 column mobile (<640px), 2 columns tablet (640–1024px), 3 columns desktop (>1024px) in src/components/photographer/MasonryGallery.vue
-- [ ] T042 [US4] Ensure ModeToggle has minimum 44px touch target and remains prominently visible at all viewport sizes in src/components/shared/ModeToggle.vue
-- [ ] T043 [US4] Ensure Lightbox is fully usable on mobile — appropriate image sizing, touch-friendly close/nav buttons, safe-area inset handling in src/components/photographer/Lightbox.vue
+- [x] T040 [P] [US4] Add responsive breakpoints to Developer Mode components — single-column layout on mobile, multi-column on tablet/desktop for ExperienceTimeline, SkillsGrid, and ProjectCards
+- [x] T041 [P] [US4] Add responsive column count to MasonryGallery — 1 column mobile (<640px), 2 columns tablet (640–1024px), 3 columns desktop (>1024px) in src/components/photographer/MasonryGallery.vue
+- [x] T042 [US4] Ensure ModeToggle has minimum 44px touch target and remains prominently visible at all viewport sizes in src/components/shared/ModeToggle.vue
+- [x] T043 [US4] Ensure Lightbox is fully usable on mobile — appropriate image sizing, touch-friendly close/nav buttons, safe-area inset handling in src/components/photographer/Lightbox.vue
 
 **Checkpoint**: Both modes usable from 375px to 2560px. Toggle accessible at all sizes. Gallery and lightbox work on mobile.
 
@@ -134,8 +134,8 @@
 
 ### Implementation for User Story 5
 
-- [ ] T044 [US5] Implement localStorage persistence in mode store — read stored value on initialization, write to localStorage on every mode change (key: 'portfolio-mode') in src/stores/mode.ts
-- [ ] T045 [US5] Add pre-hydration inline script to Layout.astro <head> — reads localStorage before Vue hydrates, sets data-theme attribute and exposes window.__INITIAL_MODE__ for Nanostores init in src/layouts/Layout.astro
+- [x] T044 [US5] Implement localStorage persistence in mode store — read stored value on initialization, write to localStorage on every mode change (key: 'portfolio-mode') in src/stores/mode.ts
+- [x] T045 [US5] Add pre-hydration inline script to Layout.astro <head> — reads localStorage before Vue hydrates, sets data-theme attribute and exposes window.__INITIAL_MODE__ for Nanostores init in src/layouts/Layout.astro
 
 **Checkpoint**: Returning visitors see their preferred mode instantly. No flash of wrong mode.
 
@@ -145,10 +145,10 @@
 
 **Purpose**: Final validation, performance verification, and edge case handling across all stories.
 
-- [ ] T046 [P] Verify Lighthouse accessibility score ≥ 90 in both Developer and Photographer modes
-- [ ] T047 [P] Verify performance budgets — LCP ≤ 2.5s, CLS ≤ 0.1, INP ≤ 200ms, page weight <500KB compressed, each island <50KB gzipped
-- [ ] T048 Run quickstart.md verification checklist end-to-end (dev server, Vue rendering, UnoCSS attributify, GSAP animation, Nanostores sharing, Image optimization, theme switching, production build)
-- [ ] T049 Final edge case validation — rapid toggle stress test, minimum viewport (320px) graceful degradation, JS-disabled fallback (static developer content visible)
+- [x] T046 [P] Verify Lighthouse accessibility score ≥ 90 in both Developer and Photographer modes
+- [x] T047 [P] Verify performance budgets — LCP ≤ 2.5s, CLS ≤ 0.1, INP ≤ 200ms, page weight <500KB compressed, each island <50KB gzipped
+- [x] T048 Run quickstart.md verification checklist end-to-end (dev server, Vue rendering, UnoCSS attributify, GSAP animation, Nanostores sharing, Image optimization, theme switching, production build)
+- [x] T049 Final edge case validation — rapid toggle stress test, minimum viewport (320px) graceful degradation, JS-disabled fallback (static developer content visible)
 
 ---
 

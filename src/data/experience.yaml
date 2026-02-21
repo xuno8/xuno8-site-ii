@@ -1,0 +1,32 @@
+- company: "TechCorp"
+  role: "Senior Software Engineer"
+  startDate: "2023-06"
+  endDate: "present"
+  description: "Leading frontend architecture for the platform team. Migrated legacy jQuery codebase to Vue 3, improving page load times by 40%. Mentoring junior developers and driving adoption of TypeScript across the organization."
+  technologies:
+    - TypeScript
+    - Vue 3
+    - Node.js
+    - PostgreSQL
+
+- company: "StartupXYZ"
+  role: "Full-Stack Developer"
+  startDate: "2021-03"
+  endDate: "2023-05"
+  description: "Built and shipped core product features from concept to production. Designed RESTful APIs serving 10K+ daily active users. Implemented CI/CD pipelines reducing deployment time by 60%."
+  technologies:
+    - React
+    - Python
+    - AWS
+    - Docker
+
+- company: "DigitalAgency"
+  role: "Junior Web Developer"
+  startDate: "2019-08"
+  endDate: "2021-02"
+  description: "Developed responsive websites and e-commerce solutions for diverse clients. Gained deep expertise in CSS architecture and accessibility standards."
+  technologies:
+    - JavaScript
+    - HTML/CSS
+    - WordPress
+    - Sass

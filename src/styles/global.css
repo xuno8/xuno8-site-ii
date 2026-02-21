@@ -1,0 +1,147 @@
+/* Typography tokens */
+:root {
+  --font-sans: 'Figtree', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: 'Outfit', 'Figtree', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+  --font-size-4xl: 2.25rem;
+  --font-size-5xl: 3rem;
+  --line-height-tight: 1.1;
+  --line-height-snug: 1.3;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+  --tracking-tight: -0.025em;
+  --tracking-wide: 0.025em;
+  --tracking-widest: 0.1em;
+  --transition-fast: 150ms ease;
+  --transition-normal: 300ms ease;
+}
+
+/* Developer mode theme — Tokyo Night inspired */
+[data-theme="developer"] {
+  --font-sans: 'Figtree', system-ui, sans-serif;
+  --font-display: 'Outfit', 'Figtree', system-ui, sans-serif;
+  --color-bg: #1a1b26;
+  --color-bg-alt: #24283b;
+  --color-bg-card: #292e42;
+  --color-text: #c0caf5;
+  --color-text-muted: #565f89;
+  --color-text-heading: #c0caf5;
+  --color-accent: #7dcfff;
+  --color-accent-hover: #b4f9f8;
+  --color-accent-subtle: rgba(125, 207, 255, 0.15);
+  --color-accent-2: #bb9af7;
+  --color-border: #3d4877;
+  --color-border-hover: #545c7e;
+}
+
+/* Photographer mode theme — warm wabi-sabi */
+[data-theme="photographer"] {
+  --font-sans: 'Hanken Grotesk', system-ui, sans-serif;
+  --font-display: 'Newsreader', 'Georgia', serif;
+  --color-bg: #0f0e0d;
+  --color-bg-alt: #1a1816;
+  --color-bg-card: #252320;
+  --color-text: #f0ebe5;
+  --color-text-muted: #a39b8e;
+  --color-text-heading: #faf8f5;
+  --color-accent: #d4a574;
+  --color-accent-hover: #e8c89f;
+  --color-accent-subtle: rgba(212, 165, 116, 0.12);
+  --color-accent-2: #9aab8a;
+  --color-border: #3a352f;
+  --color-border-hover: #524b42;
+}
+
+/* Global styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: var(--line-height-normal);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  position: relative;
+}
+
+/* Atmospheric background — developer mode: subtle grid */
+[data-theme="developer"] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(125, 207, 255, 0.06), transparent 60%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Atmospheric background — photographer mode: warm vignette */
+[data-theme="photographer"] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse 90% 70% at 50% 50%, transparent, rgba(0, 0, 0, 0.3));
+  pointer-events: none;
+  z-index: 0;
+}
+
+main, nav, footer {
+  position: relative;
+  z-index: 1;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  color: var(--color-text-heading);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--tracking-tight);
+  font-weight: 700;
+  margin: 0;
+}
+
+[data-theme="photographer"] h1,
+[data-theme="photographer"] h2,
+[data-theme="photographer"] h3 {
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-accent-hover);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

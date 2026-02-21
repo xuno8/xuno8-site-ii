@@ -1,0 +1,31 @@
+- category: "Languages"
+  skills:
+    - TypeScript
+    - JavaScript
+    - Python
+    - Rust
+    - SQL
+
+- category: "Frontend"
+  skills:
+    - Vue 3
+    - React
+    - Astro
+    - UnoCSS / Tailwind
+    - GSAP
+
+- category: "Backend"
+  skills:
+    - Node.js
+    - Express
+    - PostgreSQL
+    - Redis
+    - GraphQL
+
+- category: "DevOps & Tools"
+  skills:
+    - Docker
+    - AWS
+    - GitHub Actions
+    - Vercel
+    - Vitest / Playwright
