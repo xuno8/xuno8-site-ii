@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { ref, onUnmounted } from 'vue';
 
 export function useLightbox(totalItems: () => number) {
   const isOpen = ref(false);
@@ -31,6 +31,12 @@ export function useLightbox(totalItems: () => number) {
       currentIndex.value = (currentIndex.value - 1 + total) % total;
     }
   }
+
+  onUnmounted(() => {
+    if (isOpen.value) {
+      document.body.style.overflow = '';
+    }
+  });
 
   return { isOpen, currentIndex, open, close, next, prev };
 }

@@ -2,9 +2,11 @@ import { ref, watch, onMounted, onUnmounted } from 'vue';
 import gsap from 'gsap';
 import { useStore } from '@nanostores/vue';
 import { currentMode } from '@/stores/mode';
+import { useReducedMotion } from '@/composables/useReducedMotion';
 
 export function useModeTransition() {
   const mode = useStore(currentMode);
+  const { prefersReducedMotion } = useReducedMotion();
   const isTransitioning = ref(false);
   let pendingMode: 'developer' | 'photographer' | null = null;
   let ctx: gsap.Context | null = null;
@@ -37,7 +39,7 @@ export function useModeTransition() {
         pendingMode = null;
 
         if (next && next !== newMode) {
-          applyTransition(next, false);
+          applyTransition(next, prefersReducedMotion.value);
         }
       },
     });
@@ -69,7 +71,7 @@ export function useModeTransition() {
       pendingMode = newMode;
       return;
     }
-    applyTransition(newMode, false);
+    applyTransition(newMode, prefersReducedMotion.value);
   });
 
   onUnmounted(() => {

@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref } from 'vue';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGsapContext } from '@/composables/useGsapContext';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -13,7 +14,6 @@ const sections = [
 ];
 
 const activeSection = ref('hero');
-let ctx: gsap.Context;
 
 function scrollToSection(id: string) {
   const el = document.getElementById(id);
@@ -22,22 +22,16 @@ function scrollToSection(id: string) {
   }
 }
 
-onMounted(() => {
-  ctx = gsap.context(() => {
-    sections.forEach((section) => {
-      ScrollTrigger.create({
-        trigger: `#${section.id}`,
-        start: 'top center',
-        end: 'bottom center',
-        onEnter: () => { activeSection.value = section.id; },
-        onEnterBack: () => { activeSection.value = section.id; },
-      });
+useGsapContext(() => {
+  sections.forEach((section) => {
+    ScrollTrigger.create({
+      trigger: `#${section.id}`,
+      start: 'top center',
+      end: 'bottom center',
+      onEnter: () => { activeSection.value = section.id; },
+      onEnterBack: () => { activeSection.value = section.id; },
     });
   });
-});
-
-onUnmounted(() => {
-  ctx?.revert();
 });
 </script>
 
