@@ -1,0 +1,21 @@
+name: "Tim Lin"
+title: "Full-Stack Software Engineer"
+intro: "I build performant web applications and capture the world through my lens. Passionate about clean architecture, TypeScript, and visual storytelling."
+avatar: "avatar.jpg"
+email: "timlin0108@gmail.com"
+seoDescription: "Portfolio of Tim Lin — Full-Stack Software Engineer and Photographer"
+seoKeywords:
+  - software engineer
+  - web developer
+  - photographer
+  - portfolio
+socialLinks:
+  - platform: github
+    url: "https://github.com/xuno8"
+    label: "GitHub"
+  - platform: linkedin
+    url: "https://www.linkedin.com/in/xuno8/"
+    label: "LinkedIn"
+  - platform: instagram
+    url: "https://www.instagram.com/tim.lxn"
+    label: "Instagram"

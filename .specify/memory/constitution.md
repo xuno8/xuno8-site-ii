@@ -176,7 +176,11 @@ detectable in CI and review.
   rejected in review.
 - GSAP animation code MUST include cleanup logic visible in the same
   file; cleanup in a separate utility is prohibited to ensure
-  co-location of create/destroy lifecycle.
+  co-location of create/destroy lifecycle. **Exception**: Vue
+  composables that wrap `gsap.context()` with automatic `revert()`
+  on `onUnmounted()` are permitted — the composable call within the
+  component file makes the lifecycle contract visible and guarantees
+  cleanup cannot be forgotten.
 
 ## Governance
 
@@ -199,4 +203,4 @@ with these principles.
   in the PR description with a proposed exception. Exceptions
   require explicit approval.
 
-**Version**: 1.0.0 | **Ratified**: 2026-02-21 | **Last Amended**: 2026-02-21
+**Version**: 1.0.1 | **Ratified**: 2026-02-21 | **Last Amended**: 2026-02-21

@@ -1,0 +1,105 @@
+---
+import { getImage } from 'astro:assets';
+import Layout from '@/layouts/Layout.astro';
+import Navbar from '@/components/shared/Navbar.astro';
+import Footer from '@/components/shared/Footer.astro';
+import ModeToggle from '@/components/shared/ModeToggle.vue';
+import Hero from '@/components/developer/Hero.vue';
+import ExperienceTimeline from '@/components/developer/ExperienceTimeline.vue';
+import SkillsGrid from '@/components/developer/SkillsGrid.vue';
+import ProjectCards from '@/components/developer/ProjectCards.vue';
+import SectionNav from '@/components/developer/SectionNav.vue';
+import MasonryGallery from '@/components/photographer/MasonryGallery.vue';
+import ModeTransitionController from '@/components/shared/ModeTransitionController.vue';
+import { loadSiteConfig, loadExperience, loadProjects, loadSkills, loadPhotos } from '@/utils/data';
+
+const site = loadSiteConfig();
+const experiences = loadExperience();
+const projects = loadProjects();
+const skills = loadSkills();
+const photosData = loadPhotos();
+
+// Batch-process gallery images via import.meta.glob
+const galleryModules = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/images/gallery/*.{jpg,jpeg,png,webp}',
+  { eager: true }
+);
+
+const galleryImages = await Promise.all(
+  photosData.map(async (photo) => {
+    const modulePath = `../assets/images/gallery/${photo.src.replace('gallery/', '')}`;
+    const mod = galleryModules[modulePath];
+    if (!mod) {
+      throw new Error(
+        `Missing gallery image: ${photo.src} (expected at ${modulePath})`
+      );
+    }
+    const optimized = await getImage({ src: mod.default, width: 800 });
+    return {
+      src: optimized.src,
+      width: optimized.attributes.width as number ?? 800,
+      height: optimized.attributes.height as number ?? 600,
+      alt: photo.alt,
+      caption: photo.caption,
+      date: photo.date,
+      location: photo.location,
+      camera: photo.camera,
+    };
+  })
+);
+---
+
+<Layout>
+  <Navbar>
+    <ModeToggle client:load />
+  </Navbar>
+
+  <ModeTransitionController client:load />
+
+  <main class="pt-16">
+    <!-- Developer Mode sections -->
+    <div id="developer-content">
+      <div id="hero">
+        <Hero
+          client:load
+          name={site.name}
+          title={site.title}
+          intro={site.intro}
+        />
+      </div>
+
+      <div id="experience">
+        <ExperienceTimeline
+          client:visible
+          experiences={experiences}
+        />
+      </div>
+
+      <div id="skills">
+        <SkillsGrid
+          client:visible
+          categories={skills}
+        />
+      </div>
+
+      <div id="projects">
+        <ProjectCards
+          client:visible
+          projects={projects}
+        />
+      </div>
+
+      <SectionNav client:visible />
+    </div>
+
+    <!-- Photographer Mode sections -->
+    <div id="photographer-content" style="display: none;">
+      <MasonryGallery
+        client:load
+        images={galleryImages}
+      />
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
