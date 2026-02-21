@@ -107,6 +107,14 @@ tests/
 
 **Structure Decision**: Single-project frontend layout following Astro conventions. No backend; all content is static YAML + images processed at build time. Vue components are interactive islands hydrated selectively. Test directory at root level, split into e2e (Playwright) and unit (Vitest).
 
+**Image Strategy for Vue Islands**: Astro's `<Image>` and `<Picture>` components cannot be used inside Vue SFCs. For Vue islands that render images:
+
+1. In the parent `.astro` file, import source images and process them via `getImage()` from `astro:assets` (or `import.meta.glob()` for batch processing).
+2. Pass the processed image objects (containing `src`, `srcset`, `width`, `height`, `format`) as props to the Vue island.
+3. Inside the Vue component, render a standard `<img>` element using the pre-optimized attributes. This is a documented exception to Constitution IV's `<img>` prohibition — the image data has already been fully processed through Astro's optimization pipeline.
+
+This applies to: `Hero.vue` (avatar), `MasonryGallery.vue` (all gallery photos).
+
 ## Complexity Tracking
 
 No Constitution violations detected — this section is intentionally empty.

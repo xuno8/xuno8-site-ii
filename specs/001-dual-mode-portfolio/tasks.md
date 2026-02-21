@@ -55,12 +55,12 @@
 
 ### Implementation for User Story 1
 
-- [ ] T017 [P] [US1] Create Hero.vue component displaying name, professional title, short intro, and optional avatar image (using Astro <Image> via prop) in src/components/developer/Hero.vue
+- [ ] T017 [P] [US1] Create Hero.vue component displaying name, professional title, short intro, and optional avatar image (receives pre-optimized image data as prop from parent .astro file) in src/components/developer/Hero.vue
 - [ ] T018 [P] [US1] Create ExperienceTimeline.vue component rendering work experience entries (company, role, dates, description, technologies) in chronological layout in src/components/developer/ExperienceTimeline.vue
 - [ ] T019 [P] [US1] Create SkillsGrid.vue component displaying skills grouped by category in a grid layout in src/components/developer/SkillsGrid.vue
 - [ ] T020 [P] [US1] Create ProjectCards.vue component rendering project entries with title, description, technologies, and external links (demo/repo) in src/components/developer/ProjectCards.vue
 - [ ] T021 [US1] Create SectionNav.vue floating side dot indicator showing current section with click-to-scroll navigation, using GSAP ScrollTrigger for active section tracking in src/components/developer/SectionNav.vue
-- [ ] T022 [US1] Integrate all Developer Mode Vue islands into index.astro with client:visible directives (client:load for Hero as above-fold LCP element) in src/pages/index.astro
+- [ ] T022 [US1] Integrate all Developer Mode Vue islands into index.astro with client:visible directives (client:load for Hero as above-fold LCP element); process avatar image via getImage() and pass optimized data as prop to Hero.vue in src/pages/index.astro
 - [ ] T023 [US1] Add GSAP ScrollTrigger section reveal animations (fade-in + slide-up on scroll) to developer section components using useGsapContext composable
 
 **Checkpoint**: Developer Mode fully functional — Hero, Experience, Skills, Projects, and SectionNav all render with scroll animations. This is the MVP.
@@ -76,10 +76,10 @@
 ### Implementation for User Story 2
 
 - [ ] T024 [US2] Create ModeToggle.vue toggle switch component reading/writing currentMode store, styled as a prominent switch in src/components/shared/ModeToggle.vue
-- [ ] T025 [US2] Create useModeTransition composable with GSAP timeline (fade out current content → swap data-theme → fade in new content, using Flip plugin for layout transition) in src/composables/useModeTransition.ts
+- [ ] T025 [US2] Create useModeTransition composable with sequenced GSAP timeline (fade out current content → at opacity 0 swap data-theme and toggle section visibility → fade in new content, ~600ms total) in src/composables/useModeTransition.ts
 - [ ] T026 [US2] Integrate ModeToggle into Navbar.astro with client:load directive for immediate interactivity in src/components/shared/Navbar.astro
 - [ ] T027 [US2] Implement mode-driven section visibility in index.astro — conditionally show developer sections vs photographer gallery based on currentMode store in src/pages/index.astro
-- [ ] T028 [US2] Wire useModeTransition into index.astro to trigger GSAP Flip animation and data-theme attribute swap on mode change
+- [ ] T028 [US2] Wire useModeTransition into index.astro — subscribe to mode store changes, trigger sequenced GSAP timeline (fade → swap data-theme → fade) on mode change
 - [ ] T029 [US2] Implement debounce guard in useModeTransition — queue toggle requests while animation is in progress, prevent overlapping animations (FR-009)
 - [ ] T030 [US2] Apply reduced-motion fallback via useReducedMotion — set GSAP duration to 0 for instant state change when prefers-reduced-motion is active (FR-010)
 
@@ -97,12 +97,12 @@
 
 - [ ] T031 [P] [US3] Add 3–5 placeholder gallery images (diverse aspect ratios) for development in src/assets/images/gallery/
 - [ ] T032 [P] [US3] Create useLightbox composable managing lightbox state (isOpen, currentIndex, open, close, next, prev) with scroll position save/restore in src/composables/useLightbox.ts
-- [ ] T033 [US3] Create MasonryGallery.vue with CSS-columns layout (columns: 3 280px), rendering photos from photos.yaml using Astro-optimized images with loading="lazy" in src/components/photographer/MasonryGallery.vue
+- [ ] T033 [US3] Create MasonryGallery.vue with CSS-columns layout (columns: 3 280px), receiving pre-optimized image data array as prop from parent .astro file, rendering with loading="lazy" in src/components/photographer/MasonryGallery.vue
 - [ ] T034 [US3] Create Lightbox.vue full-screen overlay with large image view, caption/metadata display (date, location, camera), and on-screen prev/next arrow buttons in src/components/photographer/Lightbox.vue
 - [ ] T035 [US3] Add keyboard navigation (ArrowLeft, ArrowRight for prev/next; Escape for close) and touch swipe gesture detection to Lightbox.vue
 - [ ] T036 [US3] Add GSAP ScrollTrigger.batch() staggered reveal animation to masonry gallery items using useGsapContext in MasonryGallery.vue
 - [ ] T037 [US3] Implement image error placeholder — show graceful fallback element when gallery images fail to load without breaking masonry layout (FR-014)
-- [ ] T038 [US3] Integrate Photographer Mode gallery (MasonryGallery + Lightbox) into index.astro with client:visible directive in src/pages/index.astro
+- [ ] T038 [US3] Integrate Photographer Mode gallery into index.astro — batch-process gallery images via import.meta.glob() + getImage(), pass optimized image data array as prop to MasonryGallery.vue, mount with client:visible directive in src/pages/index.astro
 - [ ] T039 [US3] Implement scroll position preservation on lightbox close — save scrollY on open, restore on close (FR-013)
 
 **Checkpoint**: Photography gallery fully functional — masonry layout, lightbox with navigation, scroll reveals, error handling, scroll position preserved.

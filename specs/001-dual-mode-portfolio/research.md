@@ -53,7 +53,13 @@
 
 **Key plugins**:
 - **ScrollTrigger**: Scroll-based reveal animations for developer sections and gallery items.
-- **Flip**: Layout transition animations for mode switching — capture state before, apply changes, animate from previous state.
+- **Flip**: Reserved for intra-component layout animations (e.g., gallery item reflow on resize). Not used for mode switching — see below.
+
+**Mode transition approach**: The mode switch uses a sequenced GSAP timeline, not Flip. Developer and Photographer modes contain entirely different DOM trees, so Flip's state-capture model does not apply. Timeline sequence:
+1. Fade out current content (opacity → 0, ~300ms)
+2. At opacity 0: swap `data-theme` attribute, toggle section visibility (display/v-show)
+3. Fade in new content (opacity 0 → 1, ~300ms)
+Total duration: ~600ms (well within SC-001's 1-second budget).
 
 **Lifecycle management** (per Constitution III):
 - Create GSAP instances in `onMounted()`.
@@ -90,7 +96,7 @@
 ```
 - Responsive: column count adjusts naturally via `columns` shorthand.
 - GSAP `ScrollTrigger.batch('.masonry-item', ...)` for staggered reveal.
-- GSAP `Flip.from()` for mode transition animation.
+- Mode transition handled by sequenced GSAP timeline (see Section 4).
 
 **Alternatives considered**:
 - Pure GSAP positioning — rejected: JavaScript layout overhead, worse CLS.
