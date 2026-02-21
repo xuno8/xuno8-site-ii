@@ -27,9 +27,13 @@ tests/
 ## Commands
 
 ```bash
-npm run dev       # Start dev server (localhost:4321)
-npm run build     # Production build to dist/
-npm run preview   # Preview production build
+npm run dev          # Start dev server (localhost:4321)
+npm run build        # Production build to dist/
+npm run preview      # Preview production build
+npm run lint         # ESLint check (cached)
+npm run lint:fix     # ESLint auto-fix (cached)
+npm run format       # Prettier format all files
+npm run format:check # Prettier check only
 ```
 
 ## Path Aliases
