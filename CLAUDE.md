@@ -26,4 +26,9 @@ TypeScript 5.x (via Astro 5.x): Follow standard conventions
 - 001-dual-mode-portfolio: Added TypeScript 5.x (via Astro 5.x) + Astro 5.x, Vue 3 (`@astrojs/vue`), UnoCSS (`@unocss/astro` + `preset-attributify` + `preset-uno`), Nanostores (`nanostores` + `@nanostores/vue`), GSAP 3.14 (`gsap` — ScrollTrigger, Flip plugins)
 
 <!-- MANUAL ADDITIONS START -->
+
+## Workflow
+
+- When designing or implementing frontend work, use the `frontend-aesthetics-enforcer` subagent to review visual quality and avoid generic AI-style aesthetics.
+
 <!-- MANUAL ADDITIONS END -->
