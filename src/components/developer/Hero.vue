@@ -281,7 +281,8 @@ useGsapContext(() => {
         </div>
 
         <!-- Blinking cursor at the end -->
-        <div class="prompt-line">
+        <div class="prompt-line final-prompt">
+          <span v-if="animationDone" class="prompt-text">$ </span>
           <span
             v-if="animationDone"
             class="cursor final-cursor"
@@ -397,6 +398,10 @@ useGsapContext(() => {
 
 .final-cursor {
   font-size: 0.9375rem;
+}
+
+.final-prompt {
+  margin-top: 24px;
 }
 
 @keyframes blink {
