@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue';
 import gsap from 'gsap';
-import { useGsapContext } from '@/composables/useGsapContext';
 import { useReducedMotion } from '@/composables/useReducedMotion';
 import type { SocialLink } from '@/types';
 
@@ -28,7 +27,6 @@ const platformIcons: Record<string, string> = {
 const emailIcon =
   'M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67ZM22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z';
 
-// Fallback icon for unsupported platforms (generic link icon)
 const fallbackIcon =
   'M13.544 10.456a4.368 4.368 0 0 0-6.176 0l-3.089 3.088a4.367 4.367 0 1 0 6.177 6.177L12 18.177a.75.75 0 0 1 1.06 1.061l-1.544 1.544a5.867 5.867 0 0 1-8.298-8.298l3.089-3.088a5.868 5.868 0 0 1 8.298 0 .75.75 0 1 1-1.06 1.06Zm-3.088-3.088a4.367 4.367 0 0 0 6.177 0l3.088-3.088a4.367 4.367 0 1 0-6.177-6.177L12 9.647A.75.75 0 0 1 10.94 8.586l1.544-1.543a5.867 5.867 0 0 1 8.298 8.298l-3.088 3.088a5.868 5.868 0 0 1-8.298 0 .75.75 0 1 1 1.06-1.06Z';
 
@@ -41,7 +39,12 @@ const getPlatformIcon = (platform: string): string => {
 };
 
 const sectionRef = ref<HTMLElement | null>(null);
+const terminalBodyRef = ref<HTMLElement | null>(null);
+const hiddenInputRef = ref<HTMLInputElement | null>(null);
 const { prefersReducedMotion } = useReducedMotion();
+
+// Desktop detection
+const isDesktop = ref(false);
 
 // Typing animation state
 const whoamiChars = ref(0);
@@ -56,43 +59,65 @@ const displayedWhoami = computed(() => whoamiText.slice(0, whoamiChars.value));
 const displayedName = computed(() => props.name.slice(0, nameChars.value));
 const displayedContact = computed(() => contactText.slice(0, contactChars.value));
 
-// Cursor visibility driven by timeline progress (no v-if on animated elements)
+// Cursor visibility driven by timeline progress
 const showWhoamiCursor = ref(false);
 const showContactCursor = ref(false);
 
-useGsapContext(() => {
-  const animTargets = '.content-box, .hero-avatar, .hero-title, .hero-intro, .contact-box';
+// Interactive terminal state
+type TerminalState = 'idle' | 'typing' | 'executing' | 'animating';
+const terminalState = ref<TerminalState>('idle');
+const inputText = ref('');
+const inputFocused = ref(false);
 
-  if (prefersReducedMotion.value) {
-    // Show everything immediately
-    whoamiChars.value = whoamiText.length;
-    nameChars.value = props.name.length;
-    contactChars.value = contactText.length;
-    animationDone.value = true;
-    gsap.set(animTargets, { autoAlpha: 1 });
-    gsap.set('.social-link', { autoAlpha: 1 });
-    return;
-  }
+// Command history (only latest)
+const commandHistory = ref<{ prompt: string; output: string } | null>(null);
 
-  // Set initial hidden state for all animated elements
+// GSAP context for manual management (needed for clear replay)
+let gsapCtx: gsap.Context | null = null;
+let entryTimeline: gsap.core.Timeline | null = null;
+
+const animTargets = '.content-box, .hero-avatar, .hero-title, .hero-intro, .contact-box';
+
+function resetTerminalState() {
+  whoamiChars.value = 0;
+  nameChars.value = 0;
+  contactChars.value = 0;
+  animationDone.value = false;
+  showWhoamiCursor.value = false;
+  showContactCursor.value = false;
+  inputText.value = '';
+  terminalState.value = 'animating';
+}
+
+function setInitialHiddenState() {
   gsap.set(animTargets, { autoAlpha: 0 });
   gsap.set('.hero-avatar', { scale: 0.9 });
   gsap.set('.hero-title, .hero-intro', { y: 10 });
   gsap.set('.social-link', { autoAlpha: 0 });
+}
 
+function buildEntryTimeline(skipFadeIn = false): gsap.core.Timeline {
   const tl = gsap.timeline({
     onComplete: () => {
       animationDone.value = true;
+      terminalState.value = 'idle';
+      nextTick(() => {
+        if (isDesktop.value) {
+          hiddenInputRef.value?.focus();
+        }
+      });
     },
   });
 
-  // Phase 1: Terminal window fades in
-  tl.from(sectionRef.value!, {
-    opacity: 0,
-    y: 20,
-    duration: 0.4,
-    ease: 'power2.out',
-  });
+  // Phase 1: Terminal window fades in (skip on replay)
+  if (!skipFadeIn) {
+    tl.from(sectionRef.value!, {
+      opacity: 0,
+      y: 20,
+      duration: 0.4,
+      ease: 'power2.out',
+    });
+  }
 
   // Phase 2: "$ whoami" types out
   tl.call(
@@ -109,7 +134,7 @@ useGsapContext(() => {
     snap: { value: 1 },
   });
 
-  // Phase 3: Content box appears — hide whoami cursor, reveal box
+  // Phase 3: Content box appears
   tl.call(
     () => {
       showWhoamiCursor.value = false;
@@ -143,7 +168,6 @@ useGsapContext(() => {
   );
 
   tl.to('.hero-title', { autoAlpha: 1, y: 0, duration: 0.3, ease: 'power2.out' }, '+=0.05');
-
   tl.to('.hero-intro', { autoAlpha: 1, y: 0, duration: 0.3, ease: 'power2.out' }, '+=0.05');
 
   // Phase 5: "$ contact --list" types + links appear
@@ -169,16 +193,138 @@ useGsapContext(() => {
     '+=0.05',
   );
   tl.to('.contact-box', { autoAlpha: 1, duration: 0.01 });
-
-  // Stagger social links
   tl.to('.social-link', { autoAlpha: 1, stagger: 0.06 }, '+=0.05');
-}, sectionRef);
+
+  return tl;
+}
+
+// --- Command handlers ---
+
+function runClearCommand() {
+  terminalState.value = 'animating';
+  commandHistory.value = null;
+
+  const body = terminalBodyRef.value;
+  if (!body) return;
+
+  if (prefersReducedMotion.value) {
+    resetTerminalState();
+    whoamiChars.value = whoamiText.length;
+    nameChars.value = props.name.length;
+    contactChars.value = contactText.length;
+    animationDone.value = true;
+    terminalState.value = 'idle';
+    gsap.set(animTargets, { autoAlpha: 1 });
+    gsap.set('.social-link', { autoAlpha: 1 });
+    nextTick(() => hiddenInputRef.value?.focus());
+    return;
+  }
+
+  // Slide content up and fade out
+  gsap.to(body.children, {
+    y: -30,
+    opacity: 0,
+    duration: 0.3,
+    ease: 'power2.in',
+    stagger: 0.02,
+    onComplete: () => {
+      // Reset positions
+      gsap.set(body.children, { y: 0, opacity: 1 });
+
+      // Kill previous entry timeline
+      if (entryTimeline) {
+        entryTimeline.kill();
+        entryTimeline = null;
+      }
+
+      resetTerminalState();
+      setInitialHiddenState();
+
+      // Rebuild and play (skip Phase 1 fade-in)
+      entryTimeline = buildEntryTimeline(true);
+    },
+  });
+}
+
+const commands: Record<string, { output: string; handler: () => void }> = {
+  clear: {
+    output: '',
+    handler: runClearCommand,
+  },
+};
+
+function handleCommand() {
+  const cmd = inputText.value.trim();
+  inputText.value = '';
+
+  if (!cmd) return;
+
+  terminalState.value = 'executing';
+
+  const match = commands[cmd];
+  if (match) {
+    commandHistory.value = match.output ? { prompt: `$ ${cmd}`, output: match.output } : null;
+    nextTick(() => match.handler());
+  } else {
+    commandHistory.value = {
+      prompt: `$ ${cmd}`,
+      output: `bash: ${cmd}: command not found`,
+    };
+    terminalState.value = 'idle';
+    nextTick(() => hiddenInputRef.value?.focus());
+  }
+}
+
+function handleTerminalClick(e: MouseEvent) {
+  if (!isDesktop.value || !animationDone.value) return;
+  const target = e.target as HTMLElement;
+  if (target.closest('a')) return;
+  hiddenInputRef.value?.focus();
+}
+
+function handleInputFocus() {
+  inputFocused.value = true;
+}
+
+function handleInputBlur() {
+  inputFocused.value = false;
+}
+
+// Auto-focus when animation finishes
+watch(animationDone, (done) => {
+  if (done && isDesktop.value) {
+    nextTick(() => hiddenInputRef.value?.focus());
+  }
+});
+
+onMounted(() => {
+  isDesktop.value = window.matchMedia('(min-width: 768px)').matches;
+
+  gsapCtx = gsap.context(() => {
+    if (prefersReducedMotion.value) {
+      whoamiChars.value = whoamiText.length;
+      nameChars.value = props.name.length;
+      contactChars.value = contactText.length;
+      animationDone.value = true;
+      gsap.set(animTargets, { autoAlpha: 1 });
+      gsap.set('.social-link', { autoAlpha: 1 });
+      return;
+    }
+
+    setInitialHiddenState();
+    entryTimeline = buildEntryTimeline(false);
+  }, sectionRef.value ?? undefined);
+});
+
+onUnmounted(() => {
+  gsapCtx?.revert();
+});
 </script>
 
 <template>
   <section ref="sectionRef" class="hero-section">
     <!-- Terminal Window -->
-    <div class="terminal">
+    <div class="terminal" @click="handleTerminalClick">
       <!-- Title Bar -->
       <div class="terminal-titlebar">
         <div class="terminal-dots">
@@ -190,7 +336,7 @@ useGsapContext(() => {
       </div>
 
       <!-- Terminal Body -->
-      <div class="terminal-body">
+      <div ref="terminalBodyRef" class="terminal-body">
         <!-- $ whoami -->
         <div class="prompt-line">
           <span class="prompt-text">{{ displayedWhoami }}</span>
@@ -280,16 +426,49 @@ useGsapContext(() => {
           </div>
         </div>
 
-        <!-- Blinking cursor at the end -->
-        <div class="prompt-line final-prompt">
-          <span v-if="animationDone" class="prompt-text">$ </span>
-          <span
-            v-if="animationDone"
-            class="cursor final-cursor"
-            :class="{ 'cursor-blink': !prefersReducedMotion }"
-            >█</span
-          >
+        <!-- Command history (latest only) -->
+        <div v-if="commandHistory" class="command-history">
+          <div class="prompt-line">
+            <span class="prompt-text">{{ commandHistory.prompt }}</span>
+          </div>
+          <div class="output-line">{{ commandHistory.output }}</div>
         </div>
+
+        <!-- Interactive input line / Static cursor -->
+        <div class="prompt-line final-prompt">
+          <template v-if="animationDone">
+            <span class="prompt-text">$ </span>
+            <span v-if="isDesktop" class="input-display">{{ inputText }}</span>
+            <span
+              class="cursor final-cursor"
+              :class="{
+                'cursor-blink':
+                  !prefersReducedMotion &&
+                  (terminalState === 'idle' || terminalState === 'typing') &&
+                  inputFocused,
+              }"
+              >█</span
+            >
+          </template>
+        </div>
+
+        <!-- Hidden input for desktop keyboard capture -->
+        <input
+          v-if="isDesktop"
+          ref="hiddenInputRef"
+          v-model="inputText"
+          class="hidden-input"
+          type="text"
+          aria-label="Terminal command input"
+          :disabled="terminalState === 'executing' || terminalState === 'animating'"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          @keydown.enter.prevent="handleCommand"
+          @focus="handleInputFocus"
+          @blur="handleInputBlur"
+        />
       </div>
     </div>
   </section>
@@ -363,6 +542,8 @@ useGsapContext(() => {
 /* Terminal Body */
 .terminal-body {
   padding: 48px 40px;
+  position: relative;
+  overflow: hidden;
 }
 
 /* Command Prompts */
@@ -404,6 +585,15 @@ useGsapContext(() => {
   margin-top: 24px;
 }
 
+.input-display {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.9375rem;
+  color: var(--color-text);
+  letter-spacing: 0.03em;
+  white-space: pre;
+}
+
 @keyframes blink {
   0%,
   49% {
@@ -433,6 +623,34 @@ useGsapContext(() => {
   .social-link:hover svg {
     transform: none;
   }
+}
+
+/* Hidden input */
+.hidden-input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Command history */
+.command-history {
+  margin-top: 24px;
+}
+
+.command-history .prompt-line {
+  margin-bottom: 4px;
+}
+
+.output-line {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--color-text-secondary, var(--color-text-muted));
+  letter-spacing: 0.02em;
+  margin-bottom: 8px;
+  padding-left: 2px;
 }
 
 /* Content Box — FOUC prevention: hidden by default, GSAP reveals */
