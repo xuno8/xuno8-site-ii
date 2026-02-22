@@ -20,7 +20,7 @@ export interface WorkExperience {
   role: string;
   startDate: string;
   endDate: string;
-  description: string;
+  description: string | string[];
   technologies?: string[];
 }
 

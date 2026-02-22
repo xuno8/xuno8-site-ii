@@ -1,41 +1,35 @@
-- title: 'TaskFlow'
-  description: 'A real-time collaborative task management app with drag-and-drop kanban boards, WebSocket sync, and role-based access control.'
+- title: 'ReFunction'
+  description: 'An AI-driven raw material search platform for carbon inventory consultants, leveraging LLM and RAG to streamline material lookup and reporting.'
   technologies:
-    - Vue 3
-    - Node.js
-    - WebSocket
-    - PostgreSQL
-  demoUrl: 'https://taskflow.example.com'
-  repoUrl: 'https://github.com/alexchen/taskflow'
+    - Python
+    - LLM
+    - RAG
+    - SaaS
   featured: true
 
-- title: 'WeatherLens'
-  description: 'A weather visualization dashboard that combines meteorological data with photography, featuring interactive maps and 7-day forecasts.'
-  technologies:
-    - React
-    - D3.js
-    - OpenWeather API
-    - Mapbox
-  demoUrl: 'https://weatherlens.example.com'
-  repoUrl: 'https://github.com/alexchen/weatherlens'
-  featured: true
-
-- title: 'DevBlog Engine'
-  description: 'A minimalist static blog engine with Markdown support, syntax highlighting, RSS feed generation, and full-text search.'
+- title: 'Personal Portfolio'
+  description: 'A dual-mode portfolio site featuring developer and photographer modes with smooth transitions, terminal-themed hero section, and GSAP scroll animations. Built as a single-page Astro SSG with Vue 3 interactive islands.'
   technologies:
     - Astro
-    - TypeScript
-    - Markdown
-    - Algolia
-  repoUrl: 'https://github.com/alexchen/devblog-engine'
+    - Vue 3
+    - UnoCSS
+    - GSAP
+  repoUrl: 'https://github.com/xuno8/xuno8-site-ii'
+  featured: true
+
+- title: 'SOMYGO!!!!!'
+  description: 'An anime meme search website that achieved over 54,000 site hits in two months. Features full-text search powered by ElasticSearch and a FastAPI backend, deployed on Azure with CI/CD via GitHub Actions.'
+  technologies:
+    - Vue 3
+    - FastAPI
+    - ElasticSearch
+    - Azure
   featured: false
 
-- title: 'PixelSort'
-  description: 'A creative coding tool for pixel sorting photography effects, with real-time preview and batch processing capabilities.'
+- title: 'Orchid Species Identification'
+  description: 'Graduation project at Yuan Ze University — a species identification system for Taiwanese orchids using YOLOv4 deep learning model.'
   technologies:
-    - Rust
-    - WebAssembly
-    - Canvas API
-  demoUrl: 'https://pixelsort.example.com'
-  repoUrl: 'https://github.com/alexchen/pixelsort'
-  featured: true
+    - Python
+    - YOLOv4
+    - Deep Learning
+  featured: false

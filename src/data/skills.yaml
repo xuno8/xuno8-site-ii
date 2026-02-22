@@ -1,31 +1,20 @@
 - category: 'Languages'
   skills:
-    - TypeScript
-    - JavaScript
+    - C++
     - Python
-    - Rust
-    - SQL
-
-- category: 'Frontend'
-  skills:
-    - Vue 3
-    - React
-    - Astro
-    - UnoCSS / Tailwind
-    - GSAP
 
 - category: 'Backend'
   skills:
-    - Node.js
-    - Express
-    - PostgreSQL
-    - Redis
-    - GraphQL
+    - FastAPI
+    - Win32 API
 
-- category: 'DevOps & Tools'
+- category: 'DevOps'
   skills:
     - Docker
-    - AWS
+    - Azure
     - GitHub Actions
-    - Vercel
-    - Vitest / Playwright
+- category: 'AI'
+  skills:
+    - Claude Code
+    - Agent skills
+    - Spec-Driven Development

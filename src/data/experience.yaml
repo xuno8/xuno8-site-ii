@@ -1,32 +1,15 @@
-- company: 'TechCorp'
-  role: 'Senior Software Engineer'
-  startDate: '2023-06'
+- company: 'Trend Micro'
+  role: 'Software Engineer'
+  startDate: '2024-08'
   endDate: 'present'
-  description: 'Leading frontend architecture for the platform team. Migrated legacy jQuery codebase to Vue 3, improving page load times by 40%. Mentoring junior developers and driving adoption of TypeScript across the organization.'
+  description:
+    - 'Developed and maintained Apex One, a server-client endpoint security application using C++ and Win32 API.'
+    - 'Designed and implemented features with comprehensive design documents for specifications and architecture.'
+    - 'Accelerated software delivery using AI tools like Claude Code, with a strong focus on Spec-Driven Development.'
+    - 'Hosted internal AI sharing sessions and rapidly adopted emerging tools into development workflows.'
+    - 'Diagnosed and resolved customer issues by identifying root causes and implementing fixes.'
   technologies:
-    - TypeScript
-    - Vue 3
-    - Node.js
-    - PostgreSQL
-
-- company: 'StartupXYZ'
-  role: 'Full-Stack Developer'
-  startDate: '2021-03'
-  endDate: '2023-05'
-  description: 'Built and shipped core product features from concept to production. Designed RESTful APIs serving 10K+ daily active users. Implemented CI/CD pipelines reducing deployment time by 60%.'
-  technologies:
-    - React
-    - Python
-    - AWS
-    - Docker
-
-- company: 'DigitalAgency'
-  role: 'Junior Web Developer'
-  startDate: '2019-08'
-  endDate: '2021-02'
-  description: 'Developed responsive websites and e-commerce solutions for diverse clients. Gained deep expertise in CSS architecture and accessibility standards.'
-  technologies:
-    - JavaScript
-    - HTML/CSS
-    - WordPress
-    - Sass
+    - C++
+    - Win32 API
+    - Claude Code
+    - Git

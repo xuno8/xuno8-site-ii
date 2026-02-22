@@ -105,7 +105,14 @@ function formatDate(date: string): string {
             <p class="text-sm font-medium mb-3" style="color: var(--color-accent)">
               {{ exp.company }}
             </p>
-            <p class="text-sm leading-relaxed mb-3" style="color: var(--color-text)">
+            <ul
+              v-if="Array.isArray(exp.description)"
+              class="text-sm leading-relaxed mb-3 list-disc list-inside space-y-1"
+              style="color: var(--color-text)"
+            >
+              <li v-for="(item, i) in exp.description" :key="i">{{ item }}</li>
+            </ul>
+            <p v-else class="text-sm leading-relaxed mb-3" style="color: var(--color-text)">
               {{ exp.description }}
             </p>
             <div v-if="exp.technologies?.length" class="flex flex-wrap gap-2">
