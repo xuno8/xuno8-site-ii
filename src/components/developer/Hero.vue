@@ -438,6 +438,20 @@ useGsapContext(() => {
   .cursor-blink {
     animation: none;
   }
+
+  .social-link,
+  .social-link svg {
+    transition: none;
+  }
+
+  .social-link:hover,
+  .social-link:active {
+    transform: none;
+  }
+
+  .social-link:hover svg {
+    transform: none;
+  }
 }
 
 /* Content Box */
@@ -546,8 +560,10 @@ h1.hero-name {
   border-left: 2px solid transparent;
   transition:
     color 0.2s cubic-bezier(0.22, 1, 0.36, 1),
-    background-color 0.2s cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+    background 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s cubic-bezier(0, 0.55, 0.45, 1);
   opacity: 0;
   min-height: 44px;
 }
@@ -557,19 +573,40 @@ h1.hero-name {
 }
 
 .social-link:hover {
-  color: var(--color-accent);
-  background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  color: var(--color-accent-hover);
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--color-accent) 12%, transparent) 0%,
+    color-mix(in srgb, var(--color-accent) 3%, transparent) 100%
+  );
   border-left-color: var(--color-accent);
+  transform: translateX(2px);
 }
 
 .social-link:hover svg {
-  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--color-accent) 60%, transparent));
+  color: var(--color-accent);
+  filter: drop-shadow(0 0 10px var(--color-accent)) drop-shadow(0 0 4px var(--color-accent));
+  transform: scale(1.1);
+}
+
+.social-link:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  background: color-mix(in srgb, var(--color-accent) 10%, transparent);
+}
+
+.social-link:active {
+  transform: translateX(1px) scale(0.98);
+  background: color-mix(in srgb, var(--color-accent) 15%, transparent);
 }
 
 .social-link svg {
-  color: var(--color-accent);
+  color: var(--color-text-muted);
   flex-shrink: 0;
-  transition: filter 0.2s ease;
+  transition:
+    color 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.2s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* Responsive */
