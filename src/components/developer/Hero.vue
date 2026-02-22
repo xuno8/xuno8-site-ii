@@ -56,29 +56,29 @@ const displayedWhoami = computed(() => whoamiText.slice(0, whoamiChars.value));
 const displayedName = computed(() => props.name.slice(0, nameChars.value));
 const displayedContact = computed(() => contactText.slice(0, contactChars.value));
 
-// Visibility flags for staggered reveal
-const showContentBox = ref(false);
-const showAvatar = ref(false);
-const showTitle = ref(false);
-const showIntro = ref(false);
-const showContactBox = ref(false);
-const showLinks = ref<boolean[]>([]);
+// Cursor visibility driven by timeline progress (no v-if on animated elements)
+const showWhoamiCursor = ref(false);
+const showContactCursor = ref(false);
 
 useGsapContext(() => {
+  const animTargets = '.content-box, .hero-avatar, .hero-title, .hero-intro, .contact-box';
+
   if (prefersReducedMotion.value) {
     // Show everything immediately
     whoamiChars.value = whoamiText.length;
     nameChars.value = props.name.length;
     contactChars.value = contactText.length;
-    showContentBox.value = true;
-    showAvatar.value = true;
-    showTitle.value = true;
-    showIntro.value = true;
-    showContactBox.value = true;
-    showLinks.value = Array(props.socialLinks.length + 1).fill(true);
     animationDone.value = true;
+    gsap.set(animTargets, { autoAlpha: 1 });
+    gsap.set('.social-link', { autoAlpha: 1 });
     return;
   }
+
+  // Set initial hidden state for all animated elements
+  gsap.set(animTargets, { autoAlpha: 0 });
+  gsap.set('.hero-avatar', { scale: 0.9 });
+  gsap.set('.hero-title, .hero-intro', { y: 10 });
+  gsap.set('.social-link', { autoAlpha: 0 });
 
   const tl = gsap.timeline({
     onComplete: () => {
@@ -95,44 +95,40 @@ useGsapContext(() => {
   });
 
   // Phase 2: "$ whoami" types out
-  tl.to(
-    whoamiChars,
-    {
-      value: whoamiText.length,
-      duration: 0.4,
-      ease: 'none',
-      snap: { value: 1 },
-    },
-    '+=0.05',
-  );
-
-  // Phase 3: Content box appears
   tl.call(
     () => {
-      showContentBox.value = true;
+      showWhoamiCursor.value = true;
+    },
+    [],
+    '+=0.05',
+  );
+  tl.to(whoamiChars, {
+    value: whoamiText.length,
+    duration: 0.4,
+    ease: 'none',
+    snap: { value: 1 },
+  });
+
+  // Phase 3: Content box appears — hide whoami cursor, reveal box
+  tl.call(
+    () => {
+      showWhoamiCursor.value = false;
     },
     [],
     '+=0.1',
   );
+  tl.to('.content-box', { autoAlpha: 1, duration: 0.01 });
 
   // Phase 4: Avatar + Name typing + Title + Intro
-  tl.call(
-    () => {
-      showAvatar.value = true;
-    },
-    [],
-    '+=0.05',
-  );
-
-  tl.from(
+  tl.to(
     '.hero-avatar',
     {
-      opacity: 0,
-      scale: 0.9,
+      autoAlpha: 1,
+      scale: 1,
       duration: 0.3,
       ease: 'power2.out',
     },
-    '+=0.05',
+    '+=0.1',
   );
 
   tl.to(
@@ -146,54 +142,36 @@ useGsapContext(() => {
     '+=0.08',
   );
 
-  tl.call(() => {
-    showTitle.value = true;
-  });
+  tl.to('.hero-title', { autoAlpha: 1, y: 0, duration: 0.3, ease: 'power2.out' }, '+=0.05');
 
-  tl.from('.hero-title', { opacity: 0, y: 10, duration: 0.3, ease: 'power2.out' }, '+=0.05');
-
-  tl.call(
-    () => {
-      showIntro.value = true;
-    },
-    [],
-    '+=0.05',
-  );
-
-  tl.from('.hero-intro', { opacity: 0, y: 10, duration: 0.3, ease: 'power2.out' }, '+=0.05');
+  tl.to('.hero-intro', { autoAlpha: 1, y: 0, duration: 0.3, ease: 'power2.out' }, '+=0.05');
 
   // Phase 5: "$ contact --list" types + links appear
-  tl.to(
-    contactChars,
-    {
-      value: contactText.length,
-      duration: 0.4,
-      ease: 'none',
-      snap: { value: 1 },
+  tl.call(
+    () => {
+      showContactCursor.value = true;
     },
+    [],
     '+=0.1',
   );
+  tl.to(contactChars, {
+    value: contactText.length,
+    duration: 0.4,
+    ease: 'none',
+    snap: { value: 1 },
+  });
 
   tl.call(
     () => {
-      showContactBox.value = true;
+      showContactCursor.value = false;
     },
     [],
     '+=0.05',
   );
+  tl.to('.contact-box', { autoAlpha: 1, duration: 0.01 });
 
-  // Stagger links
-  const totalLinks = props.socialLinks.length + 1; // +1 for email
-  showLinks.value = Array(totalLinks).fill(false);
-  for (let i = 0; i < totalLinks; i++) {
-    tl.call(
-      () => {
-        showLinks.value[i] = true;
-      },
-      [],
-      i === 0 ? '+=0.05' : '+=0.06',
-    );
-  }
+  // Stagger social links
+  tl.to('.social-link', { autoAlpha: 1, stagger: 0.06 }, '+=0.05');
 }, sectionRef);
 </script>
 
@@ -217,7 +195,7 @@ useGsapContext(() => {
         <div class="prompt-line">
           <span class="prompt-text">{{ displayedWhoami }}</span>
           <span
-            v-if="!showContentBox && whoamiChars > 0"
+            v-if="showWhoamiCursor"
             class="cursor"
             :class="{ 'cursor-blink': whoamiChars >= whoamiText.length }"
             >█</span
@@ -225,9 +203,9 @@ useGsapContext(() => {
         </div>
 
         <!-- whoami output: avatar + name + title + intro -->
-        <div v-if="showContentBox" class="content-box">
+        <div class="content-box">
           <div class="whoami-layout">
-            <div v-if="avatarSrc && showAvatar" class="hero-avatar">
+            <div v-if="avatarSrc" class="hero-avatar">
               <img
                 :src="avatarSrc"
                 :width="avatarWidth"
@@ -242,8 +220,8 @@ useGsapContext(() => {
               <h1 class="hero-name">
                 {{ displayedName }}<span v-if="nameChars < name.length" class="cursor">█</span>
               </h1>
-              <p v-if="showTitle" class="hero-title">{{ title }}</p>
-              <p v-if="showIntro" class="hero-intro">{{ intro }}</p>
+              <p class="hero-title">{{ title }}</p>
+              <p class="hero-intro">{{ intro }}</p>
             </div>
           </div>
         </div>
@@ -252,7 +230,7 @@ useGsapContext(() => {
         <div class="prompt-line contact-prompt">
           <span class="prompt-text">{{ displayedContact }}</span>
           <span
-            v-if="contactChars > 0 && !showContactBox"
+            v-if="showContactCursor"
             class="cursor"
             :class="{ 'cursor-blink': contactChars >= contactText.length }"
             >█</span
@@ -260,17 +238,16 @@ useGsapContext(() => {
         </div>
 
         <!-- contact output: social links -->
-        <div v-if="showContactBox" class="content-box contact-box">
+        <div class="content-box contact-box">
           <div class="social-links">
             <a
-              v-for="(link, i) in socialLinks"
+              v-for="link in socialLinks"
               :key="link.platform"
               :href="link.url"
               target="_blank"
               rel="noopener noreferrer"
               :aria-label="link.label || link.platform"
               class="social-link"
-              :class="{ 'link-visible': showLinks[i] }"
             >
               <svg
                 viewBox="0 0 24 24"
@@ -286,7 +263,6 @@ useGsapContext(() => {
             <a
               :href="`mailto:${email}`"
               class="social-link"
-              :class="{ 'link-visible': showLinks[socialLinks.length] }"
               :aria-label="`Email ${email}`"
               :title="email"
             >
@@ -454,14 +430,15 @@ useGsapContext(() => {
   }
 }
 
-/* Content Box */
+/* Content Box — FOUC prevention: hidden by default, GSAP reveals */
 .content-box {
   border: 1px solid var(--color-border);
   border-radius: 4px;
   padding: 32px;
   margin: 16px 0 0;
-  opacity: 0.85;
   border-color: rgba(61, 72, 119, 0.6);
+  opacity: 0;
+  visibility: hidden;
 }
 
 .contact-box {
@@ -475,9 +452,11 @@ useGsapContext(() => {
   gap: 24px;
 }
 
-/* Avatar */
+/* Avatar — FOUC prevention */
 .hero-avatar {
   flex-shrink: 0;
+  opacity: 0;
+  visibility: hidden;
 }
 
 .avatar-img {
@@ -514,7 +493,7 @@ h1.hero-name {
   margin-bottom: 8px;
 }
 
-/* Title */
+/* Title — FOUC prevention */
 .hero-title {
   font-family: var(--font-sans);
   font-weight: 400;
@@ -524,20 +503,23 @@ h1.hero-name {
   letter-spacing: 0.01em;
   line-height: 1.4;
   margin: 0 0 20px;
+  opacity: 0;
+  visibility: hidden;
 }
 
-/* Intro */
+/* Intro — FOUC prevention */
 .hero-intro {
   font-family: var(--font-sans);
   font-weight: 400;
   font-size: 0.9375rem;
   color: var(--color-text);
-  opacity: 0.9;
+  opacity: 0;
+  visibility: hidden;
   line-height: 1.7;
   margin: 0;
 }
 
-/* Social Links */
+/* Social Links — FOUC prevention via opacity: 0 + visibility: hidden */
 .social-links {
   display: flex;
   flex-wrap: wrap;
@@ -562,14 +544,10 @@ h1.hero-name {
     color 0.2s cubic-bezier(0.22, 1, 0.36, 1),
     background 0.2s cubic-bezier(0.22, 1, 0.36, 1),
     border-color 0.2s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.2s cubic-bezier(0.22, 1, 0.36, 1),
-    opacity 0.3s cubic-bezier(0, 0.55, 0.45, 1);
+    transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
   opacity: 0;
+  visibility: hidden;
   min-height: 44px;
-}
-
-.social-link.link-visible {
-  opacity: 1;
 }
 
 .social-link:hover {
