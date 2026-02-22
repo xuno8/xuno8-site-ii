@@ -95,12 +95,12 @@ A block cursor character (`█`) SHALL blink at the bottom of the terminal outpu
 ### Requirement: Entry animation sequence
 The Hero SHALL play a 5-phase GSAP animation sequence on load:
 1. Terminal window fades in (0.6s)
-2. `$ whoami` types out character-by-character (0.6s)
-3. Content block border appears (0.3s)
-4. Avatar fades in + name types out + title/intro slide in (0.7s)
-5. `$ contact --list` types out + social links fade in sequentially (0.6s)
+2. `$ whoami` types out character-by-character (~0.5s)
+3. Content block border appears (instant via call)
+4. Avatar fades in + name types out + title/intro slide in (variable, name-length dependent)
+5. `$ contact --list` types out + social links fade in sequentially (~0.6s)
 
-Total animation duration SHALL NOT exceed 3 seconds.
+Total animation duration SHALL be approximately 4 seconds (varies slightly based on name length).
 
 #### Scenario: Animation plays on first load
 - **WHEN** the page loads with motion enabled

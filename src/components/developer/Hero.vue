@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, nextTick } from 'vue';
+import { ref, computed } from 'vue';
 import gsap from 'gsap';
 import { useGsapContext } from '@/composables/useGsapContext';
 import { useReducedMotion } from '@/composables/useReducedMotion';
@@ -74,7 +74,7 @@ useGsapContext(() => {
     },
   });
 
-  // Phase 1: Terminal window fades in (handled by CSS — the container starts with opacity via GSAP)
+  // Phase 1: Terminal window fades in
   tl.from(sectionRef.value!, {
     opacity: 0,
     y: 20,
@@ -104,23 +104,23 @@ useGsapContext(() => {
   );
 
   // Phase 4: Avatar + Name typing + Title + Intro
-  // Use nextTick inside call() to ensure v-if elements are in the DOM before animating
   tl.call(
-    async () => {
+    () => {
       showAvatar.value = true;
-      await nextTick();
-      const avatarEl = sectionRef.value?.querySelector('.hero-avatar');
-      if (avatarEl) {
-        gsap.from(avatarEl, {
-          opacity: 0,
-          scale: 0.9,
-          duration: 0.4,
-          ease: 'power2.out',
-        });
-      }
     },
     [],
     '+=0.1',
+  );
+
+  tl.from(
+    '.hero-avatar',
+    {
+      opacity: 0,
+      scale: 0.9,
+      duration: 0.4,
+      ease: 'power2.out',
+    },
+    '+=0.05',
   );
 
   tl.to(
@@ -134,27 +134,21 @@ useGsapContext(() => {
     '+=0.15',
   );
 
-  tl.call(async () => {
+  tl.call(() => {
     showTitle.value = true;
-    await nextTick();
-    const titleEl = sectionRef.value?.querySelector('.hero-title');
-    if (titleEl) {
-      gsap.from(titleEl, { opacity: 0, y: 10, duration: 0.4, ease: 'power2.out' });
-    }
   });
 
+  tl.from('.hero-title', { opacity: 0, y: 10, duration: 0.4, ease: 'power2.out' }, '+=0.05');
+
   tl.call(
-    async () => {
+    () => {
       showIntro.value = true;
-      await nextTick();
-      const introEl = sectionRef.value?.querySelector('.hero-intro');
-      if (introEl) {
-        gsap.from(introEl, { opacity: 0, y: 10, duration: 0.4, ease: 'power2.out' });
-      }
     },
     [],
     '+=0.1',
   );
+
+  tl.from('.hero-intro', { opacity: 0, y: 10, duration: 0.4, ease: 'power2.out' }, '+=0.05');
 
   // Phase 5: "$ contact --list" types + links appear
   tl.to(
@@ -331,6 +325,7 @@ useGsapContext(() => {
     0 0 0 1px rgba(125, 207, 255, 0.1),
     0 0 64px rgba(125, 207, 255, 0.04);
   overflow: hidden;
+  transform: translateX(-10px);
 }
 
 /* Title Bar */
@@ -476,8 +471,8 @@ useGsapContext(() => {
 }
 
 /* Name */
-.hero-name {
-  font-family: var(--font-mono) !important;
+h1.hero-name {
+  font-family: var(--font-mono);
   font-weight: 500;
   font-size: 2rem;
   color: var(--color-text);
