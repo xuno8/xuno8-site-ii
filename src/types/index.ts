@@ -18,6 +18,7 @@ export interface SiteConfig {
 export interface WorkExperience {
   company: string;
   role: string;
+  location?: string;
   startDate: string;
   endDate: string;
   description: string | string[];

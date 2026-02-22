@@ -103,7 +103,10 @@ function formatDate(date: string): string {
               </span>
             </div>
             <p class="text-sm font-medium mb-3" style="color: var(--color-accent)">
-              {{ exp.company }}
+              {{ exp.company
+              }}<span v-if="exp.location" style="color: var(--color-text-muted)">
+                · {{ exp.location }}</span
+              >
             </p>
             <ul
               v-if="Array.isArray(exp.description)"
