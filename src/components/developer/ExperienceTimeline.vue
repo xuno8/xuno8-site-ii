@@ -98,13 +98,19 @@ function formatDate(date: string): string {
               <h3 class="text-lg font-semibold" style="color: var(--color-text-heading)">
                 {{ exp.role }}
               </h3>
-              <span class="text-sm mt-1 sm:mt-0" style="color: var(--color-text-muted)">
+              <span
+                class="text-sm mt-1 sm:mt-0"
+                style="color: var(--color-text-secondary); font-family: var(--font-mono)"
+              >
                 {{ formatDate(exp.startDate) }} — {{ formatDate(exp.endDate) }}
               </span>
             </div>
             <p class="text-sm font-medium mb-3" style="color: var(--color-accent)">
               {{ exp.company
-              }}<span v-if="exp.location" style="color: var(--color-text-muted)">
+              }}<span
+                v-if="exp.location"
+                style="color: var(--color-text-secondary); font-weight: 600"
+              >
                 · {{ exp.location }}</span
               >
             </p>

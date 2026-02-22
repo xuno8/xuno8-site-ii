@@ -24,7 +24,7 @@
 }
 
 /* Developer mode theme — Tokyo Night inspired */
-[data-theme="developer"] {
+[data-theme='developer'] {
   --color-bg: #1a1b26;
   --color-bg-alt: #24283b;
   --color-bg-card: #292e42;
@@ -35,12 +35,13 @@
   --color-accent-hover: #b4f9f8;
   --color-accent-subtle: rgba(125, 207, 255, 0.15);
   --color-accent-2: #bb9af7;
+  --color-text-secondary: #a9b1d6;
   --color-border: #3d4877;
   --color-border-hover: #545c7e;
 }
 
 /* Photographer mode theme — warm wabi-sabi */
-[data-theme="photographer"] {
+[data-theme='photographer'] {
   --font-sans: 'Hanken Grotesk', system-ui, sans-serif;
   --font-display: 'Newsreader', 'Georgia', serif;
   --color-bg: #0f0e0d;
@@ -53,6 +54,7 @@
   --color-accent-hover: #e8c89f;
   --color-accent-subtle: rgba(212, 165, 116, 0.12);
   --color-accent-2: #9aab8a;
+  --color-text-secondary: #c4b9a8;
   --color-border: #3a352f;
   --color-border-hover: #524b42;
 }
@@ -82,17 +84,21 @@ body {
 }
 
 /* Atmospheric background — developer mode: subtle grid */
-[data-theme="developer"] body::before {
+[data-theme='developer'] body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(125, 207, 255, 0.06), transparent 60%);
+  background: radial-gradient(
+    ellipse 80% 50% at 50% -20%,
+    rgba(125, 207, 255, 0.06),
+    transparent 60%
+  );
   pointer-events: none;
   z-index: 0;
 }
 
 /* Atmospheric background — photographer mode: warm vignette */
-[data-theme="photographer"] body::before {
+[data-theme='photographer'] body::before {
   content: '';
   position: fixed;
   inset: 0;
@@ -101,12 +107,19 @@ body {
   z-index: 0;
 }
 
-main, nav, footer {
+main,
+nav,
+footer {
   position: relative;
   z-index: 1;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-display);
   color: var(--color-text-heading);
   line-height: var(--line-height-tight);
@@ -115,9 +128,9 @@ h1, h2, h3, h4, h5, h6 {
   margin: 0;
 }
 
-[data-theme="photographer"] h1,
-[data-theme="photographer"] h2,
-[data-theme="photographer"] h3 {
+[data-theme='photographer'] h1,
+[data-theme='photographer'] h2,
+[data-theme='photographer'] h3 {
   font-weight: 500;
   letter-spacing: 0;
 }
