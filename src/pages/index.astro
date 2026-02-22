@@ -12,11 +12,16 @@ import MasonryGallery from '@/components/photographer/MasonryGallery.vue';
 import ModeTransitionController from '@/components/shared/ModeTransitionController.vue';
 import { loadSiteConfig, loadExperience, loadProjects, loadSkills, loadPhotos } from '@/utils/data';
 
+import avatarImage from '@/assets/images/ryou.png';
+
 const site = loadSiteConfig();
 const experiences = loadExperience();
 const projects = loadProjects();
 const skills = loadSkills();
 const photosData = loadPhotos();
+
+// Process avatar image for Hero
+const optimizedAvatar = await getImage({ src: avatarImage, width: 160 });
 
 // Batch-process gallery images via import.meta.glob
 const galleryModules = import.meta.glob<{ default: ImageMetadata }>(
@@ -57,7 +62,17 @@ const galleryImages = await Promise.all(
     <!-- Developer Mode sections -->
     <div id="developer-content">
       <div id="hero">
-        <Hero client:load name={site.name} title={site.title} intro={site.intro} />
+        <Hero
+          client:load
+          name={site.name}
+          title={site.title}
+          intro={site.intro}
+          avatarSrc={optimizedAvatar.src}
+          avatarWidth={optimizedAvatar.attributes.width as number}
+          avatarHeight={optimizedAvatar.attributes.height as number}
+          socialLinks={site.socialLinks}
+          email={site.email}
+        />
       </div>
 
       <div id="experience">

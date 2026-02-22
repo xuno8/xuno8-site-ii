@@ -1,20 +1,22 @@
 schema: spec-driven
 
-# Project context (optional)
-# This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
+context: |
+  Tech stack: Astro 5.x (SSG) + Vue 3 islands + UnoCSS (attributify) + Nanostores + GSAP
+  Deployment: Vercel
+  Language: TypeScript
+  Content: YAML files in src/data/ (no database, all static build-time)
+  Styling: CSS custom properties for dual themes (developer / photographer), driven by data-theme attribute
+  Architecture:
+    - Astro owns layout; Vue components are interactive islands (client:load / client:visible)
+    - Images processed via getImage() in .astro files, passed as props to Vue
+    - GSAP lifecycle managed by useGsapContext composable
+    - Mode state via Nanostores atom, persisted to localStorage
+  Path aliases: @/* → src/*, @data/* → src/data/*, @components/* → src/components/*
 
-# Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
+rules:
+  proposal:
+    - Keep proposals concise and focused on a single change
+    - Include a "Non-goals" section to clarify scope
+  tasks:
+    - Clearly note which files need to be created or modified
+    - Separate Astro-side work from Vue island work when applicable
