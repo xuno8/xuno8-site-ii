@@ -7,7 +7,7 @@
     - SaaS
   featured: true
 
-- title: 'Personal Portfolio'
+- title: 'xuno8.com'
   description: 'A dual-mode portfolio site featuring developer and photographer modes with smooth transitions, terminal-themed hero section, and GSAP scroll animations. Built as a single-page Astro SSG with Vue 3 interactive islands.'
   technologies:
     - Astro

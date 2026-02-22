@@ -54,7 +54,7 @@ useGsapContext(() => {
               Featured
             </span>
           </div>
-          <p class="text-sm leading-relaxed mb-4 flex-1" style="color: var(--color-text-muted)">
+          <p class="text-sm leading-relaxed mb-4 flex-1" style="color: var(--color-text-secondary)">
             {{ project.description }}
           </p>
           <div class="flex flex-wrap gap-2 mb-4">
@@ -84,7 +84,7 @@ useGsapContext(() => {
               target="_blank"
               rel="noopener noreferrer"
               class="text-sm font-medium"
-              style="color: var(--color-text-muted)"
+              style="color: var(--color-accent-2)"
             >
               Source Code
             </a>
