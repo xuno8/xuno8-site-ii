@@ -2,7 +2,7 @@
 
 ## Tech Stack
 
-Astro 5.x (SSG) + Vue 3 islands + UnoCSS (attributify) + Nanostores + GSAP (ScrollTrigger) + Vercel
+Astro 5.x (SSG) + Vue 3 islands + UnoCSS (attributify) + Nanostores + GSAP (ScrollTrigger) + Cloudflare Pages
 
 ## Project Structure
 
