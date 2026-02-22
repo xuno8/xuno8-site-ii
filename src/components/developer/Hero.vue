@@ -28,6 +28,18 @@ const platformIcons: Record<string, string> = {
 const emailIcon =
   'M1.5 8.67v8.58a3 3 0 0 0 3 3h15a3 3 0 0 0 3-3V8.67l-8.928 5.493a3 3 0 0 1-3.144 0L1.5 8.67ZM22.5 6.908V6.75a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3v.158l9.714 5.978a1.5 1.5 0 0 0 1.572 0L22.5 6.908Z';
 
+// Fallback icon for unsupported platforms (generic link icon)
+const fallbackIcon =
+  'M13.544 10.456a4.368 4.368 0 0 0-6.176 0l-3.089 3.088a4.367 4.367 0 1 0 6.177 6.177L12 18.177a.75.75 0 0 1 1.06 1.061l-1.544 1.544a5.867 5.867 0 0 1-8.298-8.298l3.089-3.088a5.868 5.868 0 0 1 8.298 0 .75.75 0 1 1-1.06 1.06Zm-3.088-3.088a4.367 4.367 0 0 0 6.177 0l3.088-3.088a4.367 4.367 0 1 0-6.177-6.177L12 9.647A.75.75 0 0 1 10.94 8.586l1.544-1.543a5.867 5.867 0 0 1 8.298 8.298l-3.088 3.088a5.868 5.868 0 0 1-8.298 0 .75.75 0 1 1 1.06-1.06Z';
+
+const getPlatformIcon = (platform: string): string => {
+  const icon = platformIcons[platform];
+  if (!icon && import.meta.env.DEV) {
+    console.warn(`[Hero] No icon found for platform "${platform}". Using fallback icon.`);
+  }
+  return icon || fallbackIcon;
+};
+
 const sectionRef = ref<HTMLElement | null>(null);
 const { prefersReducedMotion } = useReducedMotion();
 
@@ -78,7 +90,7 @@ useGsapContext(() => {
   tl.from(sectionRef.value!, {
     opacity: 0,
     y: 20,
-    duration: 0.6,
+    duration: 0.4,
     ease: 'power2.out',
   });
 
@@ -87,11 +99,11 @@ useGsapContext(() => {
     whoamiChars,
     {
       value: whoamiText.length,
-      duration: 0.5,
+      duration: 0.4,
       ease: 'none',
       snap: { value: 1 },
     },
-    '+=0.1',
+    '+=0.05',
   );
 
   // Phase 3: Content box appears
@@ -100,7 +112,7 @@ useGsapContext(() => {
       showContentBox.value = true;
     },
     [],
-    '+=0.15',
+    '+=0.1',
   );
 
   // Phase 4: Avatar + Name typing + Title + Intro
@@ -109,7 +121,7 @@ useGsapContext(() => {
       showAvatar.value = true;
     },
     [],
-    '+=0.1',
+    '+=0.05',
   );
 
   tl.from(
@@ -117,7 +129,7 @@ useGsapContext(() => {
     {
       opacity: 0,
       scale: 0.9,
-      duration: 0.4,
+      duration: 0.3,
       ease: 'power2.out',
     },
     '+=0.05',
@@ -127,39 +139,39 @@ useGsapContext(() => {
     nameChars,
     {
       value: props.name.length,
-      duration: props.name.length * 0.05,
+      duration: props.name.length * 0.03,
       ease: 'none',
       snap: { value: 1 },
     },
-    '+=0.15',
+    '+=0.08',
   );
 
   tl.call(() => {
     showTitle.value = true;
   });
 
-  tl.from('.hero-title', { opacity: 0, y: 10, duration: 0.4, ease: 'power2.out' }, '+=0.05');
+  tl.from('.hero-title', { opacity: 0, y: 10, duration: 0.3, ease: 'power2.out' }, '+=0.05');
 
   tl.call(
     () => {
       showIntro.value = true;
     },
     [],
-    '+=0.1',
+    '+=0.05',
   );
 
-  tl.from('.hero-intro', { opacity: 0, y: 10, duration: 0.4, ease: 'power2.out' }, '+=0.05');
+  tl.from('.hero-intro', { opacity: 0, y: 10, duration: 0.3, ease: 'power2.out' }, '+=0.05');
 
   // Phase 5: "$ contact --list" types + links appear
   tl.to(
     contactChars,
     {
       value: contactText.length,
-      duration: 0.6,
+      duration: 0.4,
       ease: 'none',
       snap: { value: 1 },
     },
-    '+=0.2',
+    '+=0.1',
   );
 
   tl.call(
@@ -167,7 +179,7 @@ useGsapContext(() => {
       showContactBox.value = true;
     },
     [],
-    '+=0.1',
+    '+=0.05',
   );
 
   // Stagger links
@@ -179,7 +191,7 @@ useGsapContext(() => {
         showLinks.value[i] = true;
       },
       [],
-      i === 0 ? '+=0.05' : '+=0.08',
+      i === 0 ? '+=0.05' : '+=0.06',
     );
   }
 }, sectionRef);
@@ -267,7 +279,7 @@ useGsapContext(() => {
                 fill="currentColor"
                 aria-hidden="true"
               >
-                <path :d="platformIcons[link.platform]" />
+                <path :d="getPlatformIcon(link.platform)" />
               </svg>
               <span>{{ link.label || link.platform }}</span>
             </a>
@@ -322,8 +334,8 @@ useGsapContext(() => {
   background: var(--color-bg);
   box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.6),
-    0 0 0 1px rgba(125, 207, 255, 0.1),
-    0 0 64px rgba(125, 207, 255, 0.04);
+    0 0 0 1px color-mix(in srgb, var(--color-accent) 10%, transparent),
+    0 0 64px color-mix(in srgb, var(--color-accent) 4%, transparent);
   overflow: hidden;
   transform: translateX(-10px);
 }
@@ -334,7 +346,7 @@ useGsapContext(() => {
   align-items: center;
   height: 40px;
   padding: 0 16px;
-  background: linear-gradient(180deg, #24283b 0%, #1f2335 100%);
+  background: linear-gradient(180deg, var(--color-bg-alt) 0%, var(--color-bg) 100%);
   border-bottom: 1px solid var(--color-border);
   gap: 12px;
 }
@@ -388,7 +400,7 @@ useGsapContext(() => {
   font-size: 0.9375rem;
   color: var(--color-accent);
   letter-spacing: 0.03em;
-  text-shadow: 0 0 12px rgba(125, 207, 255, 0.4);
+  text-shadow: 0 0 12px color-mix(in srgb, var(--color-accent) 40%, transparent);
 }
 
 .contact-prompt {
@@ -419,6 +431,12 @@ useGsapContext(() => {
   50%,
   100% {
     opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cursor-blink {
+    animation: none;
   }
 }
 
@@ -458,16 +476,16 @@ useGsapContext(() => {
     linear-gradient(var(--color-bg), var(--color-bg)) padding-box,
     linear-gradient(135deg, #7dcfff 0%, #bb9af7 100%) border-box;
   box-shadow:
-    0 0 24px rgba(125, 207, 255, 0.2),
-    0 0 48px rgba(187, 154, 247, 0.1);
+    0 0 24px color-mix(in srgb, var(--color-accent) 20%, transparent),
+    0 0 48px color-mix(in srgb, var(--color-accent-2) 10%, transparent);
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .avatar-img:hover {
   transform: scale(1.05) rotate(2deg);
   box-shadow:
-    0 0 32px rgba(125, 207, 255, 0.35),
-    0 0 64px rgba(187, 154, 247, 0.18);
+    0 0 32px color-mix(in srgb, var(--color-accent) 35%, transparent),
+    0 0 64px color-mix(in srgb, var(--color-accent-2) 18%, transparent);
 }
 
 /* Name */
@@ -478,7 +496,7 @@ h1.hero-name {
   color: var(--color-text);
   letter-spacing: 0.05em;
   line-height: 1.1;
-  text-shadow: 0 0 20px rgba(187, 154, 247, 0.3);
+  text-shadow: 0 0 20px color-mix(in srgb, var(--color-accent-2) 30%, transparent);
   margin-bottom: 8px;
 }
 
@@ -510,7 +528,7 @@ h1.hero-name {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 4px 16px;
+  gap: 4px 32px;
 }
 
 .social-link {
@@ -540,12 +558,12 @@ h1.hero-name {
 
 .social-link:hover {
   color: var(--color-accent);
-  background: rgba(125, 207, 255, 0.08);
+  background: color-mix(in srgb, var(--color-accent) 8%, transparent);
   border-left-color: var(--color-accent);
 }
 
 .social-link:hover svg {
-  filter: drop-shadow(0 0 8px rgba(125, 207, 255, 0.6));
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--color-accent) 60%, transparent));
 }
 
 .social-link svg {

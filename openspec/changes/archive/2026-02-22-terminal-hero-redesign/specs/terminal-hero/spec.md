@@ -65,7 +65,7 @@ The intro paragraph SHALL be rendered in Figtree 400 at 15px (desktop) / 14px (m
 ### Requirement: Social links in Hero
 The Hero SHALL display social links (GitHub, LinkedIn, Instagram) with SVG icons and text labels, plus an email link with a mail icon.
 
-On desktop, social links SHALL be arranged in a horizontal row with 32px gaps. On mobile, they SHALL stack vertically with 12px gaps.
+On desktop, social links SHALL be arranged in a horizontal row with 32px column gaps and 4px row gaps (using `gap: 4px 32px` to allow wrapping). On mobile, they SHALL stack vertically with 4px gaps.
 
 Each link SHALL open in a new tab (`target="_blank"`, `rel="noopener noreferrer"`).
 
@@ -94,13 +94,13 @@ A block cursor character (`█`) SHALL blink at the bottom of the terminal outpu
 
 ### Requirement: Entry animation sequence
 The Hero SHALL play a 5-phase GSAP animation sequence on load:
-1. Terminal window fades in (0.6s)
-2. `$ whoami` types out character-by-character (~0.5s)
+1. Terminal window fades in (0.4s)
+2. `$ whoami` types out character-by-character (0.4s)
 3. Content block border appears (instant via call)
 4. Avatar fades in + name types out + title/intro slide in (variable, name-length dependent)
-5. `$ contact --list` types out + social links fade in sequentially (~0.6s)
+5. `$ contact --list` types out + social links fade in sequentially (0.4s typing + staggered reveals)
 
-Total animation duration SHALL be approximately 4 seconds (varies slightly based on name length).
+Total animation duration SHALL complete within 3 seconds (varies slightly based on name length).
 
 #### Scenario: Animation plays on first load
 - **WHEN** the page loads with motion enabled
