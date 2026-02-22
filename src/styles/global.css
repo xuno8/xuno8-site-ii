@@ -38,6 +38,8 @@
   --color-text-secondary: #a9b1d6;
   --color-border: #3d4877;
   --color-border-hover: #545c7e;
+  --color-active-bg: rgba(158, 206, 106, 0.15);
+  --color-active-text: #9ece6a;
 }
 
 /* Photographer mode theme — warm wabi-sabi */
@@ -57,6 +59,8 @@
   --color-text-secondary: #c4b9a8;
   --color-border: #3a352f;
   --color-border-hover: #524b42;
+  --color-active-bg: rgba(139, 153, 106, 0.18);
+  --color-active-text: #8b996a;
 }
 
 /* Global styles */
