@@ -21,7 +21,15 @@ const skills = loadSkills();
 const photosData = loadPhotos();
 
 // Process avatar image for Hero
-const optimizedAvatar = await getImage({ src: avatarImage, width: 160 });
+let optimizedAvatar: Awaited<ReturnType<typeof getImage>>;
+try {
+  optimizedAvatar = await getImage({ src: avatarImage, width: 160 });
+} catch (e) {
+  console.error('[index] Failed to optimize avatar image, using raw source:', e);
+  optimizedAvatar = { src: avatarImage.src, attributes: { width: 160, height: 160 } } as Awaited<
+    ReturnType<typeof getImage>
+  >;
+}
 
 // Batch-process gallery images via import.meta.glob
 const galleryModules = import.meta.glob<{ default: ImageMetadata }>(
@@ -29,26 +37,35 @@ const galleryModules = import.meta.glob<{ default: ImageMetadata }>(
   { eager: true },
 );
 
-const galleryImages = await Promise.all(
+const galleryResults = await Promise.all(
   photosData.map(async (photo) => {
     const modulePath = `../assets/images/gallery/${photo.src.replace('gallery/', '')}`;
     const mod = galleryModules[modulePath];
     if (!mod) {
-      throw new Error(`Missing gallery image: ${photo.src} (expected at ${modulePath})`);
+      console.warn(
+        `[index] Missing gallery image: ${photo.src} (expected at ${modulePath}), skipping`,
+      );
+      return null;
     }
-    const optimized = await getImage({ src: mod.default, width: 800 });
-    return {
-      src: optimized.src,
-      width: (optimized.attributes.width as number) ?? 800,
-      height: (optimized.attributes.height as number) ?? 600,
-      alt: photo.alt,
-      caption: photo.caption,
-      date: photo.date,
-      location: photo.location,
-      camera: photo.camera,
-    };
+    try {
+      const optimized = await getImage({ src: mod.default, width: 800 });
+      return {
+        src: optimized.src,
+        width: (optimized.attributes.width as number) ?? 800,
+        height: (optimized.attributes.height as number) ?? 600,
+        alt: photo.alt,
+        caption: photo.caption,
+        date: photo.date,
+        location: photo.location,
+        camera: photo.camera,
+      };
+    } catch (e) {
+      console.warn(`[index] Failed to optimize gallery image: ${photo.src}, skipping:`, e);
+      return null;
+    }
   }),
 );
+const galleryImages = galleryResults.filter((img) => img !== null);
 ---
 
 <Layout>
@@ -140,14 +157,24 @@ const galleryImages = await Promise.all(
 <script>
   const wrapper = document.getElementById('toggle-wrapper');
   let lastScrollY = window.scrollY;
+  let ticking = false;
 
-  window.addEventListener('scroll', () => {
-    const currentY = window.scrollY;
-    if (currentY < 100 || currentY < lastScrollY) {
-      wrapper?.classList.remove('vapor-hidden');
-    } else if (currentY > lastScrollY) {
-      wrapper?.classList.add('vapor-hidden');
-    }
-    lastScrollY = currentY;
-  });
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const currentY = window.scrollY;
+        if (currentY < 100 || currentY < lastScrollY) {
+          wrapper?.classList.remove('vapor-hidden');
+        } else if (currentY > lastScrollY) {
+          wrapper?.classList.add('vapor-hidden');
+        }
+        lastScrollY = currentY;
+        ticking = false;
+      });
+    },
+    { passive: true },
+  );
 </script>

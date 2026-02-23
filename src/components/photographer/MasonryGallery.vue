@@ -7,8 +7,6 @@ import { useReducedMotion } from '@/composables/useReducedMotion';
 import Lightbox from './Lightbox.vue';
 import { useLightbox } from '@/composables/useLightbox';
 
-gsap.registerPlugin(ScrollTrigger);
-
 export interface GalleryImage {
   src: string;
   width: number;

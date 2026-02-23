@@ -1,10 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGsapContext } from '@/composables/useGsapContext';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const sections = [
   { id: 'hero', label: 'Hero' },

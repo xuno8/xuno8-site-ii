@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import type { Project } from '@/types';
 import { useGsapContext } from '@/composables/useGsapContext';
 import { useReducedMotion } from '@/composables/useReducedMotion';
-
-gsap.registerPlugin(ScrollTrigger);
 
 defineProps<{
   projects: Project[];
