@@ -740,6 +740,7 @@ h1.hero-name {
   visibility: hidden;
   line-height: 1.7;
   margin: 0;
+  text-align: justify;
 }
 
 /* Social Links — FOUC prevention via opacity: 0 + visibility: hidden */
