@@ -29,3 +29,6 @@ Thumbs.db
 .idea/
 *.swp
 *.tmp
+
+# Claude Code local overrides
+.claude.local.md
