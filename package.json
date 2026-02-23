@@ -32,8 +32,11 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@iconify-json/lucide": "^1.2.93",
+    "@iconify-json/simple-icons": "^1.2.71",
     "@rollup/plugin-yaml": "^4.1.2",
     "@unocss/preset-attributify": "^66.6.0",
+    "@unocss/preset-icons": "^66.6.0",
     "@unocss/preset-uno": "^66.6.0",
     "@unocss/reset": "^66.6.0",
     "eslint": "10.0.1",

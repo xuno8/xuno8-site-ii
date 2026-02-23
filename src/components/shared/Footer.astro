@@ -2,16 +2,50 @@
 import { loadSiteConfig } from '@/utils/data';
 
 const site = loadSiteConfig();
+
+const iconClassMap: Record<string, string> = {
+  github: 'i-simple-icons-github',
+  linkedin: 'i-simple-icons-linkedin',
+  instagram: 'i-simple-icons-instagram',
+};
 ---
 
 <footer
   class="py-8 mt-16"
   style="border-top: 1px solid var(--color-border); background-color: var(--color-bg-alt);"
 >
-  <div class="max-w-6xl mx-auto px-4 flex justify-center">
+  <div class="max-w-6xl mx-auto px-4 flex flex-col items-center gap-4">
+    <nav class="flex gap-4" aria-label="Social links">
+      {
+        site.socialLinks.map((link) => (
+          <a
+            href={link.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={link.label || link.platform}
+            class="footer-link"
+          >
+            <span class={`${iconClassMap[link.platform] || ''} text-xl inline-block`} />
+          </a>
+        ))
+      }
+      <a href={`mailto:${site.email}`} aria-label="Email" class="footer-link">
+        <span class="i-lucide-mail text-xl inline-block"></span>
+      </a>
+    </nav>
     <p class="text-xs" style="color: var(--color-text-muted);">
       &copy; {new Date().getFullYear()}
       {site.name}
     </p>
   </div>
 </footer>
+
+<style>
+  .footer-link {
+    color: var(--color-text-muted);
+    transition: color 0.2s ease;
+  }
+  .footer-link:hover {
+    color: var(--color-accent);
+  }
+</style>

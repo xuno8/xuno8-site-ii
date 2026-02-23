@@ -1,6 +1,7 @@
 import { defineConfig, presetUno } from 'unocss';
 import presetAttributify from '@unocss/preset-attributify';
+import presetIcons from '@unocss/preset-icons';
 
 export default defineConfig({
-  presets: [presetUno(), presetAttributify()],
+  presets: [presetUno(), presetAttributify(), presetIcons()],
 });
