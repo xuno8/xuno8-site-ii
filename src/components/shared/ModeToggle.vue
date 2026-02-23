@@ -17,36 +17,41 @@ function toggle() {
     :aria-checked="mode === 'photographer'"
     @click="toggle"
   >
-    <!-- Developer icon -->
+    <!-- Photographer icon (left side — visible when knob is right / photographer mode) -->
     <span
-      class="absolute left-2 top-1/2 -translate-y-1/2 pointer-events-none"
+      class="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
       :style="{
-        opacity: mode === 'developer' ? '0' : '0.4',
-        color: 'var(--color-text-muted)',
-        fontSize: '11px',
-        fontFamily: 'var(--font-mono)',
-        fontWeight: '600',
-        transition: 'opacity 200ms ease',
-      }"
-      >&lt;/&gt;</span
-    >
-
-    <!-- Photographer icon -->
-    <span
-      class="absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none"
-      :style="{
-        opacity: mode === 'photographer' ? '0' : '0.4',
-        color: 'var(--color-text-muted)',
-        fontSize: '13px',
-        transition: 'opacity 200ms ease',
+        opacity: mode === 'photographer' ? '0.85' : '0',
+        color: 'var(--color-accent)',
+        transform:
+          mode === 'photographer' ? 'translateY(-50%) scale(1)' : 'translateY(-50%) scale(0.8)',
+        transition:
+          'opacity 250ms cubic-bezier(0.22, 1, 0.36, 1), transform 250ms cubic-bezier(0.22, 1, 0.36, 1)',
       }"
     >
-      <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+      <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor">
         <path
           d="M12 15.2A3.2 3.2 0 1 0 12 8.8a3.2 3.2 0 0 0 0 6.4ZM9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9Zm3 15a5 5 0 1 1 0-10 5 5 0 0 1 0 10Z"
         />
       </svg>
     </span>
+
+    <!-- Developer icon (right side — visible when knob is left / developer mode) -->
+    <span
+      class="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none"
+      :style="{
+        opacity: mode === 'developer' ? '0.85' : '0',
+        color: 'var(--color-accent)',
+        fontSize: '10px',
+        fontFamily: 'var(--font-mono)',
+        fontWeight: '700',
+        transform:
+          mode === 'developer' ? 'translateY(-50%) scale(1)' : 'translateY(-50%) scale(0.8)',
+        transition:
+          'opacity 250ms cubic-bezier(0.22, 1, 0.36, 1), transform 250ms cubic-bezier(0.22, 1, 0.36, 1)',
+      }"
+      >&lt;/&gt;</span
+    >
 
     <!-- Toggle knob -->
     <span
@@ -99,7 +104,7 @@ function toggle() {
   inset: 0;
   border-radius: inherit;
   background: var(--glass-highlight);
-  opacity: 0.8;
+  opacity: 0.5;
   z-index: 1;
   pointer-events: none;
   transition: opacity 200ms ease;
@@ -116,7 +121,7 @@ function toggle() {
 }
 
 .mode-toggle:hover::after {
-  opacity: 1;
+  opacity: 0.85;
 }
 
 .mode-toggle:active {
