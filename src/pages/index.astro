@@ -52,6 +52,29 @@ const galleryImages = await Promise.all(
 ---
 
 <Layout>
+  <!-- Liquid Glass SVG filter (Chromium-only refraction enhancement) -->
+  <svg style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">
+    <defs>
+      <filter id="liquid-glass-filter" color-interpolation-filters="sRGB">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency="0.015"
+          numOctaves="2"
+          seed="3"
+          result="noise"></feTurbulence>
+        <feDisplacementMap
+          in="SourceGraphic"
+          in2="noise"
+          scale="6"
+          xChannelSelector="R"
+          yChannelSelector="G"
+          result="displaced"></feDisplacementMap>
+        <feGaussianBlur in="displaced" stdDeviation="0.5" result="softened"></feGaussianBlur>
+        <feComposite in="softened" in2="SourceGraphic" operator="in"></feComposite>
+      </filter>
+    </defs>
+  </svg>
+
   <div id="toggle-wrapper" class="fixed top-4 left-1/2 -translate-x-1/2 z-50">
     <ModeToggle client:load />
   </div>

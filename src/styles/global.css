@@ -40,6 +40,18 @@
   --color-border-hover: #545c7e;
   --color-active-bg: rgba(158, 206, 106, 0.15);
   --color-active-text: #9ece6a;
+
+  /* Liquid Glass */
+  --glass-bg: rgba(125, 207, 255, 0.08);
+  --glass-bg-fallback: rgba(41, 46, 66, 0.85);
+  --glass-border: rgba(125, 207, 255, 0.18);
+  --glass-highlight: linear-gradient(
+    135deg,
+    rgba(125, 207, 255, 0.2) 0%,
+    rgba(180, 249, 248, 0.05) 50%,
+    transparent 100%
+  );
+  --glass-shadow: rgba(26, 27, 38, 0.6);
 }
 
 /* Photographer mode theme — warm wabi-sabi */
@@ -61,6 +73,18 @@
   --color-border-hover: #524b42;
   --color-active-bg: rgba(139, 153, 106, 0.18);
   --color-active-text: #8b996a;
+
+  /* Liquid Glass */
+  --glass-bg: rgba(212, 165, 116, 0.06);
+  --glass-bg-fallback: rgba(37, 35, 32, 0.85);
+  --glass-border: rgba(212, 165, 116, 0.15);
+  --glass-highlight: linear-gradient(
+    135deg,
+    rgba(240, 235, 229, 0.15) 0%,
+    rgba(212, 165, 116, 0.05) 50%,
+    transparent 100%
+  );
+  --glass-shadow: rgba(15, 14, 13, 0.6);
 }
 
 /* Global styles */

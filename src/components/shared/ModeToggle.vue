@@ -11,12 +11,7 @@ function toggle() {
 
 <template>
   <button
-    class="mode-toggle relative flex items-center w-20 h-10 rounded-full cursor-pointer border-0 p-1.5"
-    :style="{
-      backgroundColor: 'var(--color-bg-card)',
-      border: '2px solid var(--color-border)',
-      boxShadow: `0 0 16px var(--color-accent-subtle), inset 0 2px 4px rgba(0,0,0,0.2)`,
-    }"
+    class="mode-toggle relative flex items-center w-20 h-10 rounded-full cursor-pointer p-1.5"
     :aria-label="`Switch to ${mode === 'developer' ? 'photographer' : 'developer'} mode`"
     role="switch"
     :aria-checked="mode === 'photographer'"
@@ -55,12 +50,9 @@ function toggle() {
 
     <!-- Toggle knob -->
     <span
-      class="block w-6 h-6 rounded-full shadow-lg"
+      class="toggle-knob block w-6 h-6 rounded-full"
       :style="{
-        background: `linear-gradient(135deg, var(--color-accent), var(--color-accent-hover))`,
         transform: mode === 'photographer' ? 'translateX(40px)' : 'translateX(0)',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
-        transition: 'transform 300ms cubic-bezier(0.22, 1, 0.36, 1)',
       }"
     />
     <span class="sr-only"> {{ mode === 'developer' ? 'Developer' : 'Photographer' }} mode </span>
@@ -69,16 +61,98 @@ function toggle() {
 
 <style scoped>
 .mode-toggle {
+  border: 1px solid var(--glass-border);
+  background: var(--glass-bg-fallback);
+  box-shadow:
+    0 4px 16px var(--glass-shadow),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  overflow: hidden;
   transition:
     transform 150ms ease,
-    box-shadow 150ms ease;
+    box-shadow 200ms ease,
+    border-color 200ms ease;
 }
+
+/* Backdrop blur glass layer */
+@supports (backdrop-filter: blur(1px)) {
+  .mode-toggle {
+    background: var(--glass-bg);
+  }
+
+  .mode-toggle::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    backdrop-filter: url(#liquid-glass-filter) blur(20px) saturate(1.8);
+    -webkit-backdrop-filter: blur(20px) saturate(1.8);
+    z-index: 0;
+    pointer-events: none;
+  }
+}
+
+/* Specular highlight layer */
+.mode-toggle::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--glass-highlight);
+  opacity: 0.8;
+  z-index: 1;
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}
+
 .mode-toggle:hover {
   transform: scale(1.05);
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 4px 24px var(--glass-shadow),
+    0 0 20px var(--color-accent-subtle),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.1);
 }
+
+.mode-toggle:hover::after {
+  opacity: 1;
+}
+
 .mode-toggle:active {
   transform: scale(0.98);
 }
+
+/* Toggle knob */
+.toggle-knob {
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-accent-hover));
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.35),
+    0 0 4px var(--color-accent-subtle);
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Icons above glass layers */
+.mode-toggle > span {
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mode-toggle::after {
+    transition: none;
+  }
+
+  .mode-toggle {
+    transition: none;
+  }
+
+  .toggle-knob {
+    transition: none;
+  }
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
