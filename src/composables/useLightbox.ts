@@ -1,19 +1,22 @@
 import { ref, onUnmounted } from 'vue';
+import { lightboxOpen } from '@/stores/lightbox';
 
 export function useLightbox(totalItems: () => number) {
-  const isOpen = ref(false);
+  const isVisible = ref(false);
   const currentIndex = ref(0);
   let savedScrollY = 0;
 
   function open(index: number) {
     savedScrollY = window.scrollY;
     currentIndex.value = index;
-    isOpen.value = true;
+    isVisible.value = true;
+    lightboxOpen.set(true);
     document.body.style.overflow = 'hidden';
   }
 
   function close() {
-    isOpen.value = false;
+    isVisible.value = false;
+    lightboxOpen.set(false);
     document.body.style.overflow = '';
     window.scrollTo(0, savedScrollY);
   }
@@ -33,10 +36,11 @@ export function useLightbox(totalItems: () => number) {
   }
 
   onUnmounted(() => {
-    if (isOpen.value) {
+    if (isVisible.value) {
+      lightboxOpen.set(false);
       document.body.style.overflow = '';
     }
   });
 
-  return { isOpen, currentIndex, open, close, next, prev };
+  return { isVisible, currentIndex, open, close, next, prev };
 }

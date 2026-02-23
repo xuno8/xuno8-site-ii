@@ -24,7 +24,7 @@ const props = defineProps<{
 
 const galleryRef = ref<HTMLElement | null>(null);
 const { prefersReducedMotion } = useReducedMotion();
-const { isOpen, currentIndex, open, close, next, prev } = useLightbox(() => props.images.length);
+const { isVisible, currentIndex, open, close, next, prev } = useLightbox(() => props.images.length);
 const failedImages = ref<Set<number>>(new Set());
 
 function onImageError(index: number) {
@@ -91,14 +91,16 @@ useGsapContext(() => {
       </div>
     </div>
 
-    <Lightbox
-      v-if="isOpen"
-      :images="images"
-      :current-index="currentIndex"
-      @close="close"
-      @next="next"
-      @prev="prev"
-    />
+    <Teleport to="body">
+      <Lightbox
+        v-if="isVisible"
+        :images="images"
+        :current-index="currentIndex"
+        @close="close"
+        @next="next"
+        @prev="prev"
+      />
+    </Teleport>
   </section>
 </template>
 

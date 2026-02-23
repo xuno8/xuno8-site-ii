@@ -152,17 +152,38 @@ const galleryImages = galleryResults.filter((img) => img !== null);
     filter: blur(8px);
     pointer-events: none;
   }
+  #toggle-wrapper.lightbox-hidden,
+  footer.lightbox-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 250ms ease;
+  }
 </style>
 
 <script>
+  import { lightboxOpen } from '@/stores/lightbox';
+
   const wrapper = document.getElementById('toggle-wrapper');
+  const footer = document.querySelector('footer');
   let lastScrollY = window.scrollY;
   let ticking = false;
+  let lightboxActive = false;
+
+  lightboxOpen.subscribe((open) => {
+    lightboxActive = open;
+    if (open) {
+      wrapper?.classList.add('lightbox-hidden');
+      footer?.classList.add('lightbox-hidden');
+    } else {
+      wrapper?.classList.remove('lightbox-hidden');
+      footer?.classList.remove('lightbox-hidden');
+    }
+  });
 
   window.addEventListener(
     'scroll',
     () => {
-      if (ticking) return;
+      if (ticking || lightboxActive) return;
       ticking = true;
       requestAnimationFrame(() => {
         const currentY = window.scrollY;
