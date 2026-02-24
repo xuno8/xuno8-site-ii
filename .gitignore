@@ -20,6 +20,9 @@ dist/
 # Logs
 *.log
 
+# Photos (originals stored in Cloudflare R2)
+photo_temp/
+
 # OS
 .DS_Store
 Thumbs.db

@@ -31,41 +31,19 @@ try {
   >;
 }
 
-// Batch-process gallery images via import.meta.glob
-const galleryModules = import.meta.glob<{ default: ImageMetadata }>(
-  '../assets/images/gallery/*.{jpg,jpeg,png,webp}',
-  { eager: true },
-);
+// Gallery images served from Cloudflare R2
+const R2_BASE = 'https://pub-845b70163b814bd0bd05c1c918fbe89f.r2.dev/';
 
-const galleryResults = await Promise.all(
-  photosData.map(async (photo) => {
-    const modulePath = `../assets/images/gallery/${photo.src.replace('gallery/', '')}`;
-    const mod = galleryModules[modulePath];
-    if (!mod) {
-      console.warn(
-        `[index] Missing gallery image: ${photo.src} (expected at ${modulePath}), skipping`,
-      );
-      return null;
-    }
-    try {
-      const optimized = await getImage({ src: mod.default, width: 800 });
-      return {
-        src: optimized.src,
-        width: (optimized.attributes.width as number) ?? 800,
-        height: (optimized.attributes.height as number) ?? 600,
-        alt: photo.alt,
-        caption: photo.caption,
-        date: photo.date,
-        location: photo.location,
-        camera: photo.camera,
-      };
-    } catch (e) {
-      console.warn(`[index] Failed to optimize gallery image: ${photo.src}, skipping:`, e);
-      return null;
-    }
-  }),
-);
-const galleryImages = galleryResults.filter((img) => img !== null);
+const galleryImages = photosData.map((photo) => ({
+  src: `${R2_BASE}${photo.src}`,
+  width: photo.width,
+  height: photo.height,
+  alt: photo.alt,
+  caption: photo.caption,
+  date: photo.date,
+  location: photo.location,
+  camera: photo.camera,
+}));
 ---
 
 <Layout>

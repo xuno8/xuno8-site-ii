@@ -1,34 +1,184 @@
-- src: 'gallery/photo-01.jpg'
-  alt: 'Golden hour light streaming through cherry blossom trees in a quiet park'
-  caption: 'Cherry Blossom Season'
-  date: '2025-04-02'
-  location: 'Tokyo, Japan'
-  camera: 'Sony A7IV, 35mm f/1.4'
+- src: '20190813-DSC05349.jpg'
+  alt: '20190813-DSC05349'
+  width: 4484
+  height: 2989
 
-- src: 'gallery/photo-02.jpg'
-  alt: 'A misty mountain range at dawn with layered silhouettes'
-  caption: 'Layers of Dawn'
-  date: '2025-07-18'
-  location: 'Alishan, Taiwan'
-  camera: 'Sony A7IV, 70-200mm f/2.8'
+- src: '20191012-DSC06543.jpg'
+  alt: '20191012-DSC06543'
+  width: 3714
+  height: 2476
 
-- src: 'gallery/photo-03.jpg'
-  alt: 'Neon-lit street in the rain with reflections on wet pavement'
-  caption: 'Neon Rain'
-  date: '2025-09-10'
-  location: 'Hong Kong'
-  camera: 'Fuji X-T5, 23mm f/1.4'
+- src: '20200128-DSC09572.jpg'
+  alt: '20200128-DSC09572'
+  width: 2624
+  height: 3936
 
-- src: 'gallery/photo-04.jpg'
-  alt: 'Aerial view of turquoise ocean waves crashing on a sandy beach'
-  caption: 'Coastline From Above'
-  date: '2025-05-22'
-  location: 'Kenting, Taiwan'
-  camera: 'DJI Mavic 3'
+- src: '20210201-DSC06613.jpg'
+  alt: '20210201-DSC06613'
+  width: 4861
+  height: 3241
 
-- src: 'gallery/photo-05.jpg'
-  alt: 'An elderly craftsman working on pottery in a sunlit workshop'
-  caption: 'The Potter'
-  date: '2025-11-05'
-  location: 'Yingge, Taiwan'
-  camera: 'Sony A7IV, 85mm f/1.8'
+- src: '20210404-DSC07521.jpg'
+  alt: '20210404-DSC07521'
+  width: 3611
+  height: 2579
+
+- src: '20210829-DSC04594.jpg'
+  alt: '20210829-DSC04594'
+  width: 6000
+  height: 4000
+
+- src: '20210917-DSC04791.jpg'
+  alt: '20210917-DSC04791'
+  width: 6000
+  height: 4000
+
+- src: 'DSC04635.jpg'
+  alt: 'DSC04635'
+  width: 6000
+  height: 4000
+
+- src: 'DSC01753.jpg'
+  alt: 'DSC01753'
+  width: 3936
+  height: 2624
+
+- src: '20240211_DSC00561.png'
+  alt: '20240211_DSC00561'
+  width: 6000
+  height: 4000
+
+- src: '20240414-DSC02741.png'
+  alt: '20240414-DSC02741'
+  width: 5797
+  height: 3865
+
+- src: '20240502-DSC06216.png'
+  alt: '20240502-DSC06216'
+  width: 2710
+  height: 4065
+
+- src: '20240502-DSC06222.png'
+  alt: '20240502-DSC06222'
+  width: 4000
+  height: 6000
+
+- src: '20240503-DSC06317.png'
+  alt: '20240503-DSC06317'
+  width: 3736
+  height: 5604
+
+- src: '20240503-DSC06326.png'
+  alt: '20240503-DSC06326'
+  width: 5790
+  height: 3860
+
+- src: '20240504-DSC06589.png'
+  alt: '20240504-DSC06589'
+  width: 4000
+  height: 6000
+
+- src: '20240505-DSC06701.png'
+  alt: '20240505-DSC06701'
+  width: 3418
+  height: 5127
+
+- src: '20240505-DSC06753.png'
+  alt: '20240505-DSC06753'
+  width: 2193
+  height: 3290
+
+- src: '20240505-DSC06915.png'
+  alt: '20240505-DSC06915'
+  width: 5021
+  height: 3347
+
+- src: '20240506-DSC07075.png'
+  alt: '20240506-DSC07075'
+  width: 4000
+  height: 6000
+
+- src: '20240506-DSC07082.png'
+  alt: '20240506-DSC07082'
+  width: 3805
+  height: 5708
+
+- src: '20240506-DSC07086.png'
+  alt: '20240506-DSC07086'
+  width: 3796
+  height: 5694
+
+- src: '20240506-DSC07285.png'
+  alt: '20240506-DSC07285'
+  width: 3361
+  height: 5042
+
+- src: '20240824-DSC07574.png'
+  alt: '20240824-DSC07574'
+  width: 5989
+  height: 2549
+
+- src: '20240824-DSC07641.png'
+  alt: '20240824-DSC07641'
+  width: 5991
+  height: 2549
+
+- src: '20240824-DSC07679.png'
+  alt: '20240824-DSC07679'
+  width: 5988
+  height: 2548
+
+- src: '20241013-DSC03051.png'
+  alt: '20241013-DSC03051'
+  width: 2308
+  height: 3462
+
+- src: '20250214-DSC09019.png'
+  alt: '20250214-DSC09019'
+  width: 3096
+  height: 4644
+
+- src: '20251025-R0000754.JPG'
+  alt: '20251025-R0000754'
+  width: 6192
+  height: 4128
+
+- src: '20251027-R0000984.JPG'
+  alt: '20251027-R0000984'
+  width: 6192
+  height: 4128
+
+- src: '20251027-R0001205.JPG'
+  alt: '20251027-R0001205'
+  width: 6192
+  height: 4128
+
+- src: '20251027-R0001281.JPG'
+  alt: '20251027-R0001281'
+  width: 6192
+  height: 4128
+
+- src: '20251027-R0001344.JPG'
+  alt: '20251027-R0001344'
+  width: 6192
+  height: 4128
+
+- src: '20251027-R0001362.JPG'
+  alt: '20251027-R0001362'
+  width: 6192
+  height: 4128
+
+- src: '20251027-R0001371.JPG'
+  alt: '20251027-R0001371'
+  width: 6192
+  height: 4128
+
+- src: '20251028-R0001449.JPG'
+  alt: '20251028-R0001449'
+  width: 6192
+  height: 4128
+
+- src: '20251028-R0001716.JPG'
+  alt: '20251028-R0001716'
+  width: 6192
+  height: 4128

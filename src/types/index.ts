@@ -42,11 +42,12 @@ export interface SkillCategory {
 export interface Photograph {
   src: string;
   alt: string;
+  width: number;
+  height: number;
   caption?: string;
   date?: string;
   location?: string;
   camera?: string;
-  aspectRatio?: number;
 }
 
 export type Mode = 'developer' | 'photographer';
