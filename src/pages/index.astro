@@ -45,6 +45,12 @@ const galleryImages = photosData.map((photo) => ({
   location: photo.location,
   camera: photo.camera,
 }));
+
+// Fisher-Yates shuffle for random gallery order on each build
+for (let i = galleryImages.length - 1; i > 0; i--) {
+  const j = Math.floor(Math.random() * (i + 1));
+  [galleryImages[i], galleryImages[j]] = [galleryImages[j], galleryImages[i]];
+}
 ---
 
 <Layout>
