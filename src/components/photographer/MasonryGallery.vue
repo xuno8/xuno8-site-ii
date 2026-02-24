@@ -9,6 +9,7 @@ import { useLightbox } from '@/composables/useLightbox';
 
 export interface GalleryImage {
   src: string;
+  thumbSrc: string;
   width: number;
   height: number;
   alt: string;
@@ -63,7 +64,7 @@ useGsapContext(() => {
         >
           <template v-if="!failedImages.has(index)">
             <img
-              :src="image.src"
+              :src="image.thumbSrc"
               :width="image.width"
               :height="image.height"
               :alt="image.alt"

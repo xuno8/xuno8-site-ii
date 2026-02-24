@@ -32,10 +32,11 @@ try {
 }
 
 // Gallery images served from Cloudflare R2
-const R2_BASE = 'https://pub-845b70163b814bd0bd05c1c918fbe89f.r2.dev/';
+const R2_BASE = 'https://images.xuno8.com';
 
 const galleryImages = photosData.map((photo) => ({
-  src: `${R2_BASE}${photo.src}`,
+  src: `${R2_BASE}/${photo.src}`,
+  thumbSrc: `${R2_BASE}/cdn-cgi/image/width=800,quality=80,format=auto,onerror=redirect/${photo.src}`,
   width: photo.width,
   height: photo.height,
   alt: photo.alt,

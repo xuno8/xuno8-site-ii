@@ -17,11 +17,15 @@
 - **THEN** 照片 SHALL 按拍攝日期由舊到新排序
 
 ### Requirement: R2 base URL configured as constant
-R2 圖片的 base URL SHALL 定義為單一常數，前端元件透過 `baseURL + src` 拼接完整圖片 URL。
+R2 圖片的 base URL SHALL 定義為單一常數，使用 custom domain `https://images.xuno8.com`。前端元件透過 `baseURL + src` 拼接完整圖片 URL。
 
 #### Scenario: Base URL change propagates globally
 - **WHEN** R2 domain 變更
 - **THEN** 只需修改一處常數，所有圖片 URL 自動更新
+
+#### Scenario: Custom domain used instead of r2.dev
+- **WHEN** 產生圖片 URL
+- **THEN** base URL SHALL 為 `https://images.xuno8.com` 而非 `r2.dev` 公開 URL
 
 ### Requirement: index.astro uses YAML data directly
 `index.astro` SHALL 從 `photos.yaml` 讀取照片資料並拼接 R2 URL，不再使用 `import.meta.glob` 或 `getImage()` 處理 gallery 圖片。
