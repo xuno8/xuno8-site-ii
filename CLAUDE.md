@@ -55,9 +55,9 @@ UnoCSS preset-icons — prefix format: `i-{collection}-{icon}`
 - **GSAP lifecycle**: Always use `useGsapContext` composable — creates in `onMounted`, reverts in `onUnmounted`. ScrollTrigger is registered centrally in `useGsapContext`; do **not** call `gsap.registerPlugin(ScrollTrigger)` in individual components. Exception: `Hero.vue` manages GSAP context manually because the `clear` command needs to kill and rebuild the entry timeline.
 - **Dual theme**: `data-theme` attribute on `<html>` drives CSS custom properties in `global.css`
 - **Content**: Edit YAML files in `src/data/` — no database, all static build-time
-- **Mode state**: Nanostores `currentMode` atom shared across islands, persisted to `localStorage`
+- **Mode state**: Nanostores `currentMode` atom shared across islands, always initializes as `'developer'` (no persistence)
 - **Nanostores in Vue**: Use `@nanostores/vue`'s `useStore(atom)` to get a reactive ref — do **not** call `atom.get()` directly in Vue components
-- **Pre-hydration**: `Layout.astro` contains an `is:inline` script that runs synchronously before hydration to avoid FOUC — reads `localStorage`, sets `data-theme`, stores initial state in `window.__INITIAL_MODE__` / `window.__FAVICONS__` / `window.__TITLES__`
+- **Pre-hydration**: `Layout.astro` contains an `is:inline` script that runs synchronously before hydration — sets developer favicon and title, exposes `window.__FAVICONS__` / `window.__TITLES__` for runtime mode switching
 - **Hydration strategy**: `client:load` for above-fold / critical interaction (ModeToggle, Hero, MasonryGallery); `client:visible` for below-fold sections (ExperienceTimeline, SkillsGrid, ProjectCards, SectionNav)
 - **Batch image processing**: `index.astro` uses `import.meta.glob(..., { eager: true })` + `getImage()` to optimize gallery photos, passing results as props to Vue. Missing/failed images are skipped with a warning.
 - **YAML imports**: `@rollup/plugin-yaml` (registered in `astro.config.ts`) allows direct `import` of `.yaml` files as objects. `env.d.ts` contains the necessary TypeScript module declaration.

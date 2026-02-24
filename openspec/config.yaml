@@ -10,7 +10,7 @@ context: |
     - Astro owns layout; Vue components are interactive islands (client:load / client:visible)
     - Images processed via getImage() in .astro files, passed as props to Vue
     - GSAP lifecycle managed by useGsapContext composable
-    - Mode state via Nanostores atom, persisted to localStorage
+    - Mode state via Nanostores atom, always initializes as 'developer' (no persistence)
   Path aliases: @/* → src/*, @data/* → src/data/*, @components/* → src/components/*
 
 rules:
