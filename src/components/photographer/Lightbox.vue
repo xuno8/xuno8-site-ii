@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, onMounted, onUnmounted, nextTick } from 'vue';
+import { computed, ref, watch, onMounted, onUnmounted, nextTick } from 'vue';
 import gsap from 'gsap';
 import { useReducedMotion } from '@/composables/useReducedMotion';
 import type { GalleryImage } from './MasonryGallery.vue';
@@ -21,6 +21,18 @@ const hasCaption = computed(
 );
 
 const { prefersReducedMotion } = useReducedMotion();
+const fullImageLoaded = ref(false);
+
+function onFullImageLoad() {
+  fullImageLoaded.value = true;
+}
+
+watch(
+  () => props.currentIndex,
+  () => {
+    fullImageLoaded.value = false;
+  },
+);
 
 const backdropRef = ref<HTMLElement | null>(null);
 const imageRef = ref<HTMLElement | null>(null);
@@ -226,10 +238,22 @@ onUnmounted(() => {
     <!-- Image container -->
     <div class="relative w-full h-full flex items-center justify-center px-12">
       <div ref="imageRef" class="relative">
+        <!-- Blurred thumbnail preview (cached, shows immediately; hidden once full image loads) -->
         <img
+          v-show="!fullImageLoaded"
+          :key="'thumb-' + currentIndex"
+          :src="current.thumbSrc"
+          :alt="current.alt"
+          class="max-w-full max-h-[92vh] object-contain mx-auto block lightbox-thumb"
+        />
+        <!-- Full-size image (loads over thumbnail) -->
+        <img
+          :key="'full-' + currentIndex"
           :src="current.src"
           :alt="current.alt"
-          class="max-w-full max-h-[92vh] object-contain mx-auto block"
+          class="max-w-full max-h-[92vh] object-contain mx-auto block lightbox-full"
+          :class="{ 'is-loaded': fullImageLoaded }"
+          @load="onFullImageLoad"
         />
         <!-- Floating caption overlay -->
         <div
@@ -267,5 +291,37 @@ onUnmounted(() => {
 
 .lightbox-control:hover {
   background-color: rgba(255, 255, 255, 0.2);
+}
+
+.lightbox-thumb {
+  filter: blur(8px);
+  transform: scale(1.03);
+}
+
+.lightbox-full {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+
+.lightbox-full.is-loaded {
+  position: static;
+  width: auto;
+  height: auto;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lightbox-full {
+    transition: none;
+  }
+
+  .lightbox-full.is-loaded {
+    opacity: 1;
+  }
 }
 </style>

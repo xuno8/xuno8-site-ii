@@ -27,9 +27,14 @@ const galleryRef = ref<HTMLElement | null>(null);
 const { prefersReducedMotion } = useReducedMotion();
 const { isVisible, currentIndex, open, close, next, prev } = useLightbox(() => props.images.length);
 const failedImages = ref<Set<number>>(new Set());
+const loadedImages = ref<Set<number>>(new Set());
 
 function onImageError(index: number) {
   failedImages.value.add(index);
+}
+
+function onImageLoad(index: number) {
+  loadedImages.value.add(index);
 }
 
 useGsapContext(() => {
@@ -63,16 +68,23 @@ useGsapContext(() => {
           @click="!failedImages.has(index) && open(index)"
         >
           <template v-if="!failedImages.has(index)">
-            <img
-              :src="image.thumbSrc"
-              :width="image.width"
-              :height="image.height"
-              :alt="image.alt"
-              loading="lazy"
-              decoding="async"
-              class="w-full h-auto rounded-sm gallery-img"
-              @error="onImageError(index)"
-            />
+            <div
+              class="gallery-img-wrapper rounded-sm"
+              :class="{ 'is-loaded': loadedImages.has(index) }"
+              :style="{ aspectRatio: `${image.width} / ${image.height}` }"
+            >
+              <img
+                :src="image.thumbSrc"
+                :width="image.width"
+                :height="image.height"
+                :alt="image.alt"
+                loading="lazy"
+                decoding="async"
+                class="w-full h-auto rounded-sm gallery-img"
+                @load="onImageLoad(index)"
+                @error="onImageError(index)"
+              />
+            </div>
           </template>
           <template v-else>
             <div
@@ -130,10 +142,58 @@ useGsapContext(() => {
   margin-bottom: 1.5rem;
 }
 
+.gallery-img-wrapper {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-bg-card);
+}
+
+.gallery-img-wrapper::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, var(--color-border) 50%, transparent 100%);
+  transform: translateX(-100%);
+  animation: shimmer 1.8s ease-in-out infinite;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.gallery-img-wrapper.is-loaded::before {
+  display: none;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-img-wrapper::before {
+    animation: none;
+  }
+}
+
 .gallery-img {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition:
+    opacity 400ms ease,
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  opacity: 0;
+}
+
+.gallery-img-wrapper.is-loaded .gallery-img {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-img {
+    transition: none;
+    opacity: 1;
+  }
 }
 
 .masonry-item:hover .gallery-img {
