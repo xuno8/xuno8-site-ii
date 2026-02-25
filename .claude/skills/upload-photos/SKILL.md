@@ -52,13 +52,31 @@ Process files in this order:
 
 After processing, list all files and confirm they match `YYYYMMDD-{CAMERA_ID}.JPG`.
 
-### 3. Get dimensions
+### 3. Get dimensions (with EXIF orientation check)
 
-For each new photo, get width and height:
+**IMPORTANT**: `sips -g pixelWidth/pixelHeight` returns raw pixel dimensions and ignores EXIF orientation. Photos taken in portrait mode may report landscape dimensions (e.g. 6192x4128 instead of 4128x6192). Use `mdls` to get the display-correct dimensions:
 
 ```bash
-sips -g pixelWidth -g pixelHeight <file>
+mdls -name kMDItemPixelWidth -name kMDItemPixelHeight <file>
 ```
+
+`mdls` applies the EXIF orientation tag, so `kMDItemPixelWidth` and `kMDItemPixelHeight` reflect the actual display orientation. Always use `mdls` values for `width` and `height` in `photos.yaml`.
+
+After obtaining all dimensions, run a cross-check on **every** photo to catch orientation mismatches:
+
+```bash
+for f in *.JPG; do
+  sw=$(sips -g pixelWidth "$f" 2>/dev/null | awk '/pixelWidth/{print $2}')
+  sh=$(sips -g pixelHeight "$f" 2>/dev/null | awk '/pixelHeight/{print $2}')
+  mw=$(mdls -name kMDItemPixelWidth "$f" | awk '{print $3}')
+  mh=$(mdls -name kMDItemPixelHeight "$f" | awk '{print $3}')
+  if [ "$sw" != "$mw" ] || [ "$sh" != "$mh" ]; then
+    echo "MISMATCH: $f  sips=${sw}x${sh}  mdls=${mw}x${mh}"
+  fi
+done
+```
+
+Any file that shows `MISMATCH` has an EXIF orientation rotation — use the `mdls` values (not `sips`) for that file's `width` and `height` in `photos.yaml`.
 
 ### 4. Upload to Cloudflare R2
 
