@@ -4,8 +4,7 @@ import type { Mode } from '@/types';
 export const currentMode = atom<Mode>('developer');
 
 if (typeof window !== 'undefined') {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const initial = (window as any).__INITIAL_MODE__ as Mode | undefined;
+  const initial = window.__INITIAL_MODE__;
   if (initial && initial !== 'developer') {
     currentMode.set(initial);
   }
