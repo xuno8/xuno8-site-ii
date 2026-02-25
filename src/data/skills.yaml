@@ -10,6 +10,7 @@
 
 - category: 'DevOps'
   skills:
+    - Git
     - Docker
     - Azure
     - GitHub Actions

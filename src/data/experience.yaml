@@ -1,16 +1,15 @@
 - company: 'Trend Micro'
-  role: 'Software Engineer'
+  role: 'Product Software Engineer'
   location: 'Taipei, Taiwan'
   startDate: '2024-08'
   endDate: 'present'
   description:
-    - 'Developed and maintained Apex One, a server-client endpoint security application using C++ and Win32 API.'
-    - 'Designed and implemented features with comprehensive design documents for specifications and architecture.'
+    - 'Developed and maintained Apex One, a server-client endpoint security Windows application using C++ and Win32 API.'
     - 'Accelerated software delivery using AI tools like Claude Code, with a strong focus on Spec-Driven Development.'
     - 'Hosted internal AI sharing sessions and rapidly adopted emerging tools into development workflows.'
     - 'Diagnosed and resolved customer issues by identifying root causes and implementing fixes.'
   technologies:
     - C++
-    - Win32 API
     - Claude Code
-    - Git
+    - Software Engineering
+    - Win32 API
