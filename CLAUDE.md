@@ -8,7 +8,7 @@ Astro 5.x (SSG) + Vue 3 islands + UnoCSS (attributify) + Nanostores + GSAP (Scro
 
 ```text
 src/
-├── assets/images/gallery/   # Source photos (optimized at build time)
+├── assets/images/           # Static images (e.g. ryou.png avatar)
 ├── components/
 │   ├── developer/            # Developer mode Vue islands (Hero, HeroSocialLinks, ExperienceTimeline, SkillsGrid, ProjectCards, SectionNav)
 │   ├── photographer/         # Photographer mode Vue islands (MasonryGallery, Lightbox)
@@ -59,7 +59,7 @@ UnoCSS preset-icons — prefix format: `i-{collection}-{icon}`
 - **Nanostores in Vue**: Use `@nanostores/vue`'s `useStore(atom)` to get a reactive ref — do **not** call `atom.get()` directly in Vue components
 - **Pre-hydration**: `Layout.astro` contains an `is:inline` script that runs synchronously before hydration — sets developer favicon and title, exposes `window.__FAVICONS__` / `window.__TITLES__` for runtime mode switching
 - **Hydration strategy**: `client:load` for above-fold / critical interaction (ModeToggle, Hero, MasonryGallery); `client:visible` for below-fold sections (ExperienceTimeline, SkillsGrid, ProjectCards, SectionNav)
-- **Batch image processing**: `index.astro` uses `import.meta.glob(..., { eager: true })` + `getImage()` to optimize gallery photos, passing results as props to Vue. Missing/failed images are skipped with a warning.
+- **Gallery images**: 圖檔存放在 Cloudflare R2（`https://images.xuno8.com`），metadata（檔名、寬高、alt）定義在 `src/data/photos.yaml`。`index.astro` build time 從 YAML 組出原圖 URL 與 Cloudflare Image Resizing 縮圖 URL（`/cdn-cgi/image/width=800,quality=80,format=auto,...`），經 Fisher-Yates shuffle 隨機排序後以 props 傳給 `MasonryGallery.vue`。
 - **YAML imports**: `@rollup/plugin-yaml` (registered in `astro.config.ts`) allows direct `import` of `.yaml` files as objects. `env.d.ts` contains the necessary TypeScript module declaration.
 - **Composables lifecycle**: All composables create resources in `onMounted` and clean up in `onUnmounted` — follow this pattern for new composables.
 
