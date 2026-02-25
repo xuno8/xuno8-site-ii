@@ -78,10 +78,10 @@ for (let i = galleryImages.length - 1; i > 0; i--) {
   </svg>
 
   <div id="toggle-wrapper" class="fixed top-4 right-4 z-50">
-    <ModeToggle client:load />
+    <ModeToggle client:only="vue" />
   </div>
 
-  <ModeTransitionController client:load />
+  <ModeTransitionController client:only="vue" />
 
   <main>
     <!-- Developer Mode sections -->
@@ -120,6 +120,16 @@ for (let i = galleryImages.length - 1; i > 0; i--) {
       <MasonryGallery client:load images={galleryImages} />
     </div>
   </main>
+
+  <!-- Sync initial content visibility from URL param before Vue hydrates -->
+  <script is:inline>
+    (function () {
+      if (window.__INITIAL_MODE__ === 'photographer') {
+        document.getElementById('developer-content').style.display = 'none';
+        document.getElementById('photographer-content').style.display = '';
+      }
+    })();
+  </script>
 
   <Footer />
 </Layout>

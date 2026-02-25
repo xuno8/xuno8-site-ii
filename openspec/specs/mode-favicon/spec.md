@@ -32,4 +32,4 @@ The favicon SHALL be set before the page's first paint via a synchronous inline 
 
 #### Scenario: Pre-hydration favicon
 - **WHEN** the page HTML is loaded
-- **THEN** the favicon `<link>` element SHALL be populated with the developer icon by the inline pre-hydration script before any Vue island hydrates
+- **THEN** the favicon `<link>` element SHALL be populated with the icon matching the initial mode (determined by URL parameter or developer default) by the inline pre-hydration script before any Vue island hydrates

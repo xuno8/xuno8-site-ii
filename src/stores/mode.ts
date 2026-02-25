@@ -4,6 +4,12 @@ import type { Mode } from '@/types';
 export const currentMode = atom<Mode>('developer');
 
 if (typeof window !== 'undefined') {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const initial = (window as any).__INITIAL_MODE__ as Mode | undefined;
+  if (initial && initial !== 'developer') {
+    currentMode.set(initial);
+  }
+
   currentMode.listen((mode) => {
     const favicons = window.__FAVICONS__;
     if (favicons) {
