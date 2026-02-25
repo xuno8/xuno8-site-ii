@@ -50,4 +50,9 @@ export interface Photograph {
   camera?: string;
 }
 
+export interface GearItem {
+  brand: string;
+  model: string;
+}
+
 export type Mode = 'developer' | 'photographer';
