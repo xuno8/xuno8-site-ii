@@ -11,6 +11,7 @@ export interface SiteConfig {
   avatar?: string;
   email: string;
   socialLinks: SocialLink[];
+  photographerTagline?: string;
   seoDescription: string;
   seoKeywords?: string[];
 }

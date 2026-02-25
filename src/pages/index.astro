@@ -9,6 +9,7 @@ import SkillsGrid from '@/components/developer/SkillsGrid.vue';
 import ProjectCards from '@/components/developer/ProjectCards.vue';
 import SectionNav from '@/components/developer/SectionNav.vue';
 import MasonryGallery from '@/components/photographer/MasonryGallery.vue';
+import PhotoHero from '@/components/photographer/PhotoHero.vue';
 import GearBar from '@/components/photographer/GearBar.vue';
 import ModeTransitionController from '@/components/shared/ModeTransitionController.vue';
 import {
@@ -126,6 +127,7 @@ for (let i = galleryImages.length - 1; i > 0; i--) {
 
     <!-- Photographer Mode sections -->
     <div id="photographer-content" style="display: none;">
+      <PhotoHero client:load name={site.name} tagline={site.photographerTagline ?? ''} />
       <MasonryGallery client:load images={galleryImages} />
       <GearBar client:visible gear={gear} />
     </div>
