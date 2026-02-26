@@ -403,6 +403,10 @@ onUnmounted(() => {
           aria-label="Terminal command input"
           :disabled="terminalState === 'executing' || terminalState === 'animating'"
           autocomplete="off"
+          data-1p-ignore
+          data-bwignore
+          data-lpignore="true"
+          data-form-type="other"
           autocorrect="off"
           autocapitalize="off"
           spellcheck="false"
