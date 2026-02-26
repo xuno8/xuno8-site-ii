@@ -6,7 +6,7 @@ import { useReducedMotion } from '@/composables/useReducedMotion';
 
 defineProps<{
   name: string;
-  tagline: string;
+  gear: string;
 }>();
 
 const heroRef = ref<HTMLElement | null>(null);
@@ -28,7 +28,7 @@ useGsapContext(() => {
 <template>
   <section ref="heroRef" class="photo-hero">
     <h1 class="hero-name hero-animate">{{ name }}</h1>
-    <p class="hero-tagline hero-animate">{{ tagline }}</p>
+    <p class="hero-gear hero-animate">{{ gear }}</p>
   </section>
 </template>
 
@@ -49,10 +49,10 @@ useGsapContext(() => {
   margin-bottom: 0.5rem;
 }
 
-.hero-tagline {
+.hero-gear {
   font-family: var(--font-display);
-  font-style: italic;
-  font-size: 1.125rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.02em;
   color: var(--color-text-secondary);
   margin: 0;
 }
@@ -60,10 +60,6 @@ useGsapContext(() => {
 @media (min-width: 640px) {
   .hero-name {
     font-size: 3rem;
-  }
-
-  .hero-tagline {
-    font-size: 1.25rem;
   }
 }
 </style>

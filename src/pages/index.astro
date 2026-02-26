@@ -10,16 +10,8 @@ import ProjectCards from '@/components/developer/ProjectCards.vue';
 import SectionNav from '@/components/developer/SectionNav.vue';
 import MasonryGallery from '@/components/photographer/MasonryGallery.vue';
 import PhotoHero from '@/components/photographer/PhotoHero.vue';
-import GearBar from '@/components/photographer/GearBar.vue';
 import ModeTransitionController from '@/components/shared/ModeTransitionController.vue';
-import {
-  loadSiteConfig,
-  loadExperience,
-  loadProjects,
-  loadSkills,
-  loadPhotos,
-  loadGear,
-} from '@/utils/data';
+import { loadSiteConfig, loadExperience, loadProjects, loadSkills, loadPhotos } from '@/utils/data';
 
 import avatarImage from '@/assets/images/ryou.png';
 
@@ -28,7 +20,6 @@ const experiences = loadExperience();
 const projects = loadProjects();
 const skills = loadSkills();
 const photosData = loadPhotos();
-const gear = loadGear();
 
 // Process avatar image for Hero
 let optimizedAvatar: Awaited<ReturnType<typeof getImage>>;
@@ -127,9 +118,8 @@ for (let i = galleryImages.length - 1; i > 0; i--) {
 
     <!-- Photographer Mode sections -->
     <div id="photographer-content" style="display: none;">
-      <PhotoHero client:load name={site.name} tagline={site.photographerTagline ?? ''} />
+      <PhotoHero client:load name={site.name} gear={site.gear ?? ''} />
       <MasonryGallery client:load images={galleryImages} />
-      <GearBar client:visible gear={gear} />
     </div>
   </main>
 

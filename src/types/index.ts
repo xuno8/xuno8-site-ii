@@ -11,7 +11,7 @@ export interface SiteConfig {
   avatar?: string;
   email: string;
   socialLinks: SocialLink[];
-  photographerTagline?: string;
+  gear?: string;
   seoDescription: string;
   seoKeywords?: string[];
 }
@@ -49,11 +49,6 @@ export interface Photograph {
   date?: string;
   location?: string;
   camera?: string;
-}
-
-export interface GearItem {
-  brand: string;
-  model: string;
 }
 
 export type Mode = 'developer' | 'photographer';
