@@ -30,6 +30,7 @@ export interface Project {
   title: string;
   description: string;
   technologies: string[];
+  period?: string;
   demoUrl?: string;
   repoUrl?: string;
   featured?: boolean;

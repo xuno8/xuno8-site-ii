@@ -1,4 +1,5 @@
 - title: 'ReFunction'
+  period: 'Aug 2024 - Present'
   description: 'An AI-driven raw material search platform for carbon inventory consultants, leveraging LLM and RAG to streamline material lookup and reporting.'
   technologies:
     - Python
@@ -8,6 +9,7 @@
   featured: true
 
 - title: 'xuno8.com'
+  period: 'Feb 2026 - Present'
   description: 'A dual-mode portfolio site featuring developer and photographer modes with smooth transitions, terminal-themed hero section, and GSAP scroll animations. Built as a single-page Astro SSG with Vue 3 interactive islands.'
   technologies:
     - Astro
@@ -18,6 +20,7 @@
   featured: true
 
 - title: 'SOMYGO!!!!!'
+  period: 'May 2024 - Oct 2024'
   description: 'An anime meme search website that achieved over 54,000 site hits in two months. Features full-text search powered by ElasticSearch and a FastAPI backend, deployed on Azure with CI/CD via GitHub Actions.'
   technologies:
     - Vue 3
@@ -27,6 +30,7 @@
   featured: false
 
 - title: 'Orchid Species Identification'
+  period: 'Nov 2022 - May 2023'
   description: 'Graduation project at Yuan Ze University — a species identification system for Taiwanese orchids using YOLOv4 deep learning model.'
   technologies:
     - Python

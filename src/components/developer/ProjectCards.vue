@@ -61,6 +61,9 @@ useGsapContext(() => {
             </div>
             <span v-if="project.featured" class="badge-active"> Active </span>
           </div>
+          <p v-if="project.period" class="text-xs mb-2" style="color: var(--color-text-secondary)">
+            {{ project.period }}
+          </p>
           <p class="text-sm leading-relaxed mb-4 flex-1" style="color: var(--color-text-secondary)">
             {{ project.description }}
           </p>
