@@ -4,12 +4,14 @@
   startDate: '2024-08'
   endDate: 'present'
   description:
-    - 'Developed and maintained Apex One, a server-client endpoint security Windows application using C++ and Win32 API.'
-    - 'Accelerated software delivery using AI tools like Claude Code, with a strong focus on Spec-Driven Development.'
-    - 'Hosted internal AI sharing sessions and rapidly adopted emerging tools into development workflows.'
-    - 'Diagnosed and resolved customer issues by identifying root causes and implementing fixes.'
+    - 'Architected features and refactored legacy C++ codebases for Apex One, an enterprise endpoint protection application.'
+    - 'Served as Scrum Master, streamlining agile workflows and cross-functional collaboration.'
+    - 'Automated CI/CD pipelines via GitHub Actions to optimize workflows.'
+    - 'Leveraged AI tools (e.g., Claude Code) to accelerate development and hosted cross-team sharing sessions to drive broader adoption.'
+    - 'Diagnosed and resolved critical customer issues through precise root-cause analysis.'
   technologies:
     - C++
     - Claude Code
-    - Software Engineering
+    - GitHub Actions
+    - Scrum
     - Win32 API
