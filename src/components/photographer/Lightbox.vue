@@ -275,8 +275,8 @@ onUnmounted(() => {
     >
       <svg
         viewBox="0 0 24 24"
-        width="22"
-        height="22"
+        width="24"
+        height="24"
         fill="none"
         stroke="currentColor"
         stroke-width="2"
@@ -304,7 +304,7 @@ onUnmounted(() => {
         height="24"
         fill="none"
         stroke="currentColor"
-        stroke-width="2.5"
+        stroke-width="2"
         stroke-linecap="round"
       >
         <path d="M18 6 6 18M6 6l12 12" />
@@ -328,7 +328,7 @@ onUnmounted(() => {
         height="24"
         fill="none"
         stroke="currentColor"
-        stroke-width="2.5"
+        stroke-width="2"
         stroke-linecap="round"
       >
         <path d="M15 18l-6-6 6-6" />
@@ -352,7 +352,7 @@ onUnmounted(() => {
         height="24"
         fill="none"
         stroke="currentColor"
-        stroke-width="2.5"
+        stroke-width="2"
         stroke-linecap="round"
       >
         <path d="M9 18l6-6-6-6" />
@@ -473,7 +473,7 @@ onUnmounted(() => {
               height="24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2.5"
+              stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
             >
@@ -493,7 +493,7 @@ onUnmounted(() => {
               height="24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2.5"
+              stroke-width="2"
               stroke-linecap="round"
             >
               <path d="M15 18l-6-6 6-6" />
@@ -512,7 +512,7 @@ onUnmounted(() => {
               height="24"
               fill="none"
               stroke="currentColor"
-              stroke-width="2.5"
+              stroke-width="2"
               stroke-linecap="round"
             >
               <path d="M9 18l6-6-6-6" />
