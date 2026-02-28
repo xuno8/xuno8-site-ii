@@ -22,15 +22,20 @@ const hasCaption = computed(
 
 const { prefersReducedMotion } = useReducedMotion();
 const fullImageLoaded = ref(false);
+const skipTransition = ref(false);
+const loadedFullImages = new Set<string>();
 
 function onFullImageLoad() {
+  loadedFullImages.add(current.value.src);
   fullImageLoaded.value = true;
 }
 
 watch(
   () => props.currentIndex,
   () => {
-    fullImageLoaded.value = false;
+    const cached = loadedFullImages.has(current.value.src);
+    fullImageLoaded.value = cached;
+    skipTransition.value = cached;
   },
 );
 
@@ -244,18 +249,16 @@ onUnmounted(() => {
         <!-- Blurred thumbnail preview (cached, shows immediately; hidden once full image loads) -->
         <img
           v-show="!fullImageLoaded"
-          :key="'thumb-' + currentIndex"
           :src="current.thumbSrc"
           :alt="current.alt"
           class="max-w-full max-h-[92vh] object-contain mx-auto block lightbox-thumb"
         />
         <!-- Full-size image (loads over thumbnail) -->
         <img
-          :key="'full-' + currentIndex"
           :src="current.src"
           :alt="current.alt"
           class="max-w-full max-h-[92vh] object-contain mx-auto block lightbox-full"
-          :class="{ 'is-loaded': fullImageLoaded }"
+          :class="{ 'is-loaded': fullImageLoaded, 'is-cached': skipTransition }"
           @load="onFullImageLoad"
         />
         <!-- Floating caption overlay -->
@@ -320,7 +323,6 @@ onUnmounted(() => {
   height: 100%;
   object-fit: contain;
   opacity: 0;
-  transition: opacity 500ms ease;
 }
 
 .lightbox-full.is-loaded {
@@ -328,6 +330,11 @@ onUnmounted(() => {
   width: auto;
   height: auto;
   opacity: 1;
+  transition: opacity 500ms ease;
+}
+
+.lightbox-full.is-cached {
+  transition: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
