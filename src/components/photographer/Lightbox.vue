@@ -164,6 +164,23 @@ function requestClose() {
   tl.reverse();
 }
 
+async function downloadImage() {
+  const image = current.value;
+  const filename = image.fullSrc.split('/').pop() || 'photo.jpg';
+  try {
+    const res = await fetch(image.fullSrc);
+    const blob = await res.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  } catch {
+    window.open(image.fullSrc, '_blank');
+  }
+}
+
 function handleEnterFullscreen() {
   loadFullImage(current.value.fullSrc);
   enterFullscreen();
@@ -269,14 +286,14 @@ onUnmounted(() => {
           if (el) controlsRef.push(el as HTMLElement);
         }
       "
-      class="lightbox-control fixed top-4 right-18 z-70 w-12 h-12 flex items-center justify-center rounded-full border-0 cursor-pointer"
+      class="lightbox-control fixed top-3 right-25 z-70 w-9 h-9 flex items-center justify-center rounded-full border-0 cursor-pointer"
       aria-label="View fullscreen original"
       @click.stop="handleEnterFullscreen"
     >
       <svg
         viewBox="0 0 24 24"
-        width="24"
-        height="24"
+        width="18"
+        height="18"
         fill="none"
         stroke="currentColor"
         stroke-width="2"
@@ -287,6 +304,33 @@ onUnmounted(() => {
       </svg>
     </button>
 
+    <!-- Download button -->
+    <button
+      :ref="
+        (el) => {
+          if (el) controlsRef.push(el as HTMLElement);
+        }
+      "
+      class="lightbox-control fixed top-3 right-14 z-70 w-9 h-9 flex items-center justify-center rounded-full border-0 cursor-pointer"
+      aria-label="Download original image"
+      @click.stop="downloadImage"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        width="18"
+        height="18"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+        <polyline points="7 10 12 15 17 10" />
+        <line x1="12" y1="15" x2="12" y2="3" />
+      </svg>
+    </button>
+
     <!-- Close button -->
     <button
       :ref="
@@ -294,14 +338,14 @@ onUnmounted(() => {
           if (el) controlsRef.push(el as HTMLElement);
         }
       "
-      class="lightbox-control fixed top-4 right-4 z-70 w-12 h-12 flex items-center justify-center rounded-full border-0 cursor-pointer"
+      class="lightbox-control fixed top-3 right-3 z-70 w-9 h-9 flex items-center justify-center rounded-full border-0 cursor-pointer"
       aria-label="Close lightbox"
       @click="requestClose"
     >
       <svg
         viewBox="0 0 24 24"
-        width="24"
-        height="24"
+        width="18"
+        height="18"
         fill="none"
         stroke="currentColor"
         stroke-width="2"
@@ -318,14 +362,14 @@ onUnmounted(() => {
           if (el) controlsRef.push(el as HTMLElement);
         }
       "
-      class="lightbox-control fixed left-4 top-0 bottom-0 my-auto z-70 w-11 h-11 flex items-center justify-center rounded-full border-0 cursor-pointer"
+      class="lightbox-control fixed left-3 top-0 bottom-0 my-auto z-70 w-9 h-9 flex items-center justify-center rounded-full border-0 cursor-pointer"
       aria-label="Previous image"
       @click.stop="emit('prev')"
     >
       <svg
         viewBox="0 0 24 24"
-        width="24"
-        height="24"
+        width="20"
+        height="20"
         fill="none"
         stroke="currentColor"
         stroke-width="2"
@@ -342,14 +386,14 @@ onUnmounted(() => {
           if (el) controlsRef.push(el as HTMLElement);
         }
       "
-      class="lightbox-control fixed right-4 top-0 bottom-0 my-auto z-70 w-11 h-11 flex items-center justify-center rounded-full border-0 cursor-pointer"
+      class="lightbox-control fixed right-3 top-0 bottom-0 my-auto z-70 w-9 h-9 flex items-center justify-center rounded-full border-0 cursor-pointer"
       aria-label="Next image"
       @click.stop="emit('next')"
     >
       <svg
         viewBox="0 0 24 24"
-        width="24"
-        height="24"
+        width="20"
+        height="20"
         fill="none"
         stroke="currentColor"
         stroke-width="2"
@@ -360,7 +404,7 @@ onUnmounted(() => {
     </button>
 
     <!-- Image container -->
-    <div class="relative w-full h-full flex items-center justify-center px-12">
+    <div class="relative w-full h-full flex items-center justify-center px-14">
       <div ref="imageRef" class="relative">
         <!-- Blurred thumbnail preview (cached, shows immediately; hidden once full image loads) -->
         <img
@@ -463,14 +507,14 @@ onUnmounted(() => {
         <div class="fs-controls" :class="{ 'fs-controls-hidden': !controlsVisible }">
           <!-- Exit fullscreen button -->
           <button
-            class="lightbox-control fs-btn fixed top-4 right-4 z-80 w-10 h-10 flex items-center justify-center rounded-full border-0 cursor-pointer"
+            class="lightbox-control fs-btn fixed top-4 right-4 z-80 w-8 h-8 flex items-center justify-center rounded-full border-0 cursor-pointer"
             aria-label="Exit fullscreen"
             @click.stop="handleExitFullscreen"
           >
             <svg
               viewBox="0 0 24 24"
-              width="24"
-              height="24"
+              width="18"
+              height="18"
               fill="none"
               stroke="currentColor"
               stroke-width="2"
@@ -483,14 +527,14 @@ onUnmounted(() => {
 
           <!-- Prev in fullscreen -->
           <button
-            class="lightbox-control fs-btn fixed left-4 top-0 bottom-0 my-auto z-80 w-9 h-9 flex items-center justify-center rounded-full border-0 cursor-pointer"
+            class="lightbox-control fs-btn fixed left-4 top-0 bottom-0 my-auto z-80 w-8 h-8 flex items-center justify-center rounded-full border-0 cursor-pointer"
             aria-label="Previous image"
             @click.stop="fsNav('prev')"
           >
             <svg
               viewBox="0 0 24 24"
-              width="24"
-              height="24"
+              width="18"
+              height="18"
               fill="none"
               stroke="currentColor"
               stroke-width="2"
@@ -502,14 +546,14 @@ onUnmounted(() => {
 
           <!-- Next in fullscreen -->
           <button
-            class="lightbox-control fs-btn fixed right-4 top-0 bottom-0 my-auto z-80 w-9 h-9 flex items-center justify-center rounded-full border-0 cursor-pointer"
+            class="lightbox-control fs-btn fixed right-4 top-0 bottom-0 my-auto z-80 w-8 h-8 flex items-center justify-center rounded-full border-0 cursor-pointer"
             aria-label="Next image"
             @click.stop="fsNav('next')"
           >
             <svg
               viewBox="0 0 24 24"
-              width="24"
-              height="24"
+              width="18"
+              height="18"
               fill="none"
               stroke="currentColor"
               stroke-width="2"
@@ -537,8 +581,7 @@ onUnmounted(() => {
 
 .lightbox-control:hover {
   background-color: rgba(212, 165, 116, 0.25);
-  scale: 1.08;
-  box-shadow: 0 0 16px rgba(212, 165, 116, 0.15);
+  scale: 1.05;
 }
 
 .lightbox-control:active {
