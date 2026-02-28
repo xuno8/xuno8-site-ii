@@ -463,7 +463,7 @@ onUnmounted(() => {
         <div class="fs-controls" :class="{ 'fs-controls-hidden': !controlsVisible }">
           <!-- Exit fullscreen button -->
           <button
-            class="lightbox-control fs-btn fixed top-4 right-4 z-80 w-12 h-12 flex items-center justify-center rounded-full border-0 cursor-pointer"
+            class="lightbox-control fs-btn fixed top-4 right-4 z-80 w-10 h-10 flex items-center justify-center rounded-full border-0 cursor-pointer"
             aria-label="Exit fullscreen"
             @click.stop="handleExitFullscreen"
           >
@@ -483,7 +483,7 @@ onUnmounted(() => {
 
           <!-- Prev in fullscreen -->
           <button
-            class="lightbox-control fs-btn fixed left-4 top-1/2 -translate-y-1/2 z-80 w-11 h-11 flex items-center justify-center rounded-full border-0 cursor-pointer"
+            class="lightbox-control fs-btn fixed left-4 top-1/2 -translate-y-1/2 z-80 w-9 h-9 flex items-center justify-center rounded-full border-0 cursor-pointer"
             aria-label="Previous image"
             @click.stop="fsNav('prev')"
           >
@@ -502,7 +502,7 @@ onUnmounted(() => {
 
           <!-- Next in fullscreen -->
           <button
-            class="lightbox-control fs-btn fixed right-4 top-1/2 -translate-y-1/2 z-80 w-11 h-11 flex items-center justify-center rounded-full border-0 cursor-pointer"
+            class="lightbox-control fs-btn fixed right-4 top-1/2 -translate-y-1/2 z-80 w-9 h-9 flex items-center justify-center rounded-full border-0 cursor-pointer"
             aria-label="Next image"
             @click.stop="fsNav('next')"
           >
@@ -684,12 +684,15 @@ onUnmounted(() => {
 /* Fullscreen button overrides inside fs-overlay */
 
 .fs-btn {
-  background-color: rgba(212, 165, 116, 0.12);
-  color: var(--color-accent, #d4a574);
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.5);
 }
 
 .fs-btn:hover {
-  background-color: rgba(212, 165, 116, 0.25);
+  background-color: transparent;
+  color: rgba(255, 255, 255, 0.85);
+  scale: 1;
+  box-shadow: none;
 }
 
 /* Grabbing cursor while panning */
