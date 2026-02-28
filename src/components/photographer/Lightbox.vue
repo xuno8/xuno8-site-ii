@@ -2,6 +2,7 @@
 import { computed, ref, watch, onMounted, onUnmounted, nextTick } from 'vue';
 import gsap from 'gsap';
 import { useReducedMotion } from '@/composables/useReducedMotion';
+import { useFullscreenZoom } from '@/composables/useFullscreenZoom';
 import type { GalleryImage } from './MasonryGallery.vue';
 
 const props = defineProps<{
@@ -24,6 +25,39 @@ const { prefersReducedMotion } = useReducedMotion();
 const fullImageLoaded = ref(false);
 const skipTransition = ref(false);
 const loadedFullImages = new Set<string>();
+
+const {
+  isFullscreen,
+  containerRef,
+  enterFullscreen,
+  exitFullscreen,
+  scale,
+  translateX,
+  translateY,
+  isAnimating: zoomAnimating,
+  resetTransform,
+  handleWheel,
+  handleDoubleClick,
+  handlePointerDown,
+  handlePointerMove,
+  handlePointerUp,
+  fullImageSrc,
+  isFullImageLoaded,
+  loadFullImage,
+  releaseFullImage,
+  controlsVisible,
+  showControls,
+} = useFullscreenZoom();
+
+const zoomLabel = computed(() => {
+  if (scale.value <= 1) return '';
+  return `${scale.value.toFixed(1)}x`;
+});
+
+const zoomCursor = computed(() => {
+  if (scale.value > 1) return 'grab';
+  return 'zoom-in';
+});
 
 function onFullImageLoad() {
   loadedFullImages.add(current.value.lightboxSrc);
@@ -53,6 +87,12 @@ watch(
     fullImageLoaded.value = cached;
     skipTransition.value = cached;
     preloadAdjacent();
+
+    // If in fullscreen, reset zoom and load new full image
+    if (isFullscreen.value) {
+      resetTransform();
+      loadFullImage(current.value.fullSrc);
+    }
   },
 );
 
@@ -124,9 +164,38 @@ function requestClose() {
   tl.reverse();
 }
 
+function handleEnterFullscreen() {
+  loadFullImage(current.value.fullSrc);
+  enterFullscreen();
+  showControls();
+}
+
+function handleExitFullscreen() {
+  exitFullscreen();
+  releaseFullImage();
+}
+
+function fsNav(dir: 'next' | 'prev') {
+  emit(dir);
+}
+
 let touchStartX = 0;
 
 function onKeydown(e: KeyboardEvent) {
+  if (isFullscreen.value) {
+    switch (e.key) {
+      case 'Escape':
+        e.preventDefault();
+        handleExitFullscreen();
+        return;
+      case 'ArrowLeft':
+        fsNav('prev');
+        return;
+      case 'ArrowRight':
+        fsNav('next');
+        return;
+    }
+  }
   switch (e.key) {
     case 'Escape':
       requestClose();
@@ -136,6 +205,9 @@ function onKeydown(e: KeyboardEvent) {
       break;
     case 'ArrowRight':
       emit('next');
+      break;
+    case 'f':
+      if (!isFullscreen.value) handleEnterFullscreen();
       break;
   }
 }
@@ -178,6 +250,7 @@ onUnmounted(() => {
     tl.kill();
     tl = null;
   }
+  releaseFullImage();
 });
 </script>
 
@@ -189,6 +262,31 @@ onUnmounted(() => {
     @touchstart.passive="onTouchStart"
     @touchend.passive="onTouchEnd"
   >
+    <!-- Fullscreen button -->
+    <button
+      :ref="
+        (el) => {
+          if (el) controlsRef.push(el as HTMLElement);
+        }
+      "
+      class="lightbox-control fixed top-4 right-18 z-70 w-12 h-12 flex items-center justify-center rounded-full border-0 cursor-pointer"
+      aria-label="View fullscreen original"
+      @click.stop="handleEnterFullscreen"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        width="22"
+        height="22"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7" />
+      </svg>
+    </button>
+
     <!-- Close button -->
     <button
       :ref="
@@ -299,6 +397,130 @@ onUnmounted(() => {
         </div>
       </div>
     </div>
+
+    <!-- Fullscreen overlay -->
+    <Teleport to="body">
+      <div
+        v-if="isFullscreen"
+        ref="containerRef"
+        class="fs-overlay"
+        :style="{ cursor: zoomCursor }"
+        @wheel.prevent="handleWheel"
+        @dblclick="handleDoubleClick"
+        @pointerdown="handlePointerDown"
+        @pointermove="handlePointerMove"
+        @pointerup="handlePointerUp"
+        @pointercancel="handlePointerUp"
+        @mousemove="showControls"
+      >
+        <!-- Image with zoom/pan transform -->
+        <div
+          class="fs-image-wrapper"
+          :class="{ 'fs-animating': zoomAnimating }"
+          :style="{
+            transform: `translate(${translateX}px, ${translateY}px) scale(${scale})`,
+          }"
+        >
+          <!-- Resized placeholder (shows while original loads) -->
+          <img :src="current.lightboxSrc" :alt="current.alt" class="fs-image" draggable="false" />
+          <!-- Original full-size image -->
+          <img
+            v-if="isFullImageLoaded"
+            :src="fullImageSrc"
+            :alt="current.alt"
+            class="fs-image fs-image-full"
+            draggable="false"
+          />
+        </div>
+
+        <!-- Loading indicator -->
+        <div v-if="!isFullImageLoaded" class="fs-loading">
+          <svg class="fs-spinner" viewBox="0 0 50 50">
+            <circle
+              cx="25"
+              cy="25"
+              r="20"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-dasharray="90 150"
+              stroke-dashoffset="0"
+            />
+          </svg>
+        </div>
+
+        <!-- Zoom indicator -->
+        <div
+          v-if="zoomLabel"
+          class="fs-zoom-label"
+          :class="{ 'fs-controls-hidden': !controlsVisible }"
+        >
+          {{ zoomLabel }}
+        </div>
+
+        <!-- Fullscreen controls -->
+        <div class="fs-controls" :class="{ 'fs-controls-hidden': !controlsVisible }">
+          <!-- Exit fullscreen button -->
+          <button
+            class="lightbox-control fs-btn fixed top-4 right-4 z-80 w-12 h-12 flex items-center justify-center rounded-full border-0 cursor-pointer"
+            aria-label="Exit fullscreen"
+            @click.stop="handleExitFullscreen"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M4 14h6v6M20 10h-6V4M14 10l7-7M3 21l7-7" />
+            </svg>
+          </button>
+
+          <!-- Prev in fullscreen -->
+          <button
+            class="lightbox-control fs-btn fixed left-4 top-1/2 -translate-y-1/2 z-80 w-11 h-11 flex items-center justify-center rounded-full border-0 cursor-pointer"
+            aria-label="Previous image"
+            @click.stop="fsNav('prev')"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            >
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
+
+          <!-- Next in fullscreen -->
+          <button
+            class="lightbox-control fs-btn fixed right-4 top-1/2 -translate-y-1/2 z-80 w-11 h-11 flex items-center justify-center rounded-full border-0 cursor-pointer"
+            aria-label="Next image"
+            @click.stop="fsNav('next')"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="24"
+              height="24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            >
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </Teleport>
   </div>
 </template>
 
@@ -362,6 +584,127 @@ onUnmounted(() => {
 
   .lightbox-full.is-loaded {
     opacity: 1;
+  }
+}
+
+/* --- Fullscreen overlay --- */
+
+.fs-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: none;
+  user-select: none;
+  overflow: hidden;
+}
+
+.fs-image-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+  transform-origin: center center;
+}
+
+.fs-image-wrapper.fs-animating {
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.fs-image {
+  max-width: 100vw;
+  max-height: 100vh;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+.fs-image-full {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* Loading spinner */
+
+.fs-loading {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 110;
+  color: var(--color-accent);
+}
+
+.fs-spinner {
+  width: 32px;
+  height: 32px;
+  animation: fs-spin 1.2s cubic-bezier(0.4, 0.2, 0.6, 0.8) infinite;
+}
+
+@keyframes fs-spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Zoom label */
+
+.fs-zoom-label {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 110;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  font-variant-numeric: tabular-nums;
+  background-color: var(--color-accent-subtle);
+  color: var(--color-accent);
+  border: 1px solid rgba(212, 165, 116, 0.2);
+  transition: opacity 0.3s ease;
+}
+
+/* Controls auto-hide */
+
+.fs-controls {
+  transition: opacity 0.5s cubic-bezier(0, 0.55, 0.45, 1);
+}
+
+.fs-controls-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Fullscreen button overrides inside fs-overlay */
+
+.fs-btn {
+  background-color: rgba(212, 165, 116, 0.12);
+  color: var(--color-accent, #d4a574);
+}
+
+.fs-btn:hover {
+  background-color: rgba(212, 165, 116, 0.25);
+}
+
+/* Grabbing cursor while panning */
+
+.fs-overlay:active {
+  cursor: grabbing;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fs-image-wrapper.fs-animating {
+    transition: none;
+  }
+
+  .fs-controls {
+    transition: none;
   }
 }
 </style>

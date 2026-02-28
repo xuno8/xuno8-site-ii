@@ -11,6 +11,7 @@ export interface GalleryImage {
   src: string;
   thumbSrc: string;
   lightboxSrc: string;
+  fullSrc: string;
   width: number;
   height: number;
   alt: string;

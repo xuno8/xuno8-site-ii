@@ -39,6 +39,7 @@ const galleryImages = photosData.map((photo) => ({
   src: `${R2_BASE}/${photo.src}`,
   thumbSrc: `${R2_BASE}/cdn-cgi/image/width=800,quality=80,format=auto,onerror=redirect/${photo.src}`,
   lightboxSrc: `${R2_BASE}/cdn-cgi/image/width=2048,quality=85,format=auto,onerror=redirect/${photo.src}`,
+  fullSrc: `${R2_BASE}/${photo.src}`,
   width: photo.width,
   height: photo.height,
   alt: photo.alt,
