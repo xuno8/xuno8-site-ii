@@ -134,7 +134,7 @@ function onTouchEnd(e: TouchEvent) {
 }
 
 function onBackdropClick(e: MouseEvent) {
-  if ((e.target as HTMLElement).classList.contains('lightbox-backdrop')) {
+  if (!imageRef.value?.contains(e.target as Node)) {
     requestClose();
   }
 }
