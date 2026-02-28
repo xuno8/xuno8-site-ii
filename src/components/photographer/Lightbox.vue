@@ -318,7 +318,7 @@ onUnmounted(() => {
           if (el) controlsRef.push(el as HTMLElement);
         }
       "
-      class="lightbox-control fixed left-4 top-1/2 -translate-y-1/2 z-70 w-11 h-11 flex items-center justify-center rounded-full border-0 cursor-pointer"
+      class="lightbox-control fixed left-4 top-0 bottom-0 my-auto z-70 w-11 h-11 flex items-center justify-center rounded-full border-0 cursor-pointer"
       aria-label="Previous image"
       @click.stop="emit('prev')"
     >
@@ -342,7 +342,7 @@ onUnmounted(() => {
           if (el) controlsRef.push(el as HTMLElement);
         }
       "
-      class="lightbox-control fixed right-4 top-1/2 -translate-y-1/2 z-70 w-11 h-11 flex items-center justify-center rounded-full border-0 cursor-pointer"
+      class="lightbox-control fixed right-4 top-0 bottom-0 my-auto z-70 w-11 h-11 flex items-center justify-center rounded-full border-0 cursor-pointer"
       aria-label="Next image"
       @click.stop="emit('next')"
     >
@@ -483,7 +483,7 @@ onUnmounted(() => {
 
           <!-- Prev in fullscreen -->
           <button
-            class="lightbox-control fs-btn fixed left-4 top-1/2 -translate-y-1/2 z-80 w-9 h-9 flex items-center justify-center rounded-full border-0 cursor-pointer"
+            class="lightbox-control fs-btn fixed left-4 top-0 bottom-0 my-auto z-80 w-9 h-9 flex items-center justify-center rounded-full border-0 cursor-pointer"
             aria-label="Previous image"
             @click.stop="fsNav('prev')"
           >
@@ -502,7 +502,7 @@ onUnmounted(() => {
 
           <!-- Next in fullscreen -->
           <button
-            class="lightbox-control fs-btn fixed right-4 top-1/2 -translate-y-1/2 z-80 w-9 h-9 flex items-center justify-center rounded-full border-0 cursor-pointer"
+            class="lightbox-control fs-btn fixed right-4 top-0 bottom-0 my-auto z-80 w-9 h-9 flex items-center justify-center rounded-full border-0 cursor-pointer"
             aria-label="Next image"
             @click.stop="fsNav('next')"
           >
