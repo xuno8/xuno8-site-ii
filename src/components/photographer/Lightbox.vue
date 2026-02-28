@@ -173,7 +173,7 @@ onUnmounted(() => {
           if (el) controlsRef.push(el as HTMLElement);
         }
       "
-      class="lightbox-control fixed top-4 right-4 z-70 w-11 h-11 flex items-center justify-center rounded-full border-0 cursor-pointer"
+      class="lightbox-control fixed top-4 right-4 z-70 w-12 h-12 flex items-center justify-center rounded-full border-0 cursor-pointer"
       aria-label="Close lightbox"
       @click="requestClose"
     >
@@ -183,7 +183,8 @@ onUnmounted(() => {
         height="24"
         fill="none"
         stroke="currentColor"
-        stroke-width="2"
+        stroke-width="2.5"
+        stroke-linecap="round"
       >
         <path d="M18 6 6 18M6 6l12 12" />
       </svg>
@@ -206,7 +207,8 @@ onUnmounted(() => {
         height="24"
         fill="none"
         stroke="currentColor"
-        stroke-width="2"
+        stroke-width="2.5"
+        stroke-linecap="round"
       >
         <path d="M15 18l-6-6 6-6" />
       </svg>
@@ -229,7 +231,8 @@ onUnmounted(() => {
         height="24"
         fill="none"
         stroke="currentColor"
-        stroke-width="2"
+        stroke-width="2.5"
+        stroke-linecap="round"
       >
         <path d="M9 18l6-6-6-6" />
       </svg>
@@ -284,13 +287,25 @@ onUnmounted(() => {
 }
 
 .lightbox-control {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: white;
-  transition: background-color 0.2s ease;
+  background-color: var(--color-accent-subtle);
+  color: var(--color-accent);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .lightbox-control:hover {
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(212, 165, 116, 0.25);
+  scale: 1.08;
+  box-shadow: 0 0 16px rgba(212, 165, 116, 0.15);
+}
+
+.lightbox-control:active {
+  scale: 0.92;
+  transition-duration: 0.1s;
+}
+
+.lightbox-control:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 .lightbox-thumb {
