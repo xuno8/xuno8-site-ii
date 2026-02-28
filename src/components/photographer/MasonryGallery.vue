@@ -10,6 +10,7 @@ import { useLightbox } from '@/composables/useLightbox';
 export interface GalleryImage {
   src: string;
   thumbSrc: string;
+  lightboxSrc: string;
   width: number;
   height: number;
   alt: string;

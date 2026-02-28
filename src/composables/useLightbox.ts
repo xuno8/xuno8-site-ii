@@ -5,6 +5,7 @@ export function useLightbox(totalItems: () => number) {
   const isVisible = ref(false);
   const currentIndex = ref(0);
   let savedScrollY = 0;
+  let lastNavTime = 0;
 
   function open(index: number) {
     savedScrollY = window.scrollY;
@@ -22,6 +23,9 @@ export function useLightbox(totalItems: () => number) {
   }
 
   function next() {
+    const now = Date.now();
+    if (now - lastNavTime < 250) return;
+    lastNavTime = now;
     const total = totalItems();
     if (total > 0) {
       currentIndex.value = (currentIndex.value + 1) % total;
@@ -29,6 +33,9 @@ export function useLightbox(totalItems: () => number) {
   }
 
   function prev() {
+    const now = Date.now();
+    if (now - lastNavTime < 250) return;
+    lastNavTime = now;
     const total = totalItems();
     if (total > 0) {
       currentIndex.value = (currentIndex.value - 1 + total) % total;

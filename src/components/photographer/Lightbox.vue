@@ -26,16 +26,33 @@ const skipTransition = ref(false);
 const loadedFullImages = new Set<string>();
 
 function onFullImageLoad() {
-  loadedFullImages.add(current.value.src);
+  loadedFullImages.add(current.value.lightboxSrc);
   fullImageLoaded.value = true;
+}
+
+function preloadImage(url: string) {
+  if (loadedFullImages.has(url)) return;
+  const img = new Image();
+  img.onload = () => loadedFullImages.add(url);
+  img.src = url;
+}
+
+function preloadAdjacent() {
+  const total = props.images.length;
+  if (total <= 1) return;
+  const prevIdx = (props.currentIndex - 1 + total) % total;
+  const nextIdx = (props.currentIndex + 1) % total;
+  preloadImage(props.images[prevIdx].lightboxSrc);
+  preloadImage(props.images[nextIdx].lightboxSrc);
 }
 
 watch(
   () => props.currentIndex,
   () => {
-    const cached = loadedFullImages.has(current.value.src);
+    const cached = loadedFullImages.has(current.value.lightboxSrc);
     fullImageLoaded.value = cached;
     skipTransition.value = cached;
+    preloadAdjacent();
   },
 );
 
@@ -152,6 +169,7 @@ onMounted(async () => {
   await nextTick();
   isAnimating = true;
   buildTimeline();
+  preloadAdjacent();
 });
 
 onUnmounted(() => {
@@ -255,7 +273,7 @@ onUnmounted(() => {
         />
         <!-- Full-size image (loads over thumbnail) -->
         <img
-          :src="current.src"
+          :src="current.lightboxSrc"
           :alt="current.alt"
           class="max-w-full max-h-[92vh] object-contain mx-auto block lightbox-full"
           :class="{ 'is-loaded': fullImageLoaded, 'is-cached': skipTransition }"
