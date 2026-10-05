@@ -1,17 +1,33 @@
 - company: 'Trend Micro'
-  role: 'Product Software Engineer'
   location: 'Taipei, Taiwan'
-  startDate: '2024-08'
-  endDate: 'present'
-  description:
-    - 'Architected features and refactored legacy C++ codebases for Apex One, an enterprise endpoint protection application.'
-    - 'Served as Scrum Master, streamlining agile workflows and cross-functional collaboration.'
-    - 'Automated CI/CD pipelines via GitHub Actions to optimize workflows.'
-    - 'Leveraged AI tools (e.g., Claude Code) to accelerate development and hosted cross-team sharing sessions to drive broader adoption.'
-    - 'Diagnosed and resolved critical customer issues through precise root-cause analysis.'
-  technologies:
-    - C++
-    - Claude Code
-    - GitHub Actions
-    - Scrum
-    - Win32 API
+  roles:
+    - role: 'Senior Software Engineer'
+      startDate: '2026-03'
+      endDate: 'present'
+      description:
+        - 'Build team-wide AI agents that autonomously handle on-call service alerts and routine tasks, freeing engineers from operational toil.'
+        - 'Practice AI-first engineering — leverage Claude Code daily across design, coding, and debugging to ship faster.'
+        - 'Develop Go microservices on Kubernetes, communicating via gRPC.'
+        - "Lead the team's SecOps efforts, driving the product to achieve PCI DSS, ISO 27001, and ISMAP compliance."
+      technologies:
+        - Go
+        - Kubernetes
+        - gRPC
+        - Claude Code
+        - AI Agents
+        - SecOps
+    - role: 'Product Software Engineer'
+      startDate: '2024-08'
+      endDate: '2026-02'
+      description:
+        - 'Architected features and refactored legacy C++ codebases for Apex One, an enterprise endpoint protection application.'
+        - 'Served as Scrum Master, streamlining agile workflows and cross-functional collaboration.'
+        - 'Automated CI/CD pipelines via GitHub Actions to optimize workflows.'
+        - 'Leveraged AI tools (e.g., Claude Code) to accelerate development and hosted cross-team sharing sessions to drive broader adoption.'
+        - 'Diagnosed and resolved critical customer issues through precise root-cause analysis.'
+      technologies:
+        - C++
+        - Claude Code
+        - GitHub Actions
+        - Scrum
+        - Win32 API

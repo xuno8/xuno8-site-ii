@@ -16,14 +16,19 @@ export interface SiteConfig {
   seoKeywords?: string[];
 }
 
-export interface WorkExperience {
-  company: string;
+export interface WorkRole {
   role: string;
-  location?: string;
   startDate: string;
   endDate: string;
   description: string | string[];
   technologies?: string[];
+}
+
+export interface WorkExperience {
+  company: string;
+  location?: string;
+  /** Newest first */
+  roles: WorkRole[];
 }
 
 export interface Project {
